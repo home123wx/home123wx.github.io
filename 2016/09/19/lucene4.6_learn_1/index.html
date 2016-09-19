@@ -1,0 +1,558 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="引言前一段时间做了一些和Lucene相关的工作，最近想把当初的学习过程，以及编写的Demo整理了一下。
+搜索应用程序和 Lucene 之间的关系
+建立索引建立索引主要涉及以下这几个类:
+DocumentDocument是用来描述文档的，这里的文档可以指一封电子邮件，或者是一个文本文件。一个Document对象由多个Field对象组成的。可以把一个Document对象想象成数据库中的一个记录，而每个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lucene 4.6 实战 （1）创建索引">
+<meta property="og:url" content="http://yoursite.com/2016/09/19/lucene4.6_learn_1/index.html">
+<meta property="og:site_name" content="Anan'Blog">
+<meta property="og:description" content="引言前一段时间做了一些和Lucene相关的工作，最近想把当初的学习过程，以及编写的Demo整理了一下。
+搜索应用程序和 Lucene 之间的关系
+建立索引建立索引主要涉及以下这几个类:
+DocumentDocument是用来描述文档的，这里的文档可以指一封电子邮件，或者是一个文本文件。一个Document对象由多个Field对象组成的。可以把一个Document对象想象成数据库中的一个记录，而每个">
+<meta property="og:image" content="https://www.ibm.com/developerworks/cn/java/j-lo-lucene1/fig001.jpg">
+<meta property="og:updated_time" content="2016-09-19T14:54:52.635Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lucene 4.6 实战 （1）创建索引">
+<meta name="twitter:description" content="引言前一段时间做了一些和Lucene相关的工作，最近想把当初的学习过程，以及编写的Demo整理了一下。
+搜索应用程序和 Lucene 之间的关系
+建立索引建立索引主要涉及以下这几个类:
+DocumentDocument是用来描述文档的，这里的文档可以指一封电子邮件，或者是一个文本文件。一个Document对象由多个Field对象组成的。可以把一个Document对象想象成数据库中的一个记录，而每个">
+<meta name="twitter:image" content="https://www.ibm.com/developerworks/cn/java/j-lo-lucene1/fig001.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Lucene 4.6 实战 （1）创建索引 | Anan'Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Anan'Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Lucene 4.6 实战 （1）创建索引
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-19T22:54:52+08:00" content="2016-09-19">
+              2016-09-19
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>前一段时间做了一些和Lucene相关的工作，最近想把当初的学习过程，以及编写的Demo整理了一下。</p>
+<h3 id="搜索应用程序和-Lucene-之间的关系"><a href="#搜索应用程序和-Lucene-之间的关系" class="headerlink" title="搜索应用程序和 Lucene 之间的关系"></a>搜索应用程序和 Lucene 之间的关系</h3><p><img src="https://www.ibm.com/developerworks/cn/java/j-lo-lucene1/fig001.jpg" alt="PIC"></p>
+<h3 id="建立索引"><a href="#建立索引" class="headerlink" title="建立索引"></a>建立索引</h3><p>建立索引主要涉及以下这几个类:</p>
+<h4 id="Document"><a href="#Document" class="headerlink" title="Document"></a>Document</h4><p><code>Document</code>是用来描述文档的，这里的文档可以指一封电子邮件，或者是一个文本文件。一个<code>Document</code>对象由多个<code>Field</code>对象组成的。可以把一个<code>Document</code>对象想象成数据库中的一个记录，而每个<code>Field</code>对象就是记录的一个字段。</p>
+<h4 id="Field"><a href="#Field" class="headerlink" title="Field"></a>Field</h4><p><code>Field</code>对象是用来描述一个文档的某个属性的，比如一封电子邮件的标题和内容可以用两个<code>Field</code>对象分别描述。</p>
+<h4 id="Analyzer"><a href="#Analyzer" class="headerlink" title="Analyzer"></a>Analyzer</h4><p>在一个文档被索引之前，首先需要对文档内容进行分词处理，这部分工作就是<code>Analyzer</code>来做的。<code>Analyzer</code>类是一个抽象类，它有多个实现。针对不同的语言和应用需要选择适合的<code>Analyzer</code>。<strong>中文分词我们选择了IKAnalyzer </strong>。<code>Analyzer</code>把分词后的内容交给<code>IndexWriter</code>来建立索引。</p>
+<h4 id="IndexWriter"><a href="#IndexWriter" class="headerlink" title="IndexWriter"></a>IndexWriter</h4><p><code>IndexWriter</code>是 Lucene 用来创建索引的一个核心的类，他的作用是把一个个的 <code>Document</code>对象加到索引中来。</p>
+<h4 id="Directory"><a href="#Directory" class="headerlink" title="Directory"></a>Directory</h4><p>这个类代表了 Lucene 的索引的存储的位置，这是一个抽象类，它目前有两个实现，第一个是<code>FSDirectory</code>，它表示一个存储在文件系统中的索引的位置。第二个是<code>RAMDirectory</code>，它表示一个存储在内存当中的索引的位置。</p>
+<h4 id="测试-Demo"><a href="#测试-Demo" class="headerlink" title="测试 Demo"></a>测试 Demo</h4><p>数据简单封装:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DocumentData</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">DocumentData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		id = <span class="number">0</span>;</span><br><span class="line">		age = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">DocumentData</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> age, String name, String desc, Date tm)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">		<span class="keyword">this</span>.age = age;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">		<span class="keyword">this</span>.desc = desc;</span><br><span class="line">		<span class="keyword">this</span>.createTime = tm;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> age;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.age = age;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getDesc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> desc;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDesc</span><span class="params">(String desc)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.desc = desc;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Date <span class="title">getCreateTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> createTime;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCreateTime</span><span class="params">(Date createTime)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.createTime = createTime;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> String desc;</span><br><span class="line">	<span class="keyword">private</span> Date createTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建数据索引:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> test.DocumentData;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.analysis.Analyzer;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.DateTools;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.IntField;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.TextField;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig.OpenMode;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.store.Directory;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.util.Version;</span><br><span class="line"><span class="keyword">import</span> org.wltea.analyzer.lucene.IKAnalyzer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IndexBuilder</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		String s1 = <span class="string">"张三在北京生活，在北京工作"</span>;</span><br><span class="line">		String s2 = <span class="string">"李四是河北人，在北京工作"</span>;</span><br><span class="line">		String s3 = <span class="string">"王五是山东人，在天津工作"</span>;</span><br><span class="line">		String s4 = <span class="string">"赵六是河南人，在深圳工作"</span>;</span><br><span class="line">		String s5 = <span class="string">"赵四是东北人，在深圳工作"</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//实例化IKAnalyzer分词器</span></span><br><span class="line">		Analyzer analyzer = <span class="keyword">new</span> IKAnalyzer();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//内存中创建索引</span></span><br><span class="line">		directory = <span class="keyword">new</span> RAMDirectory();</span><br><span class="line">		<span class="comment">//创建索引保存到硬盘中</span></span><br><span class="line">		<span class="comment">//File dataPath = new File("E:\\java_workspace\\LuceneData\\data");</span></span><br><span class="line">		<span class="comment">//directory = FSDirectory.open(dataPath);</span></span><br><span class="line">		</span><br><span class="line">		IndexWriterConfig iwConfig = <span class="keyword">new</span> IndexWriterConfig(Version.LUCENE_40, analyzer);</span><br><span class="line">		iwConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);</span><br><span class="line">		</span><br><span class="line">		IndexWriter iWriter = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			iWriter = <span class="keyword">new</span> IndexWriter(directory, iwConfig);		</span><br><span class="line">			<span class="comment">//1</span></span><br><span class="line">			DocumentData data1 = <span class="keyword">new</span> DocumentData(<span class="number">0</span>, <span class="number">20</span>, <span class="string">"张三"</span>, s1, <span class="keyword">new</span> Date());</span><br><span class="line">			Document doc_1 = GenDoc(data1);</span><br><span class="line">			<span class="comment">//2</span></span><br><span class="line">			DocumentData data2 = <span class="keyword">new</span> DocumentData(<span class="number">1</span>, <span class="number">19</span>, <span class="string">"李四"</span>, s2, <span class="keyword">new</span> Date());</span><br><span class="line">			Document doc_2 = GenDoc(data2);</span><br><span class="line">			<span class="comment">//3</span></span><br><span class="line">			DocumentData data3 = <span class="keyword">new</span> DocumentData(<span class="number">2</span>, <span class="number">32</span>, <span class="string">"王五"</span>, s3, <span class="keyword">new</span> Date());</span><br><span class="line">			Document doc_3 = GenDoc(data3);</span><br><span class="line">			<span class="comment">//4</span></span><br><span class="line">			DocumentData data4 = <span class="keyword">new</span> DocumentData(<span class="number">3</span>, <span class="number">44</span>, <span class="string">"赵六"</span>, s4, <span class="keyword">new</span> Date());</span><br><span class="line">			Document doc_4 = GenDoc(data4);</span><br><span class="line">			<span class="comment">//5</span></span><br><span class="line">			DocumentData data5 = <span class="keyword">new</span> DocumentData(<span class="number">4</span>, <span class="number">28</span>, <span class="string">"赵四"</span>, s5, <span class="keyword">new</span> Date());</span><br><span class="line">			Document doc_5 = GenDoc(data5);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//添加</span></span><br><span class="line">			iWriter.addDocument(doc_1);</span><br><span class="line">			iWriter.addDocument(doc_2);</span><br><span class="line">			iWriter.addDocument(doc_3);</span><br><span class="line">			iWriter.addDocument(doc_4);</span><br><span class="line">			iWriter.addDocument(doc_5);</span><br><span class="line">			</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="keyword">if</span> (iWriter != <span class="keyword">null</span>) &#123;</span><br><span class="line">					iWriter.close();	</span><br><span class="line">				&#125;				</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">				<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">protected</span> Document <span class="title">GenDoc</span><span class="params">(DocumentData data)</span> </span>&#123;		</span><br><span class="line">		String tm1 = DateTools.dateToString(data.getCreateTime(), DateTools.Resolution.MILLISECOND);	</span><br><span class="line">		Document d = <span class="keyword">new</span> Document();</span><br><span class="line">		d.add(<span class="keyword">new</span> Field(<span class="string">"ID"</span>, <span class="keyword">new</span> Integer(data.getId()).toString(), TextField.TYPE_STORED));</span><br><span class="line">		d.add(<span class="keyword">new</span> Field(<span class="string">"name"</span>, data.getName(), TextField.TYPE_STORED));			</span><br><span class="line">		d.add(<span class="keyword">new</span> IntField(<span class="string">"age"</span>, data.getAge(), Field.Store.YES));		</span><br><span class="line">		d.add(<span class="keyword">new</span> Field(<span class="string">"time"</span>, tm1, TextField.TYPE_STORED));</span><br><span class="line">		d.add(<span class="keyword">new</span> Field(<span class="string">"desc"</span>, data.getDesc(), TextField.TYPE_STORED));</span><br><span class="line">		<span class="keyword">return</span> d;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Directory <span class="title">getDirectory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> directory;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDirectory</span><span class="params">(Directory directory)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.directory = directory;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Directory directory;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/19/IK_learn/" rel="next" title="IK中文分词的使用">
+                <i class="fa fa-chevron-left"></i> IK中文分词的使用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/19/lucene4.6_learn_2/" rel="prev" title="Lucene 4.6 实战 （2）检索文档">
+                Lucene 4.6 实战 （2）检索文档 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Anan" />
+          <p class="site-author-name" itemprop="name">Anan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搜索应用程序和-Lucene-之间的关系"><span class="nav-number">2.</span> <span class="nav-text">搜索应用程序和 Lucene 之间的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立索引"><span class="nav-number">3.</span> <span class="nav-text">建立索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Document"><span class="nav-number">3.1.</span> <span class="nav-text">Document</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Field"><span class="nav-number">3.2.</span> <span class="nav-text">Field</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Analyzer"><span class="nav-number">3.3.</span> <span class="nav-text">Analyzer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IndexWriter"><span class="nav-number">3.4.</span> <span class="nav-text">IndexWriter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Directory"><span class="nav-number">3.5.</span> <span class="nav-text">Directory</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试-Demo"><span class="nav-number">3.6.</span> <span class="nav-text">测试 Demo</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Anan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
