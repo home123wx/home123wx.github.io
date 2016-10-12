@@ -233,6 +233,127 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/12/libtiff_win_demo/" itemprop="url">
+                  Windows 使用 libtiff
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-12T21:40:36+08:00" content="2016-10-12">
+              2016-10-12
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><ul>
+<li>下载 <a href="http://pan.baidu.com/s/1kVhQJyf" target="_blank" rel="external">tiff-4.0.6</a></li>
+<li>解压  <code>[工作目录]/tiff/tiff-4.0.6</code></li>
+</ul>
+<h4 id="编译-libtiff"><a href="#编译-libtiff" class="headerlink" title="编译 libtiff"></a>编译 libtiff</h4><ul>
+<li>启动 VS Tools 中<code>命令行工具</code></li>
+<li>进入工作路径 <code>cd /d [解压路径]</code></li>
+<li>执行编译命令 <code>nmake /f makefile.vc</code></li>
+</ul>
+<h4 id="提取头文件和库文件"><a href="#提取头文件和库文件" class="headerlink" title="提取头文件和库文件"></a>提取头文件和库文件</h4><ul>
+<li>在任意路径，新建目录 <code>libdiff</code>, 在<code>libdiff</code>中新建<code>include 和 lib</code></li>
+<li>拷贝 <code>[解压路径]/libtiff/[libtiff.dll, libtiff.lib, libtiff_i.lib]</code> 到 lib 目录中</li>
+<li>拷贝 <code>解压路径/libtiff/[tif_config.h, tif_dir.h, tiff.h, tiffconf.h, tiffio.h, tiffiop.h, tiffvers.h, uvcode.h]</code> 到 include 目录中</li>
+</ul>
+<h4 id="编写-Demo"><a href="#编写-Demo" class="headerlink" title="编写 Demo"></a>编写 Demo</h4><ul>
+<li>VS 中创建工程，把上一步创建的目录拷贝到新创建的工程中</li>
+<li>添加 include 到<code>VC++目录-&gt;包含目录</code>, 添加 lib 到<code>VC++目录-&gt;库目录</code> </li>
+<li>添加 <code>libtiff.lib</code> 和 <code>libtiff_i.lib</code> 到<code>linker-&gt;输入-&gt;附加依赖项</code>中</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"tiffio.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> _tmain(<span class="keyword">int</span> argc, _TCHAR* argv[])</span><br><span class="line">&#123;</span><br><span class="line">    TIFF* tiff = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> width, height;</span><br><span class="line"></span><br><span class="line">    tiff = TIFFOpen(<span class="string">"1.tif"</span>,<span class="string">"r"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(tiff !=<span class="literal">NULL</span>) &#123;</span><br><span class="line">        TIFFGetField(tiff, TIFFTAG_IMAGEWIDTH, &amp;width);</span><br><span class="line">        TIFFGetField(tiff, TIFFTAG_IMAGELENGTH, &amp;height);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"宽度：%d, 高度：%d\n"</span>, width, height);</span><br><span class="line">    &#125;</span><br><span class="line">    system(<span class="string">"pause"</span>);	</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p> 连接时出现：</p>
+<blockquote>
+<p>LINK : warning LNK4098: 默认库“MSVCRT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library</p>
+</blockquote>
+<p>解决方法：</p>
+<blockquote>
+<p>添加 <code>msvcrt.lib</code> 到<code>linker-&gt;输入-&gt;忽略特定默认库</code>中，重新编译</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/19/lucene4.6_learn_2/" itemprop="url">
                   Lucene 4.6 实战 （2）检索文档
                 </a>
@@ -453,7 +574,7 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-19T22:20:33+08:00" content="2016-09-19">
+            <time itemprop="dateCreated" datetime="2016-09-19T22:45:21+08:00" content="2016-09-19">
               2016-09-19
             </time>
           </span>
@@ -1139,7 +1260,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
