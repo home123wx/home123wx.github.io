@@ -25,6 +25,10 @@ title:  Windows下zlib库的使用
 
 #### 库的使用
 只使用`zlib`库的话把下图中头文件放到工程路径下，包含`zlib.h`头文件，即可使用。
+![only_use_zli](https://github.com/home123wx/home123wx.github.io/blob/hexo/source/pic/zlib/only_use_zlib.png?raw=true)
+
+***
+压缩/解压数据
 
 ```cpp
 #include "zlib/zlib.h"
@@ -65,7 +69,9 @@ void Test1()
 使用minizip(压缩包)再额外包含`zlib-1.2.10\contrib`目录下文件到工程路径中
 
 并在项目中添加下图头文件和实现文件
+![header](https://github.com/home123wx/home123wx.github.io/blob/hexo/source/pic/zlib/project_import_header.png?raw=true) ![c](https://github.com/home123wx/home123wx.github.io/blob/hexo/source/pic/zlib/project_import_c.png?raw=true)
 
+***
 在压缩包中创建文件并写入内容
 ```cpp
 #include "zlib/zip.h"
