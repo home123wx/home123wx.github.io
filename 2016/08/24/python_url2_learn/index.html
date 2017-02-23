@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="python,urllib2," />
 
 
 
@@ -100,7 +100,7 @@ Python 标准库 urllib2 的使用细节Python 标准库中有很多实用的工
 Proxy 的设置
 Timeout 设置
 在 HTTP Re">
-<meta property="og:updated_time" content="2016-08-24T14:12:07.053Z">
+<meta property="og:updated_time" content="2017-02-23T14:33:23.190Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python 标准库 urllib2 的使用细节">
 <meta name="twitter:description" content="转至：http://zhuoqiang.me/python-urllib2-usage.html
@@ -189,6 +189,16 @@ Timeout 设置
         </li>
       
         
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
@@ -258,11 +268,30 @@ Timeout 设置
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-24T22:15:53+08:00" content="2016-08-24">
+            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
               2016-08-24
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -332,6 +361,7 @@ Timeout 设置
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = urllib2.urlopen(<span class="string">'http://restrict.web.com'</span>)</span><br><span class="line"><span class="keyword">except</span> urllib2.HTTPError, e:</span><br><span class="line">    <span class="keyword">print</span> e.code</span><br></pre></td></tr></table></figure>
 <h4 id="Debug-Log"><a href="#Debug-Log" class="headerlink" title="Debug Log"></a>Debug Log</h4><p>使用 urllib2 时，可以通过下面的方法把 debug Log 打开，这样收发包的内容就会在屏幕上打印出来，方便调试，有时可以省去抓包的工作</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">httpHandler = urllib2.HTTPHandler(debuglevel=<span class="number">1</span>)</span><br><span class="line">httpsHandler = urllib2.HTTPSHandler(debuglevel=<span class="number">1</span>)</span><br><span class="line">opener = urllib2.build_opener(httpHandler, httpsHandler)</span><br><span class="line"></span><br><span class="line">urllib2.install_opener(opener)</span><br><span class="line">response = urllib2.urlopen(<span class="string">'http://www.google.com'</span>)</span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -349,6 +379,14 @@ Timeout 设置
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+            <a href="/tags/urllib2/" rel="tag">#urllib2</a>
+          
+        </div>
       
 
       
@@ -439,7 +477,21 @@ Timeout 设置
           </div>
 
           
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>

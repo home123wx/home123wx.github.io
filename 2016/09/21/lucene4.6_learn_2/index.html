@@ -1,0 +1,601 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,lucene," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="检索文档利用 Lucene 进行搜索也是非常方便的。在上篇文档中介绍了如何建立索引，现在我们就要在这个索引上进行搜索以找到包含某个关键词或短语的文档。Lucene 提供了几个基础的类来完成这个过程，它们分别是 IndexSearcher, Term, Query, TermQuery, TopDocs, ScoreDoc. 下面我们分别介绍这几个类的功能。
+Query这是一个抽象类，他有多个实现，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lucene 4.6 实战 （2）检索文档">
+<meta property="og:url" content="http://yoursite.com/2016/09/21/lucene4.6_learn_2/index.html">
+<meta property="og:site_name" content="Anan'Blog">
+<meta property="og:description" content="检索文档利用 Lucene 进行搜索也是非常方便的。在上篇文档中介绍了如何建立索引，现在我们就要在这个索引上进行搜索以找到包含某个关键词或短语的文档。Lucene 提供了几个基础的类来完成这个过程，它们分别是 IndexSearcher, Term, Query, TermQuery, TopDocs, ScoreDoc. 下面我们分别介绍这几个类的功能。
+Query这是一个抽象类，他有多个实现，">
+<meta property="og:updated_time" content="2017-02-23T14:35:45.655Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lucene 4.6 实战 （2）检索文档">
+<meta name="twitter:description" content="检索文档利用 Lucene 进行搜索也是非常方便的。在上篇文档中介绍了如何建立索引，现在我们就要在这个索引上进行搜索以找到包含某个关键词或短语的文档。Lucene 提供了几个基础的类来完成这个过程，它们分别是 IndexSearcher, Term, Query, TermQuery, TopDocs, ScoreDoc. 下面我们分别介绍这几个类的功能。
+Query这是一个抽象类，他有多个实现，">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Lucene 4.6 实战 （2）检索文档 | Anan'Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Anan'Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Lucene 4.6 实战 （2）检索文档
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-21T00:00:00+08:00" content="2016-09-21">
+              2016-09-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="检索文档"><a href="#检索文档" class="headerlink" title="检索文档"></a>检索文档</h3><p>利用 Lucene 进行搜索也是非常方便的。在上篇文档中介绍了如何建立索引，现在我们就要在这个索引上进行搜索以找到包含某个关键词或短语的文档。Lucene 提供了几个基础的类来完成这个过程，它们分别是 <code>IndexSearcher</code>, <code>Term</code>, <code>Query</code>, <code>TermQuery</code>, <code>TopDocs</code>, <code>ScoreDoc</code>. 下面我们分别介绍这几个类的功能。</p>
+<h4 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h4><p>这是一个抽象类，他有多个实现，比如 <code>TermQuery</code>, <code>BooleanQuery</code>, <code>PrefixQuery</code>. 这个类的目的是把用户输入的查询字符串封装成 Lucene 能够识别的 <code>Query</code>。</p>
+<h4 id="Term"><a href="#Term" class="headerlink" title="Term"></a>Term</h4><p>Term 是搜索的基本单位，一个<code>Term</code>对象有两个<code>String</code>类型的域组成。生成一个 Term 对象可以有如下一条语句来完成：<code>Term term = new Term(“fieldName”,”queryWord”);</code> 其中第一个参数代表了要在文档的哪一个<code>Field</code>上进行查找，第二个参数代表了要查询的关键词。</p>
+<h4 id="TermQuery"><a href="#TermQuery" class="headerlink" title="TermQuery"></a>TermQuery</h4><p><code>TermQuery</code> 是抽象类 <code>Query</code> 的一个子类，它同时也是 Lucene 支持的最为基本的一个查询类。生成一个 <code>TermQuery</code> 对象由如下语句完成： <code>TermQuery termQuery = new TermQuery(new Term(“fieldName”,”queryWord”));</code>它的构造函数只接受一个参数，那就是一个 <code>Term</code> 对象。</p>
+<h4 id="IndexSearcher"><a href="#IndexSearcher" class="headerlink" title="IndexSearcher"></a>IndexSearcher</h4><p><code>IndexSearcher</code> 是用来在建立好的索引上进行搜索的。它只能以只读的方式打开一个索引，所以可以有多个 <code>IndexSearcher</code> 的实例在一个索引上进行操作。</p>
+<h4 id="TopDocs"><a href="#TopDocs" class="headerlink" title="TopDocs"></a>TopDocs</h4><p><code>TopDocs</code> 保存由<code>IndexSearcher.search()</code>方法返回的具有较高评分的顶部文档。</p>
+<h4 id="ScoreDoc"><a href="#ScoreDoc" class="headerlink" title="ScoreDoc"></a>ScoreDoc</h4><p>提供对 <code>TopDocs</code> 中每条搜索结果的访问接口</p>
+<h4 id="测试-Demo"><a href="#测试-Demo" class="headerlink" title="测试 Demo"></a>测试 Demo</h4><p>各种Field搜索事例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.analysis.Analyzer;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.index.DirectoryReader;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexReader;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.index.Term;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.queryparser.classic.MultiFieldQueryParser;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.queryparser.classic.ParseException;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.queryparser.classic.QueryParser;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.BooleanQuery;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.NumericRangeQuery;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.PhraseQuery;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.PrefixQuery;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.Query;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.TermQuery;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.TermRangeQuery;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.TopDocs;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.store.Directory;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.util.Version;</span><br><span class="line"><span class="keyword">import</span> org.wltea.analyzer.lucene.IKAnalyzer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Searcher</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">BuildSearcher</span><span class="params">(Directory directory)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">this</span>.reader = DirectoryReader.open(directory);</span><br><span class="line">			<span class="keyword">this</span>.searcher = <span class="keyword">new</span> IndexSearcher(reader);</span><br><span class="line">			<span class="keyword">this</span>.analyzer = <span class="keyword">new</span> IKAnalyzer(<span class="keyword">false</span>);  <span class="comment">//当为true时，分词器进行最大词长切分</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> TopDocs <span class="title">Search</span><span class="params">(Query query, <span class="keyword">int</span> tops)</span> </span>&#123;</span><br><span class="line">		TopDocs td = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">if</span> (query == <span class="keyword">null</span> || <span class="keyword">this</span>.searcher == <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> td;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			td = <span class="keyword">this</span>.searcher.search(query, tops);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> td;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Document <span class="title">GetDocById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		Document doc = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.searcher != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				doc = <span class="keyword">this</span>.searcher.doc(id);</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">				<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> doc;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//对单个域构建查询语句  </span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Query <span class="title">BuildSingleFieldQuery</span><span class="params">(String field, String key)</span> </span>&#123;</span><br><span class="line">		QueryParser parse = <span class="keyword">new</span> QueryParser(Version.LUCENE_40, field, analyzer);</span><br><span class="line">		<span class="comment">//parse.setDefaultOperator(QueryParser.OR_OPERATOR);</span></span><br><span class="line">		<span class="comment">//parse.setDefaultOperator(QueryParser.AND_OPERATOR);</span></span><br><span class="line">		Query query = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			query = parse.parse(key);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> query;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//对多个域创建查询语句</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Query <span class="title">BuildMultiFieldQuery</span><span class="params">(String[] fields, String key)</span> </span>&#123;</span><br><span class="line">		MultiFieldQueryParser parse=<span class="keyword">new</span> MultiFieldQueryParser(Version.LUCENE_40,fields,analyzer);</span><br><span class="line">		Query query = <span class="keyword">null</span>;		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			query = parse.parse(key);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;		</span><br><span class="line">		<span class="keyword">return</span> query;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//词条搜索</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Query <span class="title">BuildTermQuery</span><span class="params">(String field, String key)</span> </span>&#123;</span><br><span class="line">		Query query = <span class="keyword">null</span>;</span><br><span class="line">		query =  <span class="keyword">new</span> TermQuery(<span class="keyword">new</span> Term(field, key));</span><br><span class="line">		<span class="keyword">return</span> query;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//前缀搜索 </span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Query <span class="title">BuildPrefixQuery</span><span class="params">(String field, String key)</span> </span>&#123;</span><br><span class="line">		Query query = <span class="keyword">null</span>;</span><br><span class="line">		query = <span class="keyword">new</span> PrefixQuery(<span class="keyword">new</span> Term(field, key));</span><br><span class="line">		<span class="keyword">return</span> query;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//短语搜索</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Query <span class="title">BuildPhraseQuery</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		PhraseQuery  query = <span class="keyword">new</span> PhraseQuery();</span><br><span class="line">		<span class="comment">//设置短语间允许的最大间隔  </span></span><br><span class="line">		query.setSlop(<span class="number">2</span>);</span><br><span class="line">		query.add(<span class="keyword">new</span> Term(<span class="string">"desc"</span>, <span class="string">"河"</span>));</span><br><span class="line">		query.add(<span class="keyword">new</span> Term(<span class="string">"desc"</span>, <span class="string">"在"</span>));</span><br><span class="line">		<span class="keyword">return</span> query;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//通配符搜索</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Query <span class="title">BuildWildcardQuery</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Query query = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">return</span> query;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//字符串范围搜索</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Query <span class="title">BuildStringRangeQuery</span><span class="params">(String field, String beg, String end, </span><br><span class="line">	                                   <span class="keyword">boolean</span> begInclusive, <span class="keyword">boolean</span> endInclusive)</span> </span>&#123;</span><br><span class="line">		Query query = TermRangeQuery.newStringRange(field, beg, end, </span><br><span class="line">		                                            begInclusive, endInclusive);</span><br><span class="line">		<span class="keyword">return</span> query;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//integer范围搜索 </span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Query <span class="title">BuildIntRangeQuery</span><span class="params">(String field, <span class="keyword">int</span> beg, <span class="keyword">int</span> end, </span><br><span class="line">	                                <span class="keyword">boolean</span> begInclusive, <span class="keyword">boolean</span> endInclusive)</span> </span>&#123;</span><br><span class="line">		Query query = NumericRangeQuery.newIntRange(field, beg, end, </span><br><span class="line">		                                            begInclusive, endInclusive);</span><br><span class="line">		<span class="keyword">return</span> query;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//float范围搜索</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Query <span class="title">BuildFloatRangeQuery</span><span class="params">(String field, <span class="keyword">float</span> beg, <span class="keyword">float</span> end,</span><br><span class="line">	                                  <span class="keyword">boolean</span> begInclusive, <span class="keyword">boolean</span> endInclusive)</span> </span>&#123;</span><br><span class="line">		Query query = NumericRangeQuery.newFloatRange(field, beg, end, </span><br><span class="line">		                                              begInclusive, endInclusive);</span><br><span class="line">		<span class="keyword">return</span> query;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//double范围搜索  </span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Query <span class="title">BuildDoubleRangeQuery</span><span class="params">(String field, <span class="keyword">double</span> beg, <span class="keyword">double</span> end,</span><br><span class="line">	                                   <span class="keyword">boolean</span> begInclusive, <span class="keyword">boolean</span> endInclusive)</span> </span>&#123;</span><br><span class="line">		Query query = NumericRangeQuery.newDoubleRange(field, beg, end, </span><br><span class="line">		                                               begInclusive, endInclusive);</span><br><span class="line">		<span class="keyword">return</span> query;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//BooleanQuery</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Query <span class="title">BuildBooleanQuery</span><span class="params">()</span> </span>&#123;		</span><br><span class="line">		BooleanQuery query = <span class="keyword">new</span> BooleanQuery();</span><br><span class="line"><span class="comment">//		query.add(query_1, BooleanClause.Occur.SHOULD);</span></span><br><span class="line"><span class="comment">//		query.add(query_2, BooleanClause.Occur.SHOULD);</span></span><br><span class="line"><span class="comment">//		return query;</span></span><br><span class="line">		<span class="keyword">return</span> query;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Analyzer analyzer;</span><br><span class="line">	<span class="keyword">private</span> IndexReader reader;</span><br><span class="line">	<span class="keyword">private</span> IndexSearcher searcher;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试程序入口：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> test.IndexBuilder;</span><br><span class="line"><span class="keyword">import</span> test.Searcher;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexableField;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.BooleanClause;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.BooleanQuery;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.Query;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.ScoreDoc;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.TopDocs;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.store.Directory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IKAnalyzerDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">/**</span><br><span class="line">	 * <span class="doctag">@param</span> args</span><br><span class="line">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		IndexBuilder builder = <span class="keyword">new</span> IndexBuilder();</span><br><span class="line">		builder.Build();</span><br><span class="line">		Directory directory = builder.getDirectory();</span><br><span class="line"></span><br><span class="line">		<span class="comment">//搜索过程**********************************</span></span><br><span class="line">		Searcher searcher = <span class="keyword">new</span> Searcher();</span><br><span class="line">		searcher.BuildSearcher(directory);</span><br><span class="line">				</span><br><span class="line">		Query query = <span class="keyword">null</span>;</span><br><span class="line">		TopDocs topDocs = <span class="keyword">null</span>;</span><br><span class="line">		String keyword = <span class="string">"张三北京"</span>;</span><br><span class="line">		String[] keys = &#123;<span class="string">"name"</span>, <span class="string">"desc"</span>&#125;;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//test-1		</span></span><br><span class="line">		query = searcher.BuildSingleFieldQuery(<span class="string">"name"</span>, keyword);</span><br><span class="line">		<span class="comment">//System.out.println(query.toString());		</span></span><br><span class="line">		topDocs = searcher.Search(query, <span class="number">5</span>);</span><br><span class="line">		Display(searcher, topDocs);</span><br><span class="line">		System.out.println(<span class="string">"-----------------------------------------------"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//test-2</span></span><br><span class="line">		query = searcher.BuildMultiFieldQuery(keys, <span class="string">"北京"</span>);</span><br><span class="line">		<span class="comment">//System.out.println(query.toString());</span></span><br><span class="line">		topDocs = searcher.Search(query, <span class="number">5</span>);</span><br><span class="line">		Display(searcher, topDocs);</span><br><span class="line">		System.out.println(<span class="string">"-----------------------------------------------"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//test-3</span></span><br><span class="line">		query = searcher.BuildTermQuery(<span class="string">"name"</span>, <span class="string">"赵六"</span>);</span><br><span class="line">		<span class="comment">//System.out.println(query.toString());</span></span><br><span class="line">		topDocs = searcher.Search(query, <span class="number">5</span>);</span><br><span class="line">		Display(searcher, topDocs);</span><br><span class="line">		System.out.println(<span class="string">"-----------------------------------------------"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//test-4</span></span><br><span class="line">		query = searcher.BuildPrefixQuery(<span class="string">"desc"</span>, <span class="string">"天津"</span>);</span><br><span class="line">		topDocs = searcher.Search(query, <span class="number">5</span>);</span><br><span class="line">		Display(searcher, topDocs);</span><br><span class="line">		System.out.println(<span class="string">"-----------------------------------------------"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//test-5</span></span><br><span class="line"><span class="comment">//		query = searcher.BuildPhraseQuery();</span></span><br><span class="line"><span class="comment">//		System.out.println(query.toString());</span></span><br><span class="line"><span class="comment">//		topDocs = searcher.Search(query, 5);</span></span><br><span class="line"><span class="comment">//		Display(searcher, topDocs);</span></span><br><span class="line"><span class="comment">//		System.out.println("-----------------------------------------------");</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">//test-6</span></span><br><span class="line">		Query query1 = searcher.BuildIntRangeQuery(<span class="string">"age"</span>, <span class="number">19</span>, <span class="number">19</span>, <span class="keyword">true</span>, <span class="keyword">true</span>);</span><br><span class="line">		System.out.println(query1.toString());</span><br><span class="line">		topDocs = searcher.Search(query1, <span class="number">5</span>);</span><br><span class="line">		Display(searcher, topDocs);</span><br><span class="line">		System.out.println(<span class="string">"-----------------------------------------------"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//test-7</span></span><br><span class="line">		BooleanQuery bq = (BooleanQuery)searcher.BuildBooleanQuery();</span><br><span class="line">		bq.add(query, BooleanClause.Occur.SHOULD);</span><br><span class="line">		bq.add(query1, BooleanClause.Occur.SHOULD);</span><br><span class="line">		topDocs = searcher.Search(bq, <span class="number">5</span>);</span><br><span class="line">		Display(searcher, topDocs);</span><br><span class="line">		System.out.println(<span class="string">"-----------------------------------------------"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Display</span><span class="params">(Searcher searcher, TopDocs topDocs)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"命中："</span> + topDocs.totalHits);</span><br><span class="line">		<span class="comment">//输出结果</span></span><br><span class="line">		ScoreDoc[] scoreDocs = topDocs.scoreDocs;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; topDocs.totalHits; i++) &#123;</span><br><span class="line">			Document targetDoc = searcher.GetDocById(scoreDocs[i].doc);</span><br><span class="line">			<span class="comment">//System.out.println("内容：" + targetDoc.toString());</span></span><br><span class="line">			List&lt;IndexableField&gt; l = targetDoc.getFields();</span><br><span class="line">			<span class="keyword">for</span> (IndexableField item : l ) &#123;</span><br><span class="line">				System.out.print(item.name() + <span class="string">":"</span> +item.stringValue() + <span class="string">" | "</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println(<span class="string">"score:"</span> + scoreDocs[i].score);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">加载扩展词典：ext_1.dic</span><br><span class="line">加载扩展停止词典：stopword.dic</span><br><span class="line">命中：1</span><br><span class="line">ID:0 | name:张三 | age:20 | time:20160919012839498 | desc:张三在北京生活，在北京工作 | score:0.501279</span><br><span class="line">-----------------------------------------------</span><br><span class="line">命中：2</span><br><span class="line">ID:0 | name:张三 | age:20 | time:20160919012839498 | desc:张三在北京生活，在北京工作 | score:0.3345567</span><br><span class="line">ID:1 | name:李四 | age:19 | time:20160919012839594 | desc:李四是河北人，在北京工作 | score:0.23656732</span><br><span class="line">-----------------------------------------------</span><br><span class="line">命中：0</span><br><span class="line">-----------------------------------------------</span><br><span class="line">命中：1</span><br><span class="line">ID:2 | name:王五 | age:32 | time:20160919012839595 | desc:王五是山东人，在天津工作 | score:1.0</span><br><span class="line">-----------------------------------------------</span><br><span class="line">age:[19 TO 19]</span><br><span class="line">命中：1</span><br><span class="line">ID:1 | name:李四 | age:19 | time:20160919012839594 | desc:李四是河北人，在北京工作 | score:1.0</span><br><span class="line">-----------------------------------------------</span><br><span class="line">命中：2</span><br><span class="line">ID:1 | name:李四 | age:19 | time:20160919012839594 | desc:李四是河北人，在北京工作 | score:0.35355338</span><br><span class="line">ID:2 | name:王五 | age:32 | time:20160919012839595 | desc:王五是山东人，在天津工作 | score:0.35355338</span><br><span class="line">-----------------------------------------------</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/lucene/" rel="tag">#lucene</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/20/lucene4.6_learn_1/" rel="next" title="Lucene 4.6 实战 （1）创建索引">
+                <i class="fa fa-chevron-left"></i> Lucene 4.6 实战 （1）创建索引
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/12/libtiff_win_demo/" rel="prev" title="Windows 使用 libtiff">
+                Windows 使用 libtiff <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Anan" />
+          <p class="site-author-name" itemprop="name">Anan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#检索文档"><span class="nav-number">1.</span> <span class="nav-text">检索文档</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Query"><span class="nav-number">1.1.</span> <span class="nav-text">Query</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Term"><span class="nav-number">1.2.</span> <span class="nav-text">Term</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TermQuery"><span class="nav-number">1.3.</span> <span class="nav-text">TermQuery</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IndexSearcher"><span class="nav-number">1.4.</span> <span class="nav-text">IndexSearcher</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TopDocs"><span class="nav-number">1.5.</span> <span class="nav-text">TopDocs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ScoreDoc"><span class="nav-number">1.6.</span> <span class="nav-text">ScoreDoc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试-Demo"><span class="nav-number">1.7.</span> <span class="nav-text">测试 Demo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出结果"><span class="nav-number">1.8.</span> <span class="nav-text">输出结果</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Anan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
