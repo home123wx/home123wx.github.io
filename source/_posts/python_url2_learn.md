@@ -1,5 +1,8 @@
 ---
 title: Python 标准库 urllib2 的使用细节
+tags: [python,urllib2]
+date: 2016-08-24
+categories: 编程
 ---
 
 转至：[http://zhuoqiang.me/python-urllib2-usage.html](http://zhuoqiang.me/python-urllib2-usage.html)

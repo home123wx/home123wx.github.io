@@ -1,5 +1,8 @@
 ---
 title:  Windows 使用 libtiff
+tags: [c++,windows,libtiff]
+date: 2016-10-12
+categories: 编程
 ---
 
 #### 准备工作

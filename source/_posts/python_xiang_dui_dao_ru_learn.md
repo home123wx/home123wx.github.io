@@ -1,5 +1,8 @@
 ---
 title: Python相对导入机制详解
+tags: [python]
+date: 2016-08-24
+categories: 编程
 ---
 
 转至: [https://laike9m.com/blog/pythonxiang-dui-dao-ru-ji-zhi-xiang-jie,60/](https://laike9m.com/blog/pythonxiang-dui-dao-ru-ji-zhi-xiang-jie,60/)

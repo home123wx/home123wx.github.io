@@ -1,5 +1,8 @@
 ---
 title:  IK中文分词的使用
+tags: [java,IKAnalyzer]
+date: 2016-09-19
+categories: 编程
 ---
 
 ### 下载 IKAnalyzer

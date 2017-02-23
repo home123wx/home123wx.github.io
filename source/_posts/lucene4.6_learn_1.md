@@ -1,5 +1,8 @@
 ---
 title:  Lucene 4.6 实战 （1）创建索引
+tags: [java,lucene]
+date: 2016-09-20
+categories: 编程
 ---
 
 ### 引言

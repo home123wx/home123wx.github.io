@@ -1,5 +1,8 @@
 ---
 title: Install Scrapy
+tags: [scrapy]
+date: 2016-06-30
+categories: 环境配置
 ---
 
 ## 安装 python

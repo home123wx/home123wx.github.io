@@ -1,5 +1,8 @@
 ---
 title:  Windows下zlib库的使用
+tags: [c++,windows,zlib]
+date: 2017-02-15
+categories: 编程
 ---
 
 #### 下载zlib库

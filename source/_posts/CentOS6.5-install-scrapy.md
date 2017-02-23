@@ -1,5 +1,8 @@
 ---
 title: CentOS 6.5 安装Scrapy
+tags: [python,scrapy]
+date: 2016-07-03
+categories: 环境配置
 ---
 
 ### CentOS 6.5 Python升级到Python2.7

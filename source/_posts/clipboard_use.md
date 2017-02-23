@@ -1,5 +1,8 @@
 ---
 title:  Windows剪切板项目中遇到的问题
+tags: [c++,windows,剪切板]
+date: 2017-02-20
+categories: 编程
 ---
 
 #### 操作描述
