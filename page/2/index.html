@@ -243,6 +243,440 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/19/IK_learn/" itemprop="url">
+                  IK中文分词的使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-19T00:00:00+08:00" content="2016-09-19">
+              2016-09-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="下载-IKAnalyzer"><a href="#下载-IKAnalyzer" class="headerlink" title="下载 IKAnalyzer"></a>下载 IKAnalyzer</h3><p><a href="http://pan.baidu.com/s/1c2HpMik" target="_blank" rel="external">IKAnalyzer</a> 提取密码: wuq4</p>
+<p>压缩包内容：</p>
+<ul>
+<li>IKAnalyzer2012FF_u1.jar <code>(IKAnalyzer核心jar包)</code></li>
+<li>IKAnalyzer.cfg.xml <code>(配置文件，可以在这里配置停词表和扩展词库)</code></li>
+<li>IKAnalyzer中文分词器V2012_FF使用手册.pdf <code>(使用手册)</code></li>
+<li>stopword.dic <code>(停词表, 过滤词)</code></li>
+</ul>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>配置是否加载，以及加载哪些扩展字典和停止词字典，配置文件和扩展文件都放到程序<strong>输出路径</strong>下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="meta">&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span>  </span><br><span class="line">	<span class="tag">&lt;<span class="name">comment</span>&gt;</span>IK Analyzer 扩展配置<span class="tag">&lt;/<span class="name">comment</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--用户可以在这里配置自己的扩展字典 </span><br><span class="line">	&lt;entry key="ext_dict"&gt;ext_1.dic;ext_2.dic;&lt;/entry&gt; </span><br><span class="line">	--&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--用户可以在这里配置自己的扩展停止词字典</span><br><span class="line">	&lt;entry key="ext_stopwords"&gt;stopword_1.dic;stopword_2.dic;&lt;/entry&gt;</span><br><span class="line">	--&gt;</span> 	</span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="单独使用IK进行分词"><a href="#单独使用IK进行分词" class="headerlink" title="单独使用IK进行分词"></a>单独使用IK进行分词</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.FileNotFoundException;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.io.OutputStreamWriter;</span><br><span class="line"><span class="keyword">import</span> java.io.StringReader;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.wltea.analyzer.cfg.DefaultConfig;</span><br><span class="line"><span class="keyword">import</span> org.wltea.analyzer.core.IKSegmenter;</span><br><span class="line"><span class="keyword">import</span> org.wltea.analyzer.core.Lexeme;</span><br><span class="line"><span class="keyword">import</span> org.wltea.analyzer.dic.Dictionary;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IKTest</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 载入字典</span></span><br><span class="line">		Dictionary.initial(DefaultConfig.getInstance());</span><br><span class="line"></span><br><span class="line">		String text = <span class="string">"公文编辑器是大数据的电子文档的2016里约奥运会"</span>;</span><br><span class="line">		System.out.println(<span class="string">"原文："</span> + text);</span><br><span class="line">		System.out.println(<span class="string">"------------------------------"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 创建分词对象  </span></span><br><span class="line">		StringReader reader = <span class="keyword">new</span> StringReader(text);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//写</span></span><br><span class="line">		OutputStreamWriter out = <span class="keyword">null</span>;</span><br><span class="line">		File f = <span class="keyword">new</span> File(<span class="string">"out.txt"</span>);</span><br><span class="line">		</span><br><span class="line">		IKSegmenter ik = <span class="keyword">new</span> IKSegmenter(reader,<span class="keyword">true</span>);<span class="comment">//当为true时，分词器进行最大词长切分</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			out = <span class="keyword">new</span> OutputStreamWriter(<span class="keyword">new</span> FileOutputStream(f), <span class="string">"UTF-8"</span>);</span><br><span class="line">			</span><br><span class="line">			Lexeme lexeme = <span class="keyword">null</span>;</span><br><span class="line">		    <span class="keyword">while</span>((lexeme = ik.next())!=<span class="keyword">null</span>) &#123;</span><br><span class="line">		        System.out.println(lexeme.getLexemeText());</span><br><span class="line">		        out.write(lexeme.getLexemeText()+<span class="string">"\n"</span>);</span><br><span class="line">		    &#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">		    e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">finally</span>&#123;</span><br><span class="line">		    reader.close();</span><br><span class="line">		    <span class="keyword">try</span> &#123;</span><br><span class="line">		    	<span class="keyword">if</span> (out != <span class="keyword">null</span>) &#123;</span><br><span class="line">		    		out.close();</span><br><span class="line">		    	&#125;</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">				<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h4><h5 id="未使用扩展词典和停止词典"><a href="#未使用扩展词典和停止词典" class="headerlink" title="未使用扩展词典和停止词典"></a>未使用扩展词典和停止词典</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">原文：公文编辑器是大数据的电子文档的2016里约奥运会</span><br><span class="line">------------------------------</span><br><span class="line">公文</span><br><span class="line">编辑器</span><br><span class="line">是</span><br><span class="line">大</span><br><span class="line">数据</span><br><span class="line">的</span><br><span class="line">电子</span><br><span class="line">文档</span><br><span class="line">的</span><br><span class="line">2016</span><br><span class="line">里约</span><br><span class="line">奥运会</span><br></pre></td></tr></table></figure>
+<h5 id="使用扩展词典和停止词典"><a href="#使用扩展词典和停止词典" class="headerlink" title="使用扩展词典和停止词典"></a>使用扩展词典和停止词典</h5><p>扩展词典和停用词典文件的编码必须是<code>UTF-8</code></p>
+<p>扩展词典内容：</p>
+<blockquote>
+<p>2016里约奥运会<br>电子文档<br>大数据</p>
+</blockquote>
+<p>停止词典内容：</p>
+<blockquote>
+<p>是<br>的</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">加载扩展词典：ext_1.dic</span><br><span class="line">加载扩展停止词典：stopword.dic</span><br><span class="line">原文：公文编辑器是大数据的电子文档的2016里约奥运会</span><br><span class="line">------------------------------</span><br><span class="line">公文</span><br><span class="line">编辑器</span><br><span class="line">大数据</span><br><span class="line">电子文档</span><br><span class="line">2016里约奥运会</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/24/python_url2_learn/" itemprop="url">
+                  Python 标准库 urllib2 的使用细节
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>转至：<a href="http://zhuoqiang.me/python-urllib2-usage.html" target="_blank" rel="external">http://zhuoqiang.me/python-urllib2-usage.html</a></p>
+<h3 id="Python-标准库-urllib2-的使用细节"><a href="#Python-标准库-urllib2-的使用细节" class="headerlink" title="Python 标准库 urllib2 的使用细节"></a>Python 标准库 urllib2 的使用细节</h3><p>Python 标准库中有很多实用的工具类，但是在具体使用时，标准库文档上对使用细节描述的并不清楚，比如 urllib2 这个 HTTP 客户端库。这里总结了一些 urllib2 的使用细节。</p>
+<ul>
+<li>Proxy 的设置</li>
+<li>Timeout 设置</li>
+<li>在 HTTP Request 中加入特定的 Header</li>
+<li>Redirect</li>
+<li>Cookie</li>
+<li>使用 HTTP 的 PUT 和 DELETE 方法</li>
+<li>得到 HTTP 的返回码</li>
+<li>Debug Log</li>
+</ul>
+<h4 id="Proxy-的设置"><a href="#Proxy-的设置" class="headerlink" title="Proxy 的设置"></a>Proxy 的设置</h4><p>urllib2 默认会使用环境变量 http_proxy 来设置 HTTP Proxy。如果想在程序中明确控制 Proxy 而不受环境变量的影响，可以使用下面的方式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">enable_proxy = <span class="keyword">True</span></span><br><span class="line">proxy_handler = urllib2.ProxyHandler(&#123;<span class="string">"http"</span> : <span class="string">'http://some-proxy.com:8080'</span>&#125;)</span><br><span class="line">null_proxy_handler = urllib2.ProxyHandler(&#123;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> enable_proxy:</span><br><span class="line">    opener = urllib2.build_opener(proxy_handler)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    opener = urllib2.build_opener(null_proxy_handler)</span><br><span class="line">    </span><br><span class="line">urllib2.install_opener(opener)</span><br></pre></td></tr></table></figure>
+<p>这里要注意的一个细节，使用 urllib2.install_opener() 会设置 urllib2 的全局 opener 。这样后面的使用会很方便，但不能做更细粒度的控制，比如想在程序中使用两个不同的 Proxy 设置等。比较好的做法是不使用 install_opener 去更改全局的设置，而只是直接调用 opener 的 open 方法代替全局的 urlopen 方法。</p>
+<h4 id="Timeout-设置"><a href="#Timeout-设置" class="headerlink" title="Timeout 设置"></a>Timeout 设置</h4><p>在老版 Python 中，urllib2 的 API 并没有暴露 Timeout 的设置，要设置 Timeout 值，只能更改 Socket 的全局 Timeout 值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">socket.setdefaulttimeout(<span class="number">10</span>) <span class="comment"># 10 秒钟后超时</span></span><br><span class="line">urllib2.socket.setdefaulttimeout(<span class="number">10</span>) <span class="comment"># 另一种方式</span></span><br></pre></td></tr></table></figure>
+<p>在 Python 2.6 以后，超时可以通过 urllib2.urlopen() 的 timeout 参数直接设置。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line">response = urllib2.urlopen(<span class="string">'http://www.google.com'</span>, timeout=<span class="number">10</span>)</span><br></pre></td></tr></table></figure></p>
+<h4 id="在-HTTP-Request-中加入特定的-Header"><a href="#在-HTTP-Request-中加入特定的-Header" class="headerlink" title="在 HTTP Request 中加入特定的 Header"></a>在 HTTP Request 中加入特定的 Header</h4><p>要加入 header，需要使用 Request 对象：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">request = urllib2.Request(uri)</span><br><span class="line">request.add_header(<span class="string">'User-Agent'</span>, <span class="string">'fake-client'</span>)</span><br><span class="line">response = urllib2.urlopen(request)</span><br></pre></td></tr></table></figure>
+<p>对有些 header 要特别留意，服务器会针对这些 header 做检查</p>
+<ul>
+<li>User-Agent : 有些服务器或 Proxy 会通过该值来判断是否是浏览器发出的请求</li>
+<li><p>Content-Type : 在使用 REST 接口时，服务器会检查该值，用来确定 HTTP Body 中的内容该怎样解析。常见的取值有：</p>
+<ul>
+<li>application/xml ： 在 XML RPC，如 RESTful/SOAP 调用时使用</li>
+<li>application/json ： 在 JSON RPC 调用时使用</li>
+<li><p>application/x-www-form-urlencoded ： 浏览器提交 Web 表单时使用</p>
+<p>  在使用服务器提供的 RESTful 或 SOAP 服务时， Content-Type 设置错误会导致服务器拒绝服务</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="Redirect"><a href="#Redirect" class="headerlink" title="Redirect"></a>Redirect</h4><p>urllib2 默认情况下会针对 HTTP 3XX 返回码自动进行 redirect 动作，无需人工配置。要检测是否发生了 redirect 动作，只要检查一下 Response 的 URL 和 Request 的 URL 是否一致就可以了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line">response = urllib2.urlopen(<span class="string">'http://www.google.cn'</span>)</span><br><span class="line">redirected = response.geturl() == <span class="string">'http://www.google.cn'</span></span><br></pre></td></tr></table></figure>
+<p>如果不想自动 redirect，除了使用更低层次的 httplib 库之外，还可以自定义 HTTPRedirectHandler 类。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedirectHandler</span><span class="params">(urllib2.HTTPRedirectHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">http_error_301</span><span class="params">(self, req, fp, code, msg, headers)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">http_error_302</span><span class="params">(self, req, fp, code, msg, headers)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">opener = urllib2.build_opener(RedirectHandler)</span><br><span class="line">opener.open(<span class="string">'http://www.google.cn'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><p>urllib2 对 Cookie 的处理也是自动的。如果需要得到某个 Cookie 项的值，可以这么做：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> cookielib</span><br><span class="line"></span><br><span class="line">cookie = cookielib.CookieJar()</span><br><span class="line">opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))</span><br><span class="line">response = opener.open(<span class="string">'http://www.google.com'</span>)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> cookie:</span><br><span class="line">    <span class="keyword">if</span> item.name == <span class="string">'some_cookie_item_name'</span>:</span><br><span class="line">        <span class="keyword">print</span> item.value</span><br></pre></td></tr></table></figure>
+<h4 id="使用-HTTP-的-PUT-和-DELETE-方法"><a href="#使用-HTTP-的-PUT-和-DELETE-方法" class="headerlink" title="使用 HTTP 的 PUT 和 DELETE 方法"></a>使用 HTTP 的 PUT 和 DELETE 方法</h4><p>urllib2 只支持 HTTP 的 GET 和 POST 方法，如果要使用 HTTP PUT 和 DELETE ，只能使用比较低层的 httplib 库。虽然如此，我们还是能通过下面的方式，使 urllib2 能够发出 PUT 或 DELETE 的请求：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">request = urllib2.Request(uri, data=data)</span><br><span class="line">request.get_method = <span class="keyword">lambda</span>: <span class="string">'PUT'</span> <span class="comment"># or 'DELETE'</span></span><br><span class="line">response = urllib2.urlopen(request)</span><br></pre></td></tr></table></figure>
+<p>这种做法虽然属于 Hack 的方式，但实际使用起来也没什么问题。</p>
+<h4 id="得到-HTTP-的返回码"><a href="#得到-HTTP-的返回码" class="headerlink" title="得到 HTTP 的返回码"></a>得到 HTTP 的返回码</h4><p>对于 200 OK 来说，只要使用 urlopen 返回的 response 对象的 getcode() 方法就可以得到 HTTP 的返回码。但对其它返回码来说，urlopen 会抛出异常。这时候，就要检查异常对象的 code 属性了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = urllib2.urlopen(<span class="string">'http://restrict.web.com'</span>)</span><br><span class="line"><span class="keyword">except</span> urllib2.HTTPError, e:</span><br><span class="line">    <span class="keyword">print</span> e.code</span><br></pre></td></tr></table></figure>
+<h4 id="Debug-Log"><a href="#Debug-Log" class="headerlink" title="Debug Log"></a>Debug Log</h4><p>使用 urllib2 时，可以通过下面的方法把 debug Log 打开，这样收发包的内容就会在屏幕上打印出来，方便调试，有时可以省去抓包的工作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">httpHandler = urllib2.HTTPHandler(debuglevel=<span class="number">1</span>)</span><br><span class="line">httpsHandler = urllib2.HTTPSHandler(debuglevel=<span class="number">1</span>)</span><br><span class="line">opener = urllib2.build_opener(httpHandler, httpsHandler)</span><br><span class="line"></span><br><span class="line">urllib2.install_opener(opener)</span><br><span class="line">response = urllib2.urlopen(<span class="string">'http://www.google.com'</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/24/python_xiang_dui_dao_ru_learn/" itemprop="url">
+                  Python相对导入机制详解
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>转至: <a href="https://laike9m.com/blog/pythonxiang-dui-dao-ru-ji-zhi-xiang-jie,60/" target="_blank" rel="external">https://laike9m.com/blog/pythonxiang-dui-dao-ru-ji-zhi-xiang-jie,60/</a></p>
+<h3 id="Python相对导入机制详解"><a href="#Python相对导入机制详解" class="headerlink" title="Python相对导入机制详解"></a>Python相对导入机制详解</h3><p>本文是对 <a href="http://stackoverflow.com/questions/14132789/python-relative-imports-for-the-billionth-time#answer-14132912" target="_blank" rel="external">http://stackoverflow.com/questions/14132789/python-relative-imports-for-the-billionth-time#answer-14132912</a> 这个 SO 答案的翻译。本人的翻译一向只追求含义准确而不追求字字对应，有些不好翻的术语或者固定说法就直接保留。</p>
+<p>这个答案能解释大多关于 relative import，即相对导入的疑惑，讲解十分详尽清晰，算是 SO 上被低估的一个答案。</p>
+<p>问题不翻译了，直接摘录下来：<br>The forever-recurring question is this: With Windows 7, 32-bit Python 2.7.3, how do I solve this “Attempted relative import in non-package” message? I built an exact replica of the package on pep-0328:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package/</span><br><span class="line"></span><br><span class="line">    __init__.py</span><br><span class="line"></span><br><span class="line">    subpackage1/</span><br><span class="line"></span><br><span class="line">        __init__.py</span><br><span class="line"></span><br><span class="line">        moduleX.py</span><br><span class="line"></span><br><span class="line">        moduleY.py</span><br><span class="line"></span><br><span class="line">    subpackage2/</span><br><span class="line"></span><br><span class="line">        __init__.py</span><br><span class="line"></span><br><span class="line">        moduleZ.py</span><br><span class="line"></span><br><span class="line">    moduleA.py</span><br></pre></td></tr></table></figure>
+<p>I did make functions named spam and eggs in their appropriate modules. Naturally, it didn’t work. The answer is apparently in the 4th URL I listed, but it’s all alumni to me. There was this response on one of the URLs I visited:</p>
+<p>Relative imports use a module’s name attribute to determine that module’s position in the package hierarchy. If the module’s name does not contain any package information (e.g. it is set to’main’) then relative imports are resolved as if the module were a top level module, regardless of where the module is actually located on the file system.</p>
+<p>The above response looks promising, but it’s all hieroglyphs to me. So my question, how do I make Python not return to me”Attempted relative import in non-package”? has an answer that involves -m, supposedly.</p>
+<p>Can somebody please tell me why Python gives that error message, what it Means by non-package!, why and how do you define a ‘package’, and the precise answer put in terms easy enough for a kindergartener to understand. Thanks in advance!</p>
+<p>Edit: The imports were done from the console.</p>
+<hr>
+<p><a href="http://stackoverflow.com/users/1427416/brenbarn" target="_blank" rel="external">BrenBarn</a> 的精彩答案（这个哥们可以算是 import 专家了，答了好多这方面的题）</p>
+<p>简单地说，直接运行 .py 文件和 import 这个文件有很大区别。Python 解释器判断一个 py 文件属于哪个 package 时并不完全由该文件所在的文件夹决定。它还取决于这个文件是如何 load 进来的（直接运行 or import）。</p>
+<p>有两种方式加载一个 py 文件：作为 top-level 脚本或者作为 module。前者指的是直接运行脚本，比如 python myfile.py。如果执行 python -m myfile，或者在其它 py 文件中用 import 语句来加载，那么它就会被当作一个 module。有且只能有一个 top-level 脚本，就是最开始执行的那个（比如 python myfile.py 中的 myfile.py，译者注）。</p>
+<p>当一个 py 文件被加载之后，它会被赋予一个名字，保存在 <code>__name__</code> 属性中。如果是 top-level 脚本，那么名字就是 <code>__main__</code>。如果是作为 module，名字就是把它所在的 packages/subpackages 和文件名用 . 连接起来。</p>
+<p>例如，moduleX 被 import 进来，它的名字就是 package.subpackage1.moduleX。如果 import 了 moduleA，它的名字是 package.moduleA。如果直接运行 moduleX 或 moduleA，那么名字就都是 <code>__main__</code>了。</p>
+<p>另一个令人担忧的问题是，一个 module 的名字取决于它是直接从它所在的文件夹 import 还是通过某个 package import 的。不过只有当你在某个路径中运行 Python 并试图从当前文件夹 import 一个 py 文件时，才需要关注它们的不同。例如，在路径 <code>pacakge/subpackage1</code> 中运行 python 解释器，然后脚本中有 <code>import moduleX</code> 这个语句，此时 <code>moduleX</code> 的名字正是 <code>moduleX</code>，而不是 <code>package.subpackage1.moduleX</code>。这是因为 Python 解释器在启动时把当前路径（这里答案写的不准确，其实加入的是 top-level 脚本的路径，因为两者在这种状况下相同，所以也并不算错。译者注）加入了它的搜索路径 (sys.path)；如果发现要 import 的 module 就在当前路径，那么 Python 解释器就不知道当前路径是属于哪个 package 的，所以 pacakge 的信息就不会成为 module 的名字的一部分。</p>
+<p>一个特例是直接运行 python REPL，这个 REPL 的 session 的名字是 <code>__main__</code>。</p>
+<p>关于你遇到的错误信息，关键点来了：<strong>如果一个 module 的名字中没有点（即 package.subpackage1 中的那个点，译者注），那么它就被认为不属于任何一个 package</strong>。文件在磁盘上的位置在哪里都不影响，唯一起决定作用的就是 <strong>module 的名字</strong>，而这又取决于它是如何被加载的。</p>
+<p>先在我们看看你在问题中引用的这段话</p>
+<blockquote>
+<p>Relative imports use a module’s name attribute to determine that module’s position in the package hierarchy. If the module’s name does not contain any package information (e.g. it is set to’main’) then relative imports are resolved as if the module were a top level module, regardless of where the module is actually located on the file system.</p>
+</blockquote>
+<p>relative import 使用 module 的名字来决定它是否属于一个 package，属于哪个 package。当你使用这种 relative import <code>from .. import foo</code>，其中的点的数量代表了 package 结构中的某个层次。例如，如果当前 module 的名字是 <code>package.subpackage1.moduleX</code>，那么<code>..moduleA</code> 代表 <code>package.moduleA</code>。为了让形如 <code>from .. import</code> 的这种导入能够正常工作，module 的名字里的点数量应当至少和 import 语句中一样多。</p>
+<p>前面说了，如果 module 的名字是 <code>__main__</code>，那么 Python 就不认为它属于某个 package。<strong>由于名字里不包含点，所以在这个 py 文件中 <code>from .. import</code> 语句无法正常工作</strong>。试图执行这条语句就会报 “relative-import in non-package” 错误。</p>
+<p>你犯的错误可能是从命令行运行 <code>moduleX</code> 或类似的操作。当你执行这个操作，moduleX 的名字被设置成 <code>__main__</code>，所以 relative imports 失败了，因为不包含 package 信息。正如前面说的，如果在同一个路径里 import 一个文件，这时 module 的名字就是文件名，不包含 package 信息，所以相对导入也会失败。</p>
+<p>记住，因为 REPL session 的名字总是 <code>__main__</code>，所以试图在 REPL 里执行 relative import 是不行的。relative import 应当只在 module 文件中被使用。</p>
+<p>（无法相对导入的问题）有两个解决方法。如果你真的想直接运行 <code>moduleX</code>，同时又希望它被当作所在 package 的一部分，可以这么做：<code>python -m package.subpackage.moduleX</code>。<code>-m</code> 参数告诉 Python 解释器，把这个文件当作一个 module 载入，而不是 top-level 脚本。</p>
+<p>如果你并不想直接运行 <code>moduleX</code>，而是想在另一个文件比如 <code>myfile.py</code> 中使用 <code>moduleX</code> 中定义的函数，那么解决方法是把 <code>myfile.py</code> 文件挪到另一个地方，只要不在 <code>moduleX</code> 所属的 package 的文件夹里就行。然后在 <code>myfile.py</code> 中执行 <code>from package.moduleA import spam</code>，就能正常工作了。</p>
+<p>注意，不论哪种解决方案，都需要 package 的路径（上文中的 <code>package</code>）在 python 的搜索路径也就是 <code>sys.path</code> 里。如果不在，那么就无法使用这个 package 中的任何文件。</p>
+<p>（更严谨的说明：从 Python2.6 开始，在做 package-resolution 时，module 的 “名字” 并不完全等于 <code>__name__</code>属性，还和 <code>__package__</code> 属性有关。这也是为什么上文中我一直尽量避免用 <code>__name__</code>来指代 module 的名字。从 python2.6 开始，一个 module 的 “名字” 实际上是 <code>__package__ + &#39;.&#39; + __name__</code>, 或者直接就是 <code>__name__</code>，如果 <code>__package__</code> 是 <code>None</code> 的话）</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/07/03/CentOS6.5-install-scrapy/" itemprop="url">
                   CentOS 6.5 安装Scrapy
                 </a>
@@ -629,7 +1063,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">16</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -637,7 +1071,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -646,7 +1080,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
