@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="sql,hive," />
 
 
 
@@ -84,15 +84,16 @@
 
 
 
-<meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Anan'Blog">
-<meta property="og:url" content="http://yoursite.com/tags/java/index.html">
+<meta name="description" content="over()函数和PARTITION BY结合使用123456789101112SELECT   item_id,  item_nameFROM  (SELECT     item_id,    item_name,    sort_item,     row_number () over (PARTITION BY item_id ORDER BY sort_item DESC) AS rm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用over()函数结合PARTITION BY以指定字段分区">
+<meta property="og:url" content="http://yoursite.com/2017/12/06/hive_over_partition_by_demo/index.html">
 <meta property="og:site_name" content="Anan'Blog">
-<meta property="og:description">
+<meta property="og:description" content="over()函数和PARTITION BY结合使用123456789101112SELECT   item_id,  item_nameFROM  (SELECT     item_id,    item_name,    sort_item,     row_number () over (PARTITION BY item_id ORDER BY sort_item DESC) AS rm">
+<meta property="og:updated_time" content="2017-12-06T15:00:24.758Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Anan'Blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="使用over()函数结合PARTITION BY以指定字段分区">
+<meta name="twitter:description" content="over()函数和PARTITION BY结合使用123456789101112SELECT   item_id,  item_nameFROM  (SELECT     item_id,    item_name,    sort_item,     row_number () over (PARTITION BY item_id ORDER BY sort_item DESC) AS rm">
 
 
 
@@ -110,7 +111,7 @@
   };
 </script>
 
-  <title> 标签: java | Anan'Blog </title>
+  <title> 使用over()函数结合PARTITION BY以指定字段分区 | Anan'Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -131,7 +132,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -219,102 +220,148 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        java
-        <small>标签</small>
-      </h2>
-    </div>
-
+  <div id="posts" class="posts-expand">
     
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/09/21/lucene4.6_learn_2/" itemprop="url">
-              
-                <span itemprop="name">Lucene 4.6 实战 （2）检索文档</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-09-21T00:00:00+08:00"
-              content="2016-09-21" >
-          09-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/09/20/lucene4.6_learn_1/" itemprop="url">
-              
-                <span itemprop="name">Lucene 4.6 实战 （1）创建索引</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-09-20T00:00:00+08:00"
-              content="2016-09-20" >
-          09-20
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/09/19/IK_learn/" itemprop="url">
-              
-                <span itemprop="name">IK中文分词的使用</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-09-19T00:00:00+08:00"
-              content="2016-09-19" >
-          09-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-  </div>
 
   
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用over()函数结合PARTITION BY以指定字段分区
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-12-06T00:00:00+08:00" content="2017-12-06">
+              2017-12-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Hive/" itemprop="url" rel="index">
+                    <span itemprop="name">Hive</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="over-函数和PARTITION-BY结合使用"><a href="#over-函数和PARTITION-BY结合使用" class="headerlink" title="over()函数和PARTITION BY结合使用"></a>over()函数和PARTITION BY结合使用</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  item_id,</span><br><span class="line">  item_name</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">  (<span class="keyword">SELECT</span> </span><br><span class="line">    item_id,</span><br><span class="line">    item_name,</span><br><span class="line">    sort_item, </span><br><span class="line">    row_number () <span class="keyword">over</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> item_id <span class="keyword">ORDER</span> <span class="keyword">BY</span> sort_item <span class="keyword">DESC</span>) <span class="keyword">AS</span> rm </span><br><span class="line">  <span class="keyword">FROM</span></span><br><span class="line">    table_name) <span class="keyword">AS</span> t</span><br><span class="line"><span class="keyword">WHERE</span> t.rm = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>以item_id分区，所有item_id相同的被放入一个分区中</li>
+<li>分区内使用row_number()对每一行做标识</li>
+<li>根据sort_item字段进行排序</li>
+<li>获取每个分区中的第一数据</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/sql/" rel="tag">#sql</a>
+          
+            <a href="/tags/hive/" rel="tag">#hive</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/05/hive_col_transfer_line/" rel="next" title="Hive列转行">
+                <i class="fa fa-chevron-left"></i> Hive列转行
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -322,6 +369,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -341,8 +392,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://github.com/home123wx/picture/blob/master/avatar/elephant.png?raw=true"
@@ -392,6 +452,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#over-函数和PARTITION-BY结合使用"><span class="nav-number">1.</span> <span class="nav-text">over()函数和PARTITION BY结合使用</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -488,6 +559,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 

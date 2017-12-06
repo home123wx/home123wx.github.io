@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="hive,sqoop,mysql," />
+  <meta name="keywords" content="sql,hive," />
 
 
 
@@ -84,16 +84,28 @@
 
 
 
-<meta name="description" content="hive 到 mysql 同步12345678910sqoop export     --connect jdbc:mysql://[ip]:[port]/db_name?characterEncoding=utf-8    --username name    --password passwd    --table table_name    --input-fields-terminated">
+<meta name="description" content="列转行hive中由多行数据转换成一行记录
+test表数据：1234567891011id  name--  -----1	aaa1	bbb1	ccc1	ddd1	eee1	fff1	ggg1	hhh1	iii
+使用collect_set()函数聚合id相同的name1select id, collect_set(name) from test group by id;
+结果为：
+11	[&amp;quot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Sqoop同步 mysql <--> hive 数据">
-<meta property="og:url" content="http://yoursite.com/2017/12/01/sqoop_hive_to_mysql/index.html">
+<meta property="og:title" content="Hive列转行">
+<meta property="og:url" content="http://yoursite.com/2017/12/05/hive_col_transfer_line/index.html">
 <meta property="og:site_name" content="Anan'Blog">
-<meta property="og:description" content="hive 到 mysql 同步12345678910sqoop export     --connect jdbc:mysql://[ip]:[port]/db_name?characterEncoding=utf-8    --username name    --password passwd    --table table_name    --input-fields-terminated">
-<meta property="og:updated_time" content="2017-12-05T15:12:15.254Z">
+<meta property="og:description" content="列转行hive中由多行数据转换成一行记录
+test表数据：1234567891011id  name--  -----1	aaa1	bbb1	ccc1	ddd1	eee1	fff1	ggg1	hhh1	iii
+使用collect_set()函数聚合id相同的name1select id, collect_set(name) from test group by id;
+结果为：
+11	[&amp;quot">
+<meta property="og:updated_time" content="2017-12-06T14:57:16.443Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Sqoop同步 mysql <--> hive 数据">
-<meta name="twitter:description" content="hive 到 mysql 同步12345678910sqoop export     --connect jdbc:mysql://[ip]:[port]/db_name?characterEncoding=utf-8    --username name    --password passwd    --table table_name    --input-fields-terminated">
+<meta name="twitter:title" content="Hive列转行">
+<meta name="twitter:description" content="列转行hive中由多行数据转换成一行记录
+test表数据：1234567891011id  name--  -----1	aaa1	bbb1	ccc1	ddd1	eee1	fff1	ggg1	hhh1	iii
+使用collect_set()函数聚合id相同的name1select id, collect_set(name) from test group by id;
+结果为：
+11	[&amp;quot">
 
 
 
@@ -111,7 +123,7 @@
   };
 </script>
 
-  <title> 使用Sqoop同步 mysql <--> hive 数据 | Anan'Blog </title>
+  <title> Hive列转行 | Anan'Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -241,7 +253,7 @@
             
             
               
-                使用Sqoop同步 mysql <--> hive 数据
+                Hive列转行
               
             
           </h1>
@@ -253,8 +265,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-12-01T00:00:00+08:00" content="2017-12-01">
-              2017-12-01
+            <time itemprop="dateCreated" datetime="2017-12-05T00:00:00+08:00" content="2017-12-05">
+              2017-12-05
             </time>
           </span>
 
@@ -300,8 +312,14 @@
       
 
       
-        <h4 id="hive-到-mysql-同步"><a href="#hive-到-mysql-同步" class="headerlink" title="hive 到 mysql 同步"></a>hive 到 mysql 同步</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sqoop export </span><br><span class="line">    --connect jdbc:mysql://[ip]:[port]/db_name?characterEncoding=utf-8</span><br><span class="line">    --username name</span><br><span class="line">    --password passwd</span><br><span class="line">    --table table_name</span><br><span class="line">    --input-fields-terminated-by &quot;\t&quot; (hive表中字段之间使用的分割符)</span><br><span class="line">    --input-lines-terminated-by &quot;\n&quot; (hive表中行与行之间使用的分隔符)</span><br><span class="line">    --export-dir [hdfs存储位置] (通过 show create table table_name可以查看)</span><br><span class="line">    --update-key key_id (mysql表中对应的主键)</span><br><span class="line">    --update-mode allowinsert (更新模式[allowinsert, updateonly])</span><br></pre></td></tr></table></figure>
-<h4 id="mysql-到-hive-同步"><a href="#mysql-到-hive-同步" class="headerlink" title="mysql 到 hive 同步"></a>mysql 到 hive 同步</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sqoop import </span><br><span class="line">    --connect jdbc:mysql://[ip]:[port]/db_name</span><br><span class="line">    --username username</span><br><span class="line">    --password passwd</span><br><span class="line">    --table srcMysqltableName</span><br><span class="line">    --fields-terminated-by &quot;\t&quot; (构建后hive表中的字段分隔符)</span><br><span class="line">    --hive-drop-import-delims (去掉hive默认的行分隔符&quot;\n&quot;)</span><br><span class="line">    --hive-import (导入数据到hive)</span><br><span class="line">    --hive-overwrite</span><br><span class="line">    --create-hive-table </span><br><span class="line">    --hive-table destHivetableName</span><br><span class="line">    --delete-target-dir</span><br></pre></td></tr></table></figure>
+        <h4 id="列转行"><a href="#列转行" class="headerlink" title="列转行"></a>列转行</h4><p>hive中由多行数据转换成一行记录</p>
+<p>test表数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">id  name</span><br><span class="line">--  -----</span><br><span class="line">1	aaa</span><br><span class="line">1	bbb</span><br><span class="line">1	ccc</span><br><span class="line">1	ddd</span><br><span class="line">1	eee</span><br><span class="line">1	fff</span><br><span class="line">1	ggg</span><br><span class="line">1	hhh</span><br><span class="line">1	iii</span><br></pre></td></tr></table></figure></p>
+<h5 id="使用collect-set-函数聚合id相同的name"><a href="#使用collect-set-函数聚合id相同的name" class="headerlink" title="使用collect_set()函数聚合id相同的name"></a>使用collect_set()函数聚合id相同的name</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id, collect_set(name) from test group by id;</span><br></pre></td></tr></table></figure>
+<p><em>结果为：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1	[&quot;aaa&quot;,&quot;bbb&quot;,&quot;ccc&quot;,&quot;ddd&quot;,&quot;eee&quot;,&quot;fff&quot;,&quot;ggg&quot;,&quot;hhh&quot;,&quot;iii&quot;]</span><br></pre></td></tr></table></figure>
+<h5 id="结合concat-ws-函数拼接成字符串"><a href="#结合concat-ws-函数拼接成字符串" class="headerlink" title="结合concat_ws()函数拼接成字符串"></a>结合concat_ws()函数拼接成字符串</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id, concat_ws(&quot;,&quot;, collect_set(name)) from test group by id;</span><br></pre></td></tr></table></figure>
+<p><em>结果为：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1	aaa,bbb,ccc,ddd,eee,fff,ggg,hhh,iii</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -322,11 +340,9 @@
       
         <div class="post-tags">
           
+            <a href="/tags/sql/" rel="tag">#sql</a>
+          
             <a href="/tags/hive/" rel="tag">#hive</a>
-          
-            <a href="/tags/sqoop/" rel="tag">#sqoop</a>
-          
-            <a href="/tags/mysql/" rel="tag">#mysql</a>
           
         </div>
       
@@ -335,16 +351,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/29/hive_line_transfer_col/" rel="next" title="Hive行转列">
-                <i class="fa fa-chevron-left"></i> Hive行转列
+              <a href="/2017/12/03/spark_subtract_demo/" rel="next" title="spark subtract 算子的应用">
+                <i class="fa fa-chevron-left"></i> spark subtract 算子的应用
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/03/spark_subtract_demo/" rel="prev" title="spark subtract 算子的应用">
-                spark subtract 算子的应用 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/06/hive_over_partition_by_demo/" rel="prev" title="使用over()函数结合PARTITION BY以指定字段分区">
+                使用over()函数结合PARTITION BY以指定字段分区 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -459,7 +475,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#hive-到-mysql-同步"><span class="nav-number">1.</span> <span class="nav-text">hive 到 mysql 同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql-到-hive-同步"><span class="nav-number">2.</span> <span class="nav-text">mysql 到 hive 同步</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#列转行"><span class="nav-number">1.</span> <span class="nav-text">列转行</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用collect-set-函数聚合id相同的name"><span class="nav-number">1.1.</span> <span class="nav-text">使用collect_set()函数聚合id相同的name</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结合concat-ws-函数拼接成字符串"><span class="nav-number">1.2.</span> <span class="nav-text">结合concat_ws()函数拼接成字符串</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
