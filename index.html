@@ -243,6 +243,122 @@
             
               
                 
+                <a class="post-title-link" href="/2017/12/23/python_write_excel/" itemprop="url">
+                  使用Python实现Excel文件的读写
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-12-23T00:00:00+08:00" content="2017-12-23">
+              2017-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="使用xlwt和xlrd来操作excel"><a href="#使用xlwt和xlrd来操作excel" class="headerlink" title="使用xlwt和xlrd来操作excel"></a>使用xlwt和xlrd来操作excel</h4><ul>
+<li><code>xlwt</code>库用于写excel文件</li>
+<li><code>xlrd</code>库用于读excel文件</li>
+</ul>
+<h4 id="Demo代码"><a href="#Demo代码" class="headerlink" title="Demo代码"></a>Demo代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> xlwt</span><br><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExcelWrite</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 创建workbook和sheet对象</span></span><br><span class="line">        self.workbook = xlwt.Workbook()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 构建一个sheet页  (cell_overwrite_ok: true-&gt;单元格内容被覆盖)</span></span><br><span class="line">        self.sheet = self.workbook.add_sheet(<span class="string">u"Sheet名字"</span>, cell_overwrite_ok=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 写入自定义的标题内容</span></span><br><span class="line">        self._write_title()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 保存文件</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">save</span><span class="params">(self, file_name)</span>:</span></span><br><span class="line">        self.workbook.save(file_name)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">write_text</span><span class="params">(self, row_data_list)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        写入数据</span><br><span class="line">        :param row_data_list: 准备写入excel文件的数据(定义了一个二维数组结构)</span><br><span class="line">        :return:</span><br><span class="line">        """</span></span><br><span class="line">        <span class="comment"># 从第2行开始, 第一行为标题行</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(row_data_list)):</span><br><span class="line">            self._write_row_text(i+<span class="number">1</span>, row_data_list[i])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入行内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_write_row_text</span><span class="params">(self, row_index, col_data_list)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        写数据到指定行中</span><br><span class="line">        :param list_data: 对应行中每一列的数据</span><br><span class="line">        :return:</span><br><span class="line">        """</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(col_data_list)):</span><br><span class="line">            self.sheet.write(row_index, i, col_data_list[i])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入标题</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_write_title</span><span class="params">(self)</span>:</span></span><br><span class="line">        title_list = [<span class="string">u"列1"</span>, <span class="string">u"列2"</span>, <span class="string">u"列3"</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(title_list)):</span><br><span class="line">            self.sheet.write(<span class="number">0</span>, i, title_list[i])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExcelRead</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read_excel</span><span class="params">(self, file_name)</span>:</span></span><br><span class="line">        <span class="comment"># 打开excel文件</span></span><br><span class="line">        data = xlrd.open_workbook(file_name)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取sheet标签</span></span><br><span class="line">        table = data.sheet_by_name(<span class="string">"Sheet名字"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># sheet标签中的行数</span></span><br><span class="line">        rows = table.nrows</span><br><span class="line">        <span class="comment"># sheet标签中的列数</span></span><br><span class="line">        cols = table.ncols</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取每行的数据</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, rows):</span><br><span class="line">            print(table.row_values(i))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取每列的数据</span></span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>, cols):</span><br><span class="line">            print(table.col_values(x))</span><br><span class="line">        <span class="comment">#</span></span><br><span class="line">        <span class="comment"># # 逐个获取单元格数据</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, rows):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(cols):</span><br><span class="line">                print(table.cell(i, j).value)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    eo = ExcelWrite()</span><br><span class="line"></span><br><span class="line">    col_list = [<span class="string">"aaa"</span>, <span class="string">"bbb"</span>, <span class="string">"ccc"</span>]</span><br><span class="line">    col_list1 = [<span class="string">"aaa111"</span>, <span class="string">"bbb111"</span>, <span class="string">"ccc111"</span>]</span><br><span class="line">    col_list2 = [<span class="string">"aaa222"</span>, <span class="string">"bbb222"</span>, <span class="string">"ccc222"</span>]</span><br><span class="line"></span><br><span class="line">    data_list = list()</span><br><span class="line">    data_list.append(col_list)</span><br><span class="line">    data_list.append(col_list1)</span><br><span class="line">    data_list.append(col_list2)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入数据</span></span><br><span class="line">    eo.write_text(data_list)</span><br><span class="line">    <span class="comment"># 保存文件</span></span><br><span class="line">    eo.save(<span class="string">"111.xls"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 读取文件</span></span><br><span class="line">    er = ExcelRead()</span><br><span class="line">    er.read_excel(<span class="string">"111.xls"</span>)</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/12/16/python_send_email/" itemprop="url">
                   使用Python实现发送带附件的邮件
                 </a>
@@ -1344,132 +1460,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/15/zlib_use/" itemprop="url">
-                  Windows下zlib库的使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-02-15T00:00:00+08:00" content="2017-02-15">
-              2017-02-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="下载zlib库"><a href="#下载zlib库" class="headerlink" title="下载zlib库"></a>下载zlib库</h4><p><a href="https://pan.baidu.com/s/1c2aeiXU" target="_blank" rel="external">zlib-1.2.10.tar.gz</a> </p>
-<h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><p>解压后 <code>zlib-1.2.10/win32/Makefile.msc</code> 文件中介绍了如何编译：</p>
-<blockquote>
-<p>Makefile for zlib using Microsoft (Visual) C<br>zlib is copyright (C) 1995-2006 Jean-loup Gailly and Mark Adler<br>Usage:<br>nmake -f win32/Makefile.msc                                                (standard build)<br>nmake -f win32/Makefile.msc LOC=-DFOO                            (nonstandard build)<br>nmake -f win32/Makefile.msc LOC=”-DASMV -DASMINF” \<br>OBJA=”inffas32.obj match686.obj”                                         (use ASM code, x86)<br>nmake -f win32/Makefile.msc AS=ml64 LOC=”-DASMV -DASMINF -I.” \<br>OBJA=”inffasx64.obj gvmat64.obj inffas8664.obj”  (use ASM code, x64)</p>
-</blockquote>
-<p>运行 <code>Visual Studio Tools/Visual Studio 2008 Command Prompt</code>命令控制行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># cd 解压目录</span><br><span class="line"># nmake -f win32/Makefile.msc</span><br></pre></td></tr></table></figure></p>
-<h4 id="库的使用"><a href="#库的使用" class="headerlink" title="库的使用"></a>库的使用</h4><p>只使用<code>zlib</code>库的话把下图中头文件放到工程路径下，包含<code>zlib.h</code>头文件，即可使用。<br><img src="https://github.com/home123wx/home123wx.github.io/blob/hexo/source/pic/zlib/only_use_zlib.png?raw=true" alt="only_use_zli"></p>
-<hr>
-<p>压缩/解压数据</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"zlib/zlib.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test1</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> _tmain(<span class="keyword">int</span> argc, _TCHAR* argv[]) </span><br><span class="line">&#123;</span><br><span class="line">	Test1();</span><br><span class="line">	</span><br><span class="line">	getchar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test1</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">/* 原始数据 */</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> strSrc[] = <span class="string">"hello world! 中文"</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> buf[<span class="number">1024</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> strDst[<span class="number">1024</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> srcLen = <span class="keyword">sizeof</span>(strSrc);</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> bufLen = <span class="keyword">sizeof</span>(buf);</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> dstLen = <span class="keyword">sizeof</span>(strDst);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Src string:%s\nLength:%ld\n"</span>, strSrc, srcLen);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 压缩 */</span></span><br><span class="line">    compress(buf, &amp;bufLen, strSrc, srcLen);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"After Compressed Length:%ld\n"</span>, bufLen);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 解压缩 */</span></span><br><span class="line">    uncompress(strDst, &amp;dstLen, buf, bufLen);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"After UnCompressed Length:%ld\n"</span>,dstLen);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"UnCompressed String:%s\n"</span>,strDst);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用minizip(压缩包)再额外包含<code>zlib-1.2.10\contrib</code>目录下文件到工程路径中</p>
-<p>并在项目中添加下图头文件和实现文件<br><img src="https://github.com/home123wx/home123wx.github.io/blob/hexo/source/pic/zlib/project_import_header.png?raw=true" alt="header"> <img src="https://github.com/home123wx/home123wx.github.io/blob/hexo/source/pic/zlib/project_import_c.png?raw=true" alt="c"></p>
-<hr>
-<p>在压缩包中创建文件并写入内容<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"zlib/zip.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test3</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* path)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> _tmain(<span class="keyword">int</span> argc, _TCHAR* argv[]) </span><br><span class="line">&#123;</span><br><span class="line">	Test3();</span><br><span class="line">	getchar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test3</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* path)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    zipFile zf = zipOpen64(path, APPEND_STATUS_CREATE);</span><br><span class="line">    <span class="keyword">if</span> (zf == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"创建%s失败\n"</span>, path);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//初始化写入zip的文件信息  </span></span><br><span class="line">    zip_fileinfo zi;  </span><br><span class="line">    zi.tmz_date.tm_sec = zi.tmz_date.tm_min  = zi.tmz_date.tm_hour =  </span><br><span class="line">                         zi.tmz_date.tm_mday = zi.tmz_date.tm_mon =</span><br><span class="line">                         zi.tmz_date.tm_year = <span class="number">0</span>;  </span><br><span class="line">    zi.dosDate = <span class="number">0</span>;  </span><br><span class="line">    zi.internal_fa = <span class="number">0</span>;  </span><br><span class="line">    zi.external_fa = <span class="number">0</span>;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">//1</span></span><br><span class="line">    zipOpenNewFileInZip(zf, <span class="string">"t\\t.txt"</span>, &amp;zi, <span class="literal">NULL</span>,</span><br><span class="line">                        <span class="number">0</span>, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>, Z_DEFLATED, Z_DEFAULT_COMPRESSION);</span><br><span class="line">    <span class="keyword">char</span>* buf = <span class="string">"Hello_1111"</span>;</span><br><span class="line">    zipWriteInFileInZip(zf, buf, <span class="built_in">strlen</span>(buf));</span><br><span class="line">    <span class="comment">//关闭zip文件  </span></span><br><span class="line">    zipCloseFileInZip(zf);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//2</span></span><br><span class="line">    zipOpenNewFileInZip(zf, <span class="string">"t1\\t.txt"</span>, &amp;zi, <span class="literal">NULL</span>,</span><br><span class="line">                        <span class="number">0</span>, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>, Z_DEFLATED, Z_DEFAULT_COMPRESSION);</span><br><span class="line">    zipWriteInFileInZip(zf, buf, <span class="built_in">strlen</span>(buf));</span><br><span class="line">    <span class="comment">//关闭zip文件  </span></span><br><span class="line">    zipCloseFileInZip(zf);</span><br><span class="line"></span><br><span class="line">    zipClose(zf, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1515,7 +1505,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-count">20</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1532,7 +1522,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
