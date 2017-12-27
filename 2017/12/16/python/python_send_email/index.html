@@ -1,0 +1,605 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python,email," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="使用smtplib和email库发送邮件
+使用smtplib库来发送邮件
+使用Email库来处理邮件消息
+
+Demo代码123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263#!/usr/bin/python# -*-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Python实现发送带附件的邮件">
+<meta property="og:url" content="http://yoursite.com/2017/12/16/python/python_send_email/index.html">
+<meta property="og:site_name" content="Anan'Blog">
+<meta property="og:description" content="使用smtplib和email库发送邮件
+使用smtplib库来发送邮件
+使用Email库来处理邮件消息
+
+Demo代码123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263#!/usr/bin/python# -*-">
+<meta property="og:updated_time" content="2017-12-27T15:07:32.286Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Python实现发送带附件的邮件">
+<meta name="twitter:description" content="使用smtplib和email库发送邮件
+使用smtplib库来发送邮件
+使用Email库来处理邮件消息
+
+Demo代码123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263#!/usr/bin/python# -*-">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 使用Python实现发送带附件的邮件 | Anan'Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Anan'Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用Python实现发送带附件的邮件
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-12-16T00:00:00+08:00" content="2017-12-16">
+              2017-12-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="使用smtplib和email库发送邮件"><a href="#使用smtplib和email库发送邮件" class="headerlink" title="使用smtplib和email库发送邮件"></a>使用smtplib和email库发送邮件</h4><ul>
+<li>使用<code>smtplib</code>库来发送邮件</li>
+<li>使用<code>Email</code>库来处理邮件消息</li>
+</ul>
+<h4 id="Demo代码"><a href="#Demo代码" class="headerlink" title="Demo代码"></a>Demo代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.mime.multipart <span class="keyword">import</span> MIMEMultipart</span><br><span class="line"><span class="keyword">from</span> email.header <span class="keyword">import</span> Header</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EMailOpr</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.sender = <span class="string">'发送者邮箱'</span></span><br><span class="line">        self.receivers = [<span class="string">'接受者邮箱1'</span>, <span class="string">"接受者邮箱2"</span>]</span><br><span class="line">        self.cc = [<span class="string">'抄送1'</span>, <span class="string">'抄送2'</span>]</span><br><span class="line">        self.hide = [<span class="string">"暗抄1"</span>, <span class="string">"暗抄2"</span>]</span><br><span class="line">        self.smtp = <span class="string">'smtp.****.com'</span></span><br><span class="line">        self.smtp_port = <span class="number">25</span></span><br><span class="line">        self.user = <span class="string">"发送者账号"</span></span><br><span class="line">        self.passwd = <span class="string">"发送者密码"</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 发送邮件</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send</span><span class="params">(self, subject, content=<span class="string">""</span>, att_path=<span class="string">""</span>)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        发送邮件</span><br><span class="line">        :param subject: 邮件主题</span><br><span class="line">        :param content: 邮件内容</span><br><span class="line">        :param att_path: 邮件附件地址</span><br><span class="line">        :return:</span><br><span class="line">        """</span></span><br><span class="line">        <span class="comment"># 创建一个带附件的实例</span></span><br><span class="line">        message = MIMEMultipart()</span><br><span class="line">        message[<span class="string">'From'</span>] = self.sender</span><br><span class="line">        message[<span class="string">'To'</span>] = <span class="string">","</span>.join(self.receivers)</span><br><span class="line">        message[<span class="string">'Cc'</span>] = <span class="string">","</span>.join(self.cc)</span><br><span class="line">        message[<span class="string">'Subject'</span>] = Header(subject, <span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 邮件正文内容</span></span><br><span class="line">        message.attach(MIMEText(content, <span class="string">'plain'</span>, <span class="string">'utf-8'</span>))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 添加附件</span></span><br><span class="line">        <span class="keyword">if</span> att_path != <span class="string">""</span>:</span><br><span class="line">            <span class="comment"># 构造附件1</span></span><br><span class="line">            att1 = MIMEText(open(att_path, <span class="string">'rb'</span>).read(), <span class="string">'base64'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">            att1[<span class="string">"Content-Type"</span>] = <span class="string">'application/octet-stream'</span></span><br><span class="line">            <span class="comment"># 这里的filename可以任意写，写什么名字，邮件中显示什么名字</span></span><br><span class="line">            att1[<span class="string">"Content-Disposition"</span>] = <span class="string">'attachment; filename=%s'</span> % att_path[att_path.rfind(<span class="string">"/"</span>)+<span class="number">1</span>:]</span><br><span class="line">            message.attach(att1)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            smtpObj = smtplib.SMTP()</span><br><span class="line">            smtpObj.connect(self.smtp, self.smtp_port)</span><br><span class="line">            smtpObj.login(self.user, self.passwd)</span><br><span class="line">            smtpObj.sendmail(self.sender, self.receivers+self.cc+self.hide, message.as_string())</span><br><span class="line">            <span class="keyword">print</span> <span class="string">u"邮件发送成功"</span></span><br><span class="line">        <span class="keyword">except</span> smtplib.SMTPException:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">u"Error: 无法发送邮件"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    file_name = <span class="string">"附件文件路径"</span></span><br><span class="line">    email = EMailOpr()</span><br><span class="line">    email.send(<span class="string">"主题"</span>, <span class="string">"内容"</span>, file_name)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+            <a href="/tags/email/" rel="tag">#email</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/06/hive/hive_over_partition_by_demo/" rel="next" title="使用over()函数结合PARTITION BY以指定字段分区">
+                <i class="fa fa-chevron-left"></i> 使用over()函数结合PARTITION BY以指定字段分区
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/23/python/python_write_excel/" rel="prev" title="使用Python实现Excel文件的读写">
+                使用Python实现Excel文件的读写 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://github.com/home123wx/picture/blob/master/avatar/elephant.png?raw=true"
+               alt="Anan" />
+          <p class="site-author-name" itemprop="name">Anan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用smtplib和email库发送邮件"><span class="nav-number">1.</span> <span class="nav-text">使用smtplib和email库发送邮件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Demo代码"><span class="nav-number">2.</span> <span class="nav-text">Demo代码</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Anan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

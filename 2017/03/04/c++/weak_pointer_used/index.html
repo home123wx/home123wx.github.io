@@ -1,0 +1,649 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="c++,template,弱指针," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="无效引用
+当多个指针指向同一个对象，在其中一个指针被delete后
+其他指向该对象的指针不知道，其指向的内存已经无效
+当访问指针指向的数据时出现访问错误。
+
+项目优化的需求
+避免项目中无效引用的使用
+在尽量少的变更代码的条件下能够实现该优化
+不影响正常的逻辑
+
+解决方案我们通过对被管理对象加标签，以及使用弱指针来代替旧的指针的方式来实现。
+ 
+标签可以把标签理解成一个书签。在对象创建时，对象中带有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一种解决指针无效引用的方法">
+<meta property="og:url" content="http://yoursite.com/2017/03/04/c++/weak_pointer_used/index.html">
+<meta property="og:site_name" content="Anan'Blog">
+<meta property="og:description" content="无效引用
+当多个指针指向同一个对象，在其中一个指针被delete后
+其他指向该对象的指针不知道，其指向的内存已经无效
+当访问指针指向的数据时出现访问错误。
+
+项目优化的需求
+避免项目中无效引用的使用
+在尽量少的变更代码的条件下能够实现该优化
+不影响正常的逻辑
+
+解决方案我们通过对被管理对象加标签，以及使用弱指针来代替旧的指针的方式来实现。
+ 
+标签可以把标签理解成一个书签。在对象创建时，对象中带有">
+<meta property="og:image" content="https://github.com/home123wx/picture/blob/master/memory/weak_pointer/weak_pointer_pic.png?raw=true">
+<meta property="og:updated_time" content="2017-12-27T15:19:56.635Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一种解决指针无效引用的方法">
+<meta name="twitter:description" content="无效引用
+当多个指针指向同一个对象，在其中一个指针被delete后
+其他指向该对象的指针不知道，其指向的内存已经无效
+当访问指针指向的数据时出现访问错误。
+
+项目优化的需求
+避免项目中无效引用的使用
+在尽量少的变更代码的条件下能够实现该优化
+不影响正常的逻辑
+
+解决方案我们通过对被管理对象加标签，以及使用弱指针来代替旧的指针的方式来实现。
+ 
+标签可以把标签理解成一个书签。在对象创建时，对象中带有">
+<meta name="twitter:image" content="https://github.com/home123wx/picture/blob/master/memory/weak_pointer/weak_pointer_pic.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 一种解决指针无效引用的方法 | Anan'Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Anan'Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                一种解决指针无效引用的方法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-04T00:00:00+08:00" content="2017-03-04">
+              2017-03-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="无效引用"><a href="#无效引用" class="headerlink" title="无效引用"></a>无效引用</h4><ul>
+<li>当多个指针指向同一个对象，在其中一个指针被delete后</li>
+<li>其他指向该对象的指针不知道，其指向的内存已经无效</li>
+<li>当访问指针指向的数据时出现访问错误。</li>
+</ul>
+<h4 id="项目优化的需求"><a href="#项目优化的需求" class="headerlink" title="项目优化的需求"></a>项目优化的需求</h4><ul>
+<li>避免项目中无效引用的使用</li>
+<li>在尽量少的变更代码的条件下能够实现该优化</li>
+<li>不影响正常的逻辑</li>
+</ul>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>我们通过对被管理对象加<code>标签</code>，以及使用<code>弱指针</code>来代替旧的指针的方式来实现。</p>
+<p><img src="https://github.com/home123wx/picture/blob/master/memory/weak_pointer/weak_pointer_pic.png?raw=true" alt="结构图"> </p>
+<h5 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h5><p>可以把标签理解成一个<code>书签</code>。在对象创建时，对象中带有一个没有写任何内容的空白<code>书签</code>，在对象指针赋值给<code>弱指针</code>时，会在<code>书签</code>中填充内容，内容为<code>对象的指针</code>，并在<code>弱指针</code>中保存<code>书签</code>指针。</p>
+<p>被管理对象通过继承<code>标签指针</code>来具备<code>书签</code>功能。</p>
+<h5 id="弱指针"><a href="#弱指针" class="headerlink" title="弱指针"></a>弱指针</h5><p>在说<code>弱指针</code>之前，先描述下我们定义的<code>强指针</code>，只要<code>强指针</code>存在，其指向的内容一定存在。</p>
+<p>这里的<code>弱指针</code>相对于<code>强指针</code>，<code>弱指针</code>存在，其指向的内容可以不存在。既在<code>弱指针</code>指向的内存被释放，我们能够及时知道当前指针已经无效。</p>
+<p>把对指针的所有操作封装到<code>弱指针</code>类中，让其能够模拟指针，这样可以在旧代码不变动的条件下，也就是说使用者可以完全不知道<code>弱指针</code>的存在，任然像正常指针一样使用。</p>
+<p>利用<code>弱指针</code>的这种特性，我们正好能够解决无效引用带来的问题，并且能够满足优化提到的三点需求。</p>
+<hr>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _WEAK_TAG_POINTER_H_</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _WEAK_TAG_POINTER_H_</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class</span> WeakPointer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> WeakTagPointer &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 标签 1. 被标识类继承标签指针</span><br><span class="line">     *            2. 当被标识类构建对象时，标签指针中引用计数默认为1</span><br><span class="line">     *            3. 只有当被标识对象释放，标签中的pinter指针会被置为NULL</span><br><span class="line">     *            4. 当标签的引用计数为0时，会释放标签自身</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">struct</span> WeakTag &#123;</span><br><span class="line">        WeakTag(T* p): pointer(p), count(<span class="number">1</span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * @desc 减少引用计数，没有被引用释放自身</span><br><span class="line">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">WeakRelease</span><span class="params">()</span></span><br><span class="line">        </span>&#123;</span><br><span class="line">            --count;</span><br><span class="line">            <span class="keyword">if</span> (count &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">delete</span> <span class="keyword">this</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * @desc 增加引用计数</span><br><span class="line">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">WeakAddRef</span><span class="params">()</span> </span>&#123; ++count; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * @desc 获取标签指针</span><br><span class="line">         */</span></span><br><span class="line">        <span class="function">T* <span class="title">Pointer</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> pointer; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * @desc 设置标签指针</span><br><span class="line">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">SetPointer</span><span class="params">(T* pObj)</span> </span>&#123; pointer = pObj; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        T* pointer; <span class="comment">//标签指针</span></span><br><span class="line">        <span class="keyword">int</span> count;  <span class="comment">//引用计数</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    WeakTagPointer() : m_pWeakTag(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 当子类(及被标识对象)析构时, 触发父类析构。</span><br><span class="line">     *       1. 被标识对象释放，pointer标识被置NULL</span><br><span class="line">     *       2. 通知其他使用者，该指针已无效</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">virtual</span> ~WeakTagPointer()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (m_pWeakTag != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            m_pWeakTag-&gt;SetPointer(<span class="literal">NULL</span>);</span><br><span class="line">            m_pWeakTag-&gt;WeakRelease();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 获取标签指针</span><br><span class="line">     *       1. 指针未空时创建并返回, this指针为被标识对象</span><br><span class="line">     *       2. 每次调用该函数，引用计数加1</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function">WeakTag* <span class="title">TagPointer</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (m_pWeakTag == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            m_pWeakTag = <span class="keyword">new</span> WeakTag(<span class="keyword">static_cast</span>&lt;T*&gt;(<span class="keyword">this</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (m_pWeakTag != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            m_pWeakTag-&gt;WeakAddRef();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> m_pWeakTag;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T2&gt; <span class="keyword">friend</span> <span class="keyword">class</span> WeakPointer;</span><br><span class="line">    WeakTag* m_pWeakTag;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * WeakPointer类，模拟指针的各种操作</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> WeakPointer &#123;</span><br><span class="line">    <span class="comment">//typedef typename T::WeakTag WeakTagType;</span></span><br><span class="line">    <span class="keyword">struct</span> WeakTagType : <span class="keyword">public</span> T::WeakTag &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    WeakPointer():m_pTag(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">    ~WeakPointer()</span><br><span class="line">    &#123;</span><br><span class="line">        Release();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 获取标签指针</span><br><span class="line">     */</span></span><br><span class="line">    T* <span class="keyword">operator</span>-&gt;()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> GetPointer();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 获取指针对应的引用数据</span><br><span class="line">     */</span></span><br><span class="line">    T&amp; <span class="keyword">operator</span>*()</span><br><span class="line">    &#123;</span><br><span class="line">        T* p = GetPointer();</span><br><span class="line">        assert(p != <span class="literal">NULL</span>);</span><br><span class="line">        <span class="keyword">return</span> *p;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc bool重载</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">operator</span> <span class="title">bool</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> IsValid();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//////////////////////////////////////////////////////////////////////////</span></span><br><span class="line">    <span class="comment">//等于</span></span><br><span class="line">    <span class="comment">//////////////////////////////////////////////////////////////////////////</span></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 对指定类型指针赋值</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">void</span> <span class="keyword">operator</span>=(T* pObj)</span><br><span class="line">    &#123;</span><br><span class="line">        WeakTagType* pTag = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">if</span> (pObj != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="comment">//获取对象中标识</span></span><br><span class="line">            WeakTagType* pTag = <span class="keyword">static_cast</span>&lt;WeakTagType*&gt;(pObj-&gt;TagPointer());</span><br><span class="line">            <span class="keyword">if</span> (pTag != <span class="literal">NULL</span>) &#123;</span><br><span class="line">                <span class="comment">//释放自身标识数据</span></span><br><span class="line">                Release();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//赋值</span></span><br><span class="line">        m_pTag = pTag;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 同类型pointer的赋值</span><br><span class="line">     * @param [in] pObj 同类型弱指针</span><br><span class="line">     */</span></span><br><span class="line">    WeakPointer&amp; <span class="keyword">operator</span>=(WeakPointer&amp; obj)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> != &amp;obj) &#123;</span><br><span class="line">            <span class="keyword">operator</span>=(obj.GetPointer());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 不同类型pointer的赋值</span><br><span class="line">     * @param [in] pObj 其他类型弱指针</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T2&gt;</span><br><span class="line">    <span class="keyword">void</span> <span class="keyword">operator</span>=(WeakPointer&lt;T2&gt;&amp; obj)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">operator</span>=(obj.GetPointer());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//////////////////////////////////////////////////////////////////////////</span></span><br><span class="line">    <span class="comment">//等于等于</span></span><br><span class="line">    <span class="comment">//////////////////////////////////////////////////////////////////////////</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 判断同类型弱指针是否相同</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span>==(WeakPointer&amp; obj)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> IsEqual(obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 判断和表示类型的指针是否相同</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span>==(T* pObj)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> IsEqual(pObj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 判断和表示类型的指针是否相同, 特例NULL</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span>==(<span class="keyword">const</span> <span class="keyword">int</span>&amp;)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> !IsValid();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 判断和其他类型的弱指针是否不同</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T2&gt;</span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span>==(WeakPointer&lt;T2&gt;&amp; obj)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> IsEqual(obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//////////////////////////////////////////////////////////////////////////</span></span><br><span class="line">    <span class="comment">//不等于</span></span><br><span class="line">    <span class="comment">//////////////////////////////////////////////////////////////////////////</span></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 判断同类型弱指针是否不同</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span>!=(WeakPointer&amp; obj)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> !IsEqual(obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 判断和指针是否不同, 特例NULL</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span>!=(<span class="keyword">const</span> <span class="keyword">int</span>&amp;)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> IsValid();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 判断和表示类型的指针是否不同</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span>!=(T* pObj)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> !IsEqual(pObj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//////////////////////////////////////////////////////////////////////////</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//////////////////////////////////////////////////////////////////////////</span></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 获取标签指针</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function">T* <span class="title">GetPointer</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        T* p = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">if</span> (m_pTag != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            p = <span class="keyword">static_cast</span>&lt;T*&gt;(m_pTag-&gt;Pointer());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 判断标签的有效性</span><br><span class="line">     * @return 是否有效</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">IsValid</span><span class="params">()</span> <span class="keyword">const</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (m_pTag != <span class="literal">NULL</span>) &amp;&amp; (m_pTag-&gt;Pointer() != <span class="literal">NULL</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    WeakPointer(<span class="keyword">const</span> WeakPointer&amp;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 判断两个同类型弱指针是否相同</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">IsEqual</span><span class="params">(WeakPointer&amp; obj)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> IsEqual(obj.m_pTag, obj.GetPointer());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * @desc 判断两个弱指针是否相同</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T2&gt;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">IsEqual</span><span class="params">(WeakPointer&lt;T2&gt;&amp; obj)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">IsEqual</span><span class="params">(WeakTagType* pTag, T* pObj)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">bool</span> b = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (m_pTag == <span class="literal">NULL</span> &amp;&amp; pTag == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            b = <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (m_pTag != <span class="literal">NULL</span> &amp;&amp; pTag != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">bool</span> b0 = (m_pTag == pTag);</span><br><span class="line">            <span class="keyword">bool</span> b1 = (m_pTag-&gt;Pointer() == pObj);</span><br><span class="line">            b = (b0 &amp;&amp; b1);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">IsEqual</span><span class="params">(T* pObj)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">bool</span> b = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (m_pTag != <span class="literal">NULL</span> &amp;&amp; pObj != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            b = (m_pTag-&gt;Pointer() == pObj);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 释放标签数据</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Release</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (m_pTag != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            m_pTag-&gt;WeakRelease();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T2&gt; <span class="keyword">friend</span> <span class="keyword">class</span> WeakPointer;</span><br><span class="line">    WeakTagType* m_pTag;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">//_WEAK_TAG_POINTER_H_</span></span></span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/home123wx/utils/tree/master/memory" target="_blank" rel="external">完整测试代码</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/c/" rel="tag">#c++</a>
+          
+            <a href="/tags/template/" rel="tag">#template</a>
+          
+            <a href="/tags/弱指针/" rel="tag">#弱指针</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/20/c++/clipboard_use/" rel="next" title="Windows剪切板项目中遇到的问题">
+                <i class="fa fa-chevron-left"></i> Windows剪切板项目中遇到的问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/25/c++/CFileDialog_multiple_select/" rel="prev" title="CFileDialog路径缓存的扩充">
+                CFileDialog路径缓存的扩充 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://github.com/home123wx/picture/blob/master/avatar/elephant.png?raw=true"
+               alt="Anan" />
+          <p class="site-author-name" itemprop="name">Anan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#无效引用"><span class="nav-number">1.</span> <span class="nav-text">无效引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#项目优化的需求"><span class="nav-number">2.</span> <span class="nav-text">项目优化的需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方案"><span class="nav-number">3.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#标签"><span class="nav-number">3.1.</span> <span class="nav-text">标签</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#弱指针"><span class="nav-number">3.2.</span> <span class="nav-text">弱指针</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码"><span class="nav-number">3.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Anan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

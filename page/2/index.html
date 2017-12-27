@@ -243,7 +243,157 @@
             
               
                 
-                <a class="post-title-link" href="/2017/02/15/zlib_use/" itemprop="url">
+                <a class="post-title-link" href="/2017/02/20/c++/clipboard_use/" itemprop="url">
+                  Windows剪切板项目中遇到的问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-20T00:00:00+08:00" content="2017-02-20">
+              2017-02-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="操作描述"><a href="#操作描述" class="headerlink" title="操作描述"></a>操作描述</h4><p>复制word内容，word会把多种类型数据写入剪切板中，我们获取的是剪切板中RTF类型的数据。</p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>使用系统函数获取剪切板数据。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (OpenClipboard(<span class="literal">NULL</span>)) </span><br><span class="line">&#123;</span><br><span class="line">	UINT cfRTF = RegisterClipboardFormat(CF_RTF);</span><br><span class="line">	<span class="keyword">if</span> (IsClipboardFormatAvailable(cfRTF)) </span><br><span class="line">	&#123;</span><br><span class="line">		HANDLE hRtfData = GetClipboardData(cfRTF);</span><br><span class="line">		<span class="keyword">if</span> (hRtfData != <span class="literal">NULL</span>) </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//pBuf为剪切板中获取的RTF数据</span></span><br><span class="line">			<span class="keyword">char</span>* pBuf = (<span class="keyword">char</span>*)GlobalLock(hRtfData);</span><br><span class="line">			GlobalUnlock(hRtfData);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	CloseClipboard();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码在两台机器上的表现不同:</p>
+<blockquote>
+<p>机器1：调用<code>GetClipboardData()</code>函数，返回<code>NULL</code>,<code>GetLastError()</code>返回<code>1418</code></p>
+<p>机器2：出现两种不同的情况</p>
+<ul>
+<li>调用<code>GetClipboardData()</code>函数，返回<code>NULL</code>,<code>GetLastError()</code>返回<code>1460</code></li>
+<li>调用<code>GetClipboardData()</code>函数，返回正确的数据句柄</li>
+</ul>
+</blockquote>
+<h4 id="1-ERROR-CLIPBOARD-NOT-OPEN-1418"><a href="#1-ERROR-CLIPBOARD-NOT-OPEN-1418" class="headerlink" title="1. ERROR_CLIPBOARD_NOT_OPEN (1418)"></a>1. ERROR_CLIPBOARD_NOT_OPEN (1418)</h4><ul>
+<li><p>错误信息提示没有打开剪切板，但是可以看出代码中，打开了剪切板并判断了其中是否包含RTF数据，但是就是在以上两个函数都执行成功的前提下，调用<code>GetClipboardData()</code>返回<code>NULL</code>。</p>
+</li>
+<li><p>带着以上问题在网上查找相关资料，偶然发现有人说加断点的原因（由于获取剪切板数据错误，我在<code>OpenClipboard(NULL)</code>处加了断点），去掉断点后仍然返回<code>NULL</code>，但是错误码变成了<code>1460</code>，这样两个问题合并成了一个问题。</p>
+</li>
+<li><p>其实在<strong><code>机器2</code></strong>上我也添加了断点，但是没有出现<code>1418</code>的错误，直接返回的是<code>1460</code>的错误，这里我判断可能是和机器相关，没有继续深入的调查。</p>
+</li>
+</ul>
+<h4 id="2-ERROR-TIMEOUT-1460"><a href="#2-ERROR-TIMEOUT-1460" class="headerlink" title="2. ERROR_TIMEOUT (1460)"></a>2. ERROR_TIMEOUT (1460)</h4><p>在分析这个问题前，先说下我在网上找的剪切板的的一种机制：<strong><code>延迟提交</code></strong></p>
+<blockquote>
+<p><strong>延迟提交</strong>，只需剪贴板拥有者进程在调用<code>SetClipboardData()</code>将数据句柄（第二个参数）设置为NULL即可。</p>
+<p>延迟提交的拥有者进程需要做的主要工作是对<code>WM_RENDERFORMAT</code>、<code>WM_DESTORYCLIPBOARD</code>和<code>WM_RENDERALLFORMATS</code>等剪贴板延迟提交消息的处理。  </p>
+<p>当其他进程调用<code>GetClipboardData()</code>函数时，系统将会向延迟提交数据的剪贴板拥有者进程发送<code>WM_RENDERFORMAT</code>消息。</p>
+<p>剪贴板拥有者进程在此消息的响应函数中应使用相应的格式和实际的数据句柄来调用<code>SetClipboardData()</code>函数，但无需再调用<code>OpenClipboard()</code>和<code>EmptyClipboard()</code>去打开和清空剪贴板了，在设置完数据也无须调用<code>CloseClipboard()</code>关闭剪贴板。</p>
+<p>如果其他进程打开了剪贴板并且调用<code>EmptyClipboard()</code>函数去清空剪贴板的内容，接管剪贴板的拥有权时，系统将向延迟提交的剪贴板拥有者进程发送<code>WM_DESTROYCLIPBOARD</code>消息， 以通知该进程对剪贴板拥有权的丧失。而失去剪贴板拥有权的进程在收到该消息后则不会再向剪贴板提交数据。</p>
+<p>另外，在延迟提交进程在提交完所有要提交的数据后也会收到此消息。</p>
+<p>如果延迟提交剪贴板拥有者进程将要终止，系统将会为其发送一条<code>WM_RENDERALLFORMATS</code>消息，在响应函数中可自定义是否调用<code>SetClipboardData()</code>来设置数据。</p>
+</blockquote>
+<p>Word在把数据放到剪切板中时使用了<strong><code>延迟提交</code></strong>技术。在我们编写的程序中调用<code>GetClipboardData()</code>，触发了word的<code>WM_RENDERFORMAT</code>消息，word把数据处理并写到剪切板中，最后返回给调用者。</p>
+<blockquote>
+<p>在word设置数据到剪切板，再到返回给调用者，中间使用的时间过长会出现<code>ERROR_TIMEOUT</code>错误</p>
+</blockquote>
+<h4 id="分析结果："><a href="#分析结果：" class="headerlink" title="分析结果："></a>分析结果：</h4><ul>
+<li>由于机器配置不同，处理速度各异，机器配置好的处理速度快的，在系统设置的响应时间内，能完成数据设置到剪切板的，就能够正确的获取剪切板数据。</li>
+<li>根据推测系统调用<code>GetClipboardData()</code>的响应时间有可能是可以设置的，目前在网络上还没有找到相应的设置方法。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/15/c++/zlib_use/" itemprop="url">
                   Windows下zlib库的使用
                 </a>
               
@@ -271,8 +421,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
                   </a>
                 </span>
 
@@ -369,7 +519,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/12/libtiff_win_demo/" itemprop="url">
+                <a class="post-title-link" href="/2016/10/12/c++/libtiff_win_demo/" itemprop="url">
                   Windows 使用 libtiff
                 </a>
               
@@ -397,8 +547,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
                   </a>
                 </span>
 
@@ -509,7 +659,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/09/21/lucene4.6_learn_2/" itemprop="url">
+                <a class="post-title-link" href="/2016/09/21/java/lucene4.6_learn_2/" itemprop="url">
                   Lucene 4.6 实战 （2）检索文档
                 </a>
               
@@ -537,8 +687,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
                   </a>
                 </span>
 
@@ -631,7 +781,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/09/20/lucene4.6_learn_1/" itemprop="url">
+                <a class="post-title-link" href="/2016/09/20/java/lucene4.6_learn_1/" itemprop="url">
                   Lucene 4.6 实战 （1）创建索引
                 </a>
               
@@ -659,8 +809,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
                   </a>
                 </span>
 
@@ -753,7 +903,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/09/19/IK_learn/" itemprop="url">
+                <a class="post-title-link" href="/2016/09/19/java/IK_learn/" itemprop="url">
                   IK中文分词的使用
                 </a>
               
@@ -781,8 +931,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
                   </a>
                 </span>
 
@@ -886,7 +1036,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/24/python_url2_learn/" itemprop="url">
+                <a class="post-title-link" href="/2016/08/24/python/python_url2_learn/" itemprop="url">
                   Python 标准库 urllib2 的使用细节
                 </a>
               
@@ -914,8 +1064,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -949,7 +1099,7 @@
       
         
           
-            <p>转至：<a href="http://zhuoqiang.me/python-urllib2-usage.html" target="_blank" rel="external">http://zhuoqiang.me/python-urllib2-usage.html</a></p>
+            <p>转自：<a href="http://zhuoqiang.me/python-urllib2-usage.html" target="_blank" rel="external">http://zhuoqiang.me/python-urllib2-usage.html</a></p>
 <h3 id="Python-标准库-urllib2-的使用细节"><a href="#Python-标准库-urllib2-的使用细节" class="headerlink" title="Python 标准库 urllib2 的使用细节"></a>Python 标准库 urllib2 的使用细节</h3><p>Python 标准库中有很多实用的工具类，但是在具体使用时，标准库文档上对使用细节描述的并不清楚，比如 urllib2 这个 HTTP 客户端库。这里总结了一些 urllib2 的使用细节。</p>
 <ul>
 <li>Proxy 的设置</li>
@@ -1044,7 +1194,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/24/python_xiang_dui_dao_ru_learn/" itemprop="url">
+                <a class="post-title-link" href="/2016/08/24/python/python_xiang_dui_dao_ru_learn/" itemprop="url">
                   Python相对导入机制详解
                 </a>
               
@@ -1072,8 +1222,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -1107,7 +1257,7 @@
       
         
           
-            <p>转至: <a href="https://laike9m.com/blog/pythonxiang-dui-dao-ru-ji-zhi-xiang-jie,60/" target="_blank" rel="external">https://laike9m.com/blog/pythonxiang-dui-dao-ru-ji-zhi-xiang-jie,60/</a></p>
+            <p>转自: <a href="https://laike9m.com/blog/pythonxiang-dui-dao-ru-ji-zhi-xiang-jie,60/" target="_blank" rel="external">https://laike9m.com/blog/pythonxiang-dui-dao-ru-ji-zhi-xiang-jie,60/</a></p>
 <h3 id="Python相对导入机制详解"><a href="#Python相对导入机制详解" class="headerlink" title="Python相对导入机制详解"></a>Python相对导入机制详解</h3><p>本文是对 <a href="http://stackoverflow.com/questions/14132789/python-relative-imports-for-the-billionth-time#answer-14132912" target="_blank" rel="external">http://stackoverflow.com/questions/14132789/python-relative-imports-for-the-billionth-time#answer-14132912</a> 这个 SO 答案的翻译。本人的翻译一向只追求含义准确而不追求字字对应，有些不好翻的术语或者固定说法就直接保留。</p>
 <p>这个答案能解释大多关于 relative import，即相对导入的疑惑，讲解十分详尽清晰，算是 SO 上被低估的一个答案。</p>
 <p>问题不翻译了，直接摘录下来：<br>The forever-recurring question is this: With Windows 7, 32-bit Python 2.7.3, how do I solve this “Attempted relative import in non-package” message? I built an exact replica of the package on pep-0328:</p>
@@ -1187,7 +1337,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/07/03/CentOS6.5-install-scrapy/" itemprop="url">
+                <a class="post-title-link" href="/2016/07/03/env/CentOS6.5-install-scrapy/" itemprop="url">
                   CentOS 6.5 安装Scrapy
                 </a>
               
@@ -1306,7 +1456,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/06/30/install-scrapy/" itemprop="url">
+                <a class="post-title-link" href="/2016/06/30/env/install-scrapy/" itemprop="url">
                   Install Scrapy
                 </a>
               
@@ -1407,132 +1557,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/22/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-22T00:00:00+08:00" content="2016-05-22">
-              2016-05-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1573,7 +1602,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1581,7 +1610,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1590,7 +1619,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

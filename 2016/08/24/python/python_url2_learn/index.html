@@ -1,0 +1,649 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python,urllib2," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="转自：http://zhuoqiang.me/python-urllib2-usage.html
+Python 标准库 urllib2 的使用细节Python 标准库中有很多实用的工具类，但是在具体使用时，标准库文档上对使用细节描述的并不清楚，比如 urllib2 这个 HTTP 客户端库。这里总结了一些 urllib2 的使用细节。
+
+Proxy 的设置
+Timeout 设置
+在 HTTP Re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 标准库 urllib2 的使用细节">
+<meta property="og:url" content="http://yoursite.com/2016/08/24/python/python_url2_learn/index.html">
+<meta property="og:site_name" content="Anan'Blog">
+<meta property="og:description" content="转自：http://zhuoqiang.me/python-urllib2-usage.html
+Python 标准库 urllib2 的使用细节Python 标准库中有很多实用的工具类，但是在具体使用时，标准库文档上对使用细节描述的并不清楚，比如 urllib2 这个 HTTP 客户端库。这里总结了一些 urllib2 的使用细节。
+
+Proxy 的设置
+Timeout 设置
+在 HTTP Re">
+<meta property="og:updated_time" content="2017-12-27T15:08:52.346Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python 标准库 urllib2 的使用细节">
+<meta name="twitter:description" content="转自：http://zhuoqiang.me/python-urllib2-usage.html
+Python 标准库 urllib2 的使用细节Python 标准库中有很多实用的工具类，但是在具体使用时，标准库文档上对使用细节描述的并不清楚，比如 urllib2 这个 HTTP 客户端库。这里总结了一些 urllib2 的使用细节。
+
+Proxy 的设置
+Timeout 设置
+在 HTTP Re">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Python 标准库 urllib2 的使用细节 | Anan'Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Anan'Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Python 标准库 urllib2 的使用细节
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>转自：<a href="http://zhuoqiang.me/python-urllib2-usage.html" target="_blank" rel="external">http://zhuoqiang.me/python-urllib2-usage.html</a></p>
+<h3 id="Python-标准库-urllib2-的使用细节"><a href="#Python-标准库-urllib2-的使用细节" class="headerlink" title="Python 标准库 urllib2 的使用细节"></a>Python 标准库 urllib2 的使用细节</h3><p>Python 标准库中有很多实用的工具类，但是在具体使用时，标准库文档上对使用细节描述的并不清楚，比如 urllib2 这个 HTTP 客户端库。这里总结了一些 urllib2 的使用细节。</p>
+<ul>
+<li>Proxy 的设置</li>
+<li>Timeout 设置</li>
+<li>在 HTTP Request 中加入特定的 Header</li>
+<li>Redirect</li>
+<li>Cookie</li>
+<li>使用 HTTP 的 PUT 和 DELETE 方法</li>
+<li>得到 HTTP 的返回码</li>
+<li>Debug Log</li>
+</ul>
+<h4 id="Proxy-的设置"><a href="#Proxy-的设置" class="headerlink" title="Proxy 的设置"></a>Proxy 的设置</h4><p>urllib2 默认会使用环境变量 http_proxy 来设置 HTTP Proxy。如果想在程序中明确控制 Proxy 而不受环境变量的影响，可以使用下面的方式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">enable_proxy = <span class="keyword">True</span></span><br><span class="line">proxy_handler = urllib2.ProxyHandler(&#123;<span class="string">"http"</span> : <span class="string">'http://some-proxy.com:8080'</span>&#125;)</span><br><span class="line">null_proxy_handler = urllib2.ProxyHandler(&#123;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> enable_proxy:</span><br><span class="line">    opener = urllib2.build_opener(proxy_handler)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    opener = urllib2.build_opener(null_proxy_handler)</span><br><span class="line">    </span><br><span class="line">urllib2.install_opener(opener)</span><br></pre></td></tr></table></figure>
+<p>这里要注意的一个细节，使用 urllib2.install_opener() 会设置 urllib2 的全局 opener 。这样后面的使用会很方便，但不能做更细粒度的控制，比如想在程序中使用两个不同的 Proxy 设置等。比较好的做法是不使用 install_opener 去更改全局的设置，而只是直接调用 opener 的 open 方法代替全局的 urlopen 方法。</p>
+<h4 id="Timeout-设置"><a href="#Timeout-设置" class="headerlink" title="Timeout 设置"></a>Timeout 设置</h4><p>在老版 Python 中，urllib2 的 API 并没有暴露 Timeout 的设置，要设置 Timeout 值，只能更改 Socket 的全局 Timeout 值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">socket.setdefaulttimeout(<span class="number">10</span>) <span class="comment"># 10 秒钟后超时</span></span><br><span class="line">urllib2.socket.setdefaulttimeout(<span class="number">10</span>) <span class="comment"># 另一种方式</span></span><br></pre></td></tr></table></figure>
+<p>在 Python 2.6 以后，超时可以通过 urllib2.urlopen() 的 timeout 参数直接设置。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line">response = urllib2.urlopen(<span class="string">'http://www.google.com'</span>, timeout=<span class="number">10</span>)</span><br></pre></td></tr></table></figure></p>
+<h4 id="在-HTTP-Request-中加入特定的-Header"><a href="#在-HTTP-Request-中加入特定的-Header" class="headerlink" title="在 HTTP Request 中加入特定的 Header"></a>在 HTTP Request 中加入特定的 Header</h4><p>要加入 header，需要使用 Request 对象：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">request = urllib2.Request(uri)</span><br><span class="line">request.add_header(<span class="string">'User-Agent'</span>, <span class="string">'fake-client'</span>)</span><br><span class="line">response = urllib2.urlopen(request)</span><br></pre></td></tr></table></figure>
+<p>对有些 header 要特别留意，服务器会针对这些 header 做检查</p>
+<ul>
+<li>User-Agent : 有些服务器或 Proxy 会通过该值来判断是否是浏览器发出的请求</li>
+<li><p>Content-Type : 在使用 REST 接口时，服务器会检查该值，用来确定 HTTP Body 中的内容该怎样解析。常见的取值有：</p>
+<ul>
+<li>application/xml ： 在 XML RPC，如 RESTful/SOAP 调用时使用</li>
+<li>application/json ： 在 JSON RPC 调用时使用</li>
+<li><p>application/x-www-form-urlencoded ： 浏览器提交 Web 表单时使用</p>
+<p>  在使用服务器提供的 RESTful 或 SOAP 服务时， Content-Type 设置错误会导致服务器拒绝服务</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="Redirect"><a href="#Redirect" class="headerlink" title="Redirect"></a>Redirect</h4><p>urllib2 默认情况下会针对 HTTP 3XX 返回码自动进行 redirect 动作，无需人工配置。要检测是否发生了 redirect 动作，只要检查一下 Response 的 URL 和 Request 的 URL 是否一致就可以了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line">response = urllib2.urlopen(<span class="string">'http://www.google.cn'</span>)</span><br><span class="line">redirected = response.geturl() == <span class="string">'http://www.google.cn'</span></span><br></pre></td></tr></table></figure>
+<p>如果不想自动 redirect，除了使用更低层次的 httplib 库之外，还可以自定义 HTTPRedirectHandler 类。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedirectHandler</span><span class="params">(urllib2.HTTPRedirectHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">http_error_301</span><span class="params">(self, req, fp, code, msg, headers)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">http_error_302</span><span class="params">(self, req, fp, code, msg, headers)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">opener = urllib2.build_opener(RedirectHandler)</span><br><span class="line">opener.open(<span class="string">'http://www.google.cn'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><p>urllib2 对 Cookie 的处理也是自动的。如果需要得到某个 Cookie 项的值，可以这么做：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> cookielib</span><br><span class="line"></span><br><span class="line">cookie = cookielib.CookieJar()</span><br><span class="line">opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))</span><br><span class="line">response = opener.open(<span class="string">'http://www.google.com'</span>)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> cookie:</span><br><span class="line">    <span class="keyword">if</span> item.name == <span class="string">'some_cookie_item_name'</span>:</span><br><span class="line">        <span class="keyword">print</span> item.value</span><br></pre></td></tr></table></figure>
+<h4 id="使用-HTTP-的-PUT-和-DELETE-方法"><a href="#使用-HTTP-的-PUT-和-DELETE-方法" class="headerlink" title="使用 HTTP 的 PUT 和 DELETE 方法"></a>使用 HTTP 的 PUT 和 DELETE 方法</h4><p>urllib2 只支持 HTTP 的 GET 和 POST 方法，如果要使用 HTTP PUT 和 DELETE ，只能使用比较低层的 httplib 库。虽然如此，我们还是能通过下面的方式，使 urllib2 能够发出 PUT 或 DELETE 的请求：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">request = urllib2.Request(uri, data=data)</span><br><span class="line">request.get_method = <span class="keyword">lambda</span>: <span class="string">'PUT'</span> <span class="comment"># or 'DELETE'</span></span><br><span class="line">response = urllib2.urlopen(request)</span><br></pre></td></tr></table></figure>
+<p>这种做法虽然属于 Hack 的方式，但实际使用起来也没什么问题。</p>
+<h4 id="得到-HTTP-的返回码"><a href="#得到-HTTP-的返回码" class="headerlink" title="得到 HTTP 的返回码"></a>得到 HTTP 的返回码</h4><p>对于 200 OK 来说，只要使用 urlopen 返回的 response 对象的 getcode() 方法就可以得到 HTTP 的返回码。但对其它返回码来说，urlopen 会抛出异常。这时候，就要检查异常对象的 code 属性了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = urllib2.urlopen(<span class="string">'http://restrict.web.com'</span>)</span><br><span class="line"><span class="keyword">except</span> urllib2.HTTPError, e:</span><br><span class="line">    <span class="keyword">print</span> e.code</span><br></pre></td></tr></table></figure>
+<h4 id="Debug-Log"><a href="#Debug-Log" class="headerlink" title="Debug Log"></a>Debug Log</h4><p>使用 urllib2 时，可以通过下面的方法把 debug Log 打开，这样收发包的内容就会在屏幕上打印出来，方便调试，有时可以省去抓包的工作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">httpHandler = urllib2.HTTPHandler(debuglevel=<span class="number">1</span>)</span><br><span class="line">httpsHandler = urllib2.HTTPSHandler(debuglevel=<span class="number">1</span>)</span><br><span class="line">opener = urllib2.build_opener(httpHandler, httpsHandler)</span><br><span class="line"></span><br><span class="line">urllib2.install_opener(opener)</span><br><span class="line">response = urllib2.urlopen(<span class="string">'http://www.google.com'</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+            <a href="/tags/urllib2/" rel="tag">#urllib2</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/24/python/python_xiang_dui_dao_ru_learn/" rel="next" title="Python相对导入机制详解">
+                <i class="fa fa-chevron-left"></i> Python相对导入机制详解
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/19/java/IK_learn/" rel="prev" title="IK中文分词的使用">
+                IK中文分词的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://github.com/home123wx/picture/blob/master/avatar/elephant.png?raw=true"
+               alt="Anan" />
+          <p class="site-author-name" itemprop="name">Anan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-标准库-urllib2-的使用细节"><span class="nav-number">1.</span> <span class="nav-text">Python 标准库 urllib2 的使用细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Proxy-的设置"><span class="nav-number">1.1.</span> <span class="nav-text">Proxy 的设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Timeout-设置"><span class="nav-number">1.2.</span> <span class="nav-text">Timeout 设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在-HTTP-Request-中加入特定的-Header"><span class="nav-number">1.3.</span> <span class="nav-text">在 HTTP Request 中加入特定的 Header</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Redirect"><span class="nav-number">1.4.</span> <span class="nav-text">Redirect</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cookie"><span class="nav-number">1.5.</span> <span class="nav-text">Cookie</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-HTTP-的-PUT-和-DELETE-方法"><span class="nav-number">1.6.</span> <span class="nav-text">使用 HTTP 的 PUT 和 DELETE 方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#得到-HTTP-的返回码"><span class="nav-number">1.7.</span> <span class="nav-text">得到 HTTP 的返回码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Debug-Log"><span class="nav-number">1.8.</span> <span class="nav-text">Debug Log</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Anan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

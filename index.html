@@ -243,7 +243,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/12/23/python_write_excel/" itemprop="url">
+                <a class="post-title-link" href="/2017/12/23/python/python_write_excel/" itemprop="url">
                   使用Python实现Excel文件的读写
                 </a>
               
@@ -271,8 +271,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -311,6 +311,7 @@
 <li><code>xlrd</code>库用于读excel文件</li>
 </ul>
 <h4 id="Demo代码"><a href="#Demo代码" class="headerlink" title="Demo代码"></a>Demo代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> xlwt</span><br><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExcelWrite</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 创建workbook和sheet对象</span></span><br><span class="line">        self.workbook = xlwt.Workbook()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 构建一个sheet页  (cell_overwrite_ok: true-&gt;单元格内容被覆盖)</span></span><br><span class="line">        self.sheet = self.workbook.add_sheet(<span class="string">u"Sheet名字"</span>, cell_overwrite_ok=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 写入自定义的标题内容</span></span><br><span class="line">        self._write_title()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 保存文件</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">save</span><span class="params">(self, file_name)</span>:</span></span><br><span class="line">        self.workbook.save(file_name)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">write_text</span><span class="params">(self, row_data_list)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        写入数据</span><br><span class="line">        :param row_data_list: 准备写入excel文件的数据(定义了一个二维数组结构)</span><br><span class="line">        :return:</span><br><span class="line">        """</span></span><br><span class="line">        <span class="comment"># 从第2行开始, 第一行为标题行</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(row_data_list)):</span><br><span class="line">            self._write_row_text(i+<span class="number">1</span>, row_data_list[i])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入行内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_write_row_text</span><span class="params">(self, row_index, col_data_list)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        写数据到指定行中</span><br><span class="line">        :param list_data: 对应行中每一列的数据</span><br><span class="line">        :return:</span><br><span class="line">        """</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(col_data_list)):</span><br><span class="line">            self.sheet.write(row_index, i, col_data_list[i])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入标题</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_write_title</span><span class="params">(self)</span>:</span></span><br><span class="line">        title_list = [<span class="string">u"列1"</span>, <span class="string">u"列2"</span>, <span class="string">u"列3"</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(title_list)):</span><br><span class="line">            self.sheet.write(<span class="number">0</span>, i, title_list[i])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExcelRead</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read_excel</span><span class="params">(self, file_name)</span>:</span></span><br><span class="line">        <span class="comment"># 打开excel文件</span></span><br><span class="line">        data = xlrd.open_workbook(file_name)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取sheet标签</span></span><br><span class="line">        table = data.sheet_by_name(<span class="string">"Sheet名字"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># sheet标签中的行数</span></span><br><span class="line">        rows = table.nrows</span><br><span class="line">        <span class="comment"># sheet标签中的列数</span></span><br><span class="line">        cols = table.ncols</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取每行的数据</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, rows):</span><br><span class="line">            print(table.row_values(i))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取每列的数据</span></span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>, cols):</span><br><span class="line">            print(table.col_values(x))</span><br><span class="line">        <span class="comment">#</span></span><br><span class="line">        <span class="comment"># # 逐个获取单元格数据</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, rows):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(cols):</span><br><span class="line">                print(table.cell(i, j).value)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    eo = ExcelWrite()</span><br><span class="line"></span><br><span class="line">    col_list = [<span class="string">"aaa"</span>, <span class="string">"bbb"</span>, <span class="string">"ccc"</span>]</span><br><span class="line">    col_list1 = [<span class="string">"aaa111"</span>, <span class="string">"bbb111"</span>, <span class="string">"ccc111"</span>]</span><br><span class="line">    col_list2 = [<span class="string">"aaa222"</span>, <span class="string">"bbb222"</span>, <span class="string">"ccc222"</span>]</span><br><span class="line"></span><br><span class="line">    data_list = list()</span><br><span class="line">    data_list.append(col_list)</span><br><span class="line">    data_list.append(col_list1)</span><br><span class="line">    data_list.append(col_list2)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入数据</span></span><br><span class="line">    eo.write_text(data_list)</span><br><span class="line">    <span class="comment"># 保存文件</span></span><br><span class="line">    eo.save(<span class="string">"111.xls"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 读取文件</span></span><br><span class="line">    er = ExcelRead()</span><br><span class="line">    er.read_excel(<span class="string">"111.xls"</span>)</span><br></pre></td></tr></table></figure>
+
           
         
       
@@ -359,7 +360,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/12/16/python_send_email/" itemprop="url">
+                <a class="post-title-link" href="/2017/12/16/python/python_send_email/" itemprop="url">
                   使用Python实现发送带附件的邮件
                 </a>
               
@@ -387,8 +388,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -427,6 +428,7 @@
 <li>使用<code>Email</code>库来处理邮件消息</li>
 </ul>
 <h4 id="Demo代码"><a href="#Demo代码" class="headerlink" title="Demo代码"></a>Demo代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.mime.multipart <span class="keyword">import</span> MIMEMultipart</span><br><span class="line"><span class="keyword">from</span> email.header <span class="keyword">import</span> Header</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EMailOpr</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.sender = <span class="string">'发送者邮箱'</span></span><br><span class="line">        self.receivers = [<span class="string">'接受者邮箱1'</span>, <span class="string">"接受者邮箱2"</span>]</span><br><span class="line">        self.cc = [<span class="string">'抄送1'</span>, <span class="string">'抄送2'</span>]</span><br><span class="line">        self.hide = [<span class="string">"暗抄1"</span>, <span class="string">"暗抄2"</span>]</span><br><span class="line">        self.smtp = <span class="string">'smtp.****.com'</span></span><br><span class="line">        self.smtp_port = <span class="number">25</span></span><br><span class="line">        self.user = <span class="string">"发送者账号"</span></span><br><span class="line">        self.passwd = <span class="string">"发送者密码"</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 发送邮件</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send</span><span class="params">(self, subject, content=<span class="string">""</span>, att_path=<span class="string">""</span>)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        发送邮件</span><br><span class="line">        :param subject: 邮件主题</span><br><span class="line">        :param content: 邮件内容</span><br><span class="line">        :param att_path: 邮件附件地址</span><br><span class="line">        :return:</span><br><span class="line">        """</span></span><br><span class="line">        <span class="comment"># 创建一个带附件的实例</span></span><br><span class="line">        message = MIMEMultipart()</span><br><span class="line">        message[<span class="string">'From'</span>] = self.sender</span><br><span class="line">        message[<span class="string">'To'</span>] = <span class="string">","</span>.join(self.receivers)</span><br><span class="line">        message[<span class="string">'Cc'</span>] = <span class="string">","</span>.join(self.cc)</span><br><span class="line">        message[<span class="string">'Subject'</span>] = Header(subject, <span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 邮件正文内容</span></span><br><span class="line">        message.attach(MIMEText(content, <span class="string">'plain'</span>, <span class="string">'utf-8'</span>))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 添加附件</span></span><br><span class="line">        <span class="keyword">if</span> att_path != <span class="string">""</span>:</span><br><span class="line">            <span class="comment"># 构造附件1</span></span><br><span class="line">            att1 = MIMEText(open(att_path, <span class="string">'rb'</span>).read(), <span class="string">'base64'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">            att1[<span class="string">"Content-Type"</span>] = <span class="string">'application/octet-stream'</span></span><br><span class="line">            <span class="comment"># 这里的filename可以任意写，写什么名字，邮件中显示什么名字</span></span><br><span class="line">            att1[<span class="string">"Content-Disposition"</span>] = <span class="string">'attachment; filename=%s'</span> % att_path[att_path.rfind(<span class="string">"/"</span>)+<span class="number">1</span>:]</span><br><span class="line">            message.attach(att1)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            smtpObj = smtplib.SMTP()</span><br><span class="line">            smtpObj.connect(self.smtp, self.smtp_port)</span><br><span class="line">            smtpObj.login(self.user, self.passwd)</span><br><span class="line">            smtpObj.sendmail(self.sender, self.receivers+self.cc+self.hide, message.as_string())</span><br><span class="line">            <span class="keyword">print</span> <span class="string">u"邮件发送成功"</span></span><br><span class="line">        <span class="keyword">except</span> smtplib.SMTPException:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">u"Error: 无法发送邮件"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    file_name = <span class="string">"附件文件路径"</span></span><br><span class="line">    email = EMailOpr()</span><br><span class="line">    email.send(<span class="string">"主题"</span>, <span class="string">"内容"</span>, file_name)</span><br></pre></td></tr></table></figure>
+
           
         
       
@@ -475,7 +477,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/12/06/hive_over_partition_by_demo/" itemprop="url">
+                <a class="post-title-link" href="/2017/12/06/hive/hive_over_partition_by_demo/" itemprop="url">
                   使用over()函数结合PARTITION BY以指定字段分区
                 </a>
               
@@ -594,7 +596,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/12/05/hive_col_transfer_line/" itemprop="url">
+                <a class="post-title-link" href="/2017/12/05/hive/hive_col_transfer_line/" itemprop="url">
                   Hive列转行
                 </a>
               
@@ -713,7 +715,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/12/03/spark_subtract_demo/" itemprop="url">
+                <a class="post-title-link" href="/2017/12/03/spark/spark_subtract_demo/" itemprop="url">
                   spark subtract 算子的应用
                 </a>
               
@@ -741,8 +743,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/Spark/" itemprop="url" rel="index">
+                    <span itemprop="name">Spark</span>
                   </a>
                 </span>
 
@@ -837,7 +839,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/12/01/sqoop_hive_to_mysql/" itemprop="url">
+                <a class="post-title-link" href="/2017/12/01/sqoop/sqoop_hive_to_mysql/" itemprop="url">
                   使用Sqoop同步 mysql <--> hive 数据
                 </a>
               
@@ -867,6 +869,18 @@
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Hive/" itemprop="url" rel="index">
                     <span itemprop="name">Hive</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Hive/Sqoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Sqoop</span>
                   </a>
                 </span>
 
@@ -902,6 +916,7 @@
           
             <h4 id="hive-到-mysql-同步"><a href="#hive-到-mysql-同步" class="headerlink" title="hive 到 mysql 同步"></a>hive 到 mysql 同步</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sqoop export </span><br><span class="line">    --connect jdbc:mysql://[ip]:[port]/db_name?characterEncoding=utf-8</span><br><span class="line">    --username name</span><br><span class="line">    --password passwd</span><br><span class="line">    --table table_name</span><br><span class="line">    --input-fields-terminated-by &quot;\t&quot; (hive表中字段之间使用的分割符)</span><br><span class="line">    --input-lines-terminated-by &quot;\n&quot; (hive表中行与行之间使用的分隔符)</span><br><span class="line">    --export-dir [hdfs存储位置] (通过 show create table table_name可以查看)</span><br><span class="line">    --update-key key_id (mysql表中对应的主键)</span><br><span class="line">    --update-mode allowinsert (更新模式[allowinsert, updateonly])</span><br></pre></td></tr></table></figure>
 <h4 id="mysql-到-hive-同步"><a href="#mysql-到-hive-同步" class="headerlink" title="mysql 到 hive 同步"></a>mysql 到 hive 同步</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sqoop import </span><br><span class="line">    --connect jdbc:mysql://[ip]:[port]/db_name</span><br><span class="line">    --username username</span><br><span class="line">    --password passwd</span><br><span class="line">    --table srcMysqltableName</span><br><span class="line">    --fields-terminated-by &quot;\t&quot; (构建后hive表中的字段分隔符)</span><br><span class="line">    --hive-drop-import-delims (去掉hive默认的行分隔符&quot;\n&quot;)</span><br><span class="line">    --hive-import (导入数据到hive)</span><br><span class="line">    --hive-overwrite</span><br><span class="line">    --create-hive-table </span><br><span class="line">    --hive-table destHivetableName</span><br><span class="line">    --delete-target-dir</span><br></pre></td></tr></table></figure>
+
           
         
       
@@ -950,7 +965,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/11/29/hive_line_transfer_col/" itemprop="url">
+                <a class="post-title-link" href="/2017/11/29/hive/hive_line_transfer_col/" itemprop="url">
                   Hive行转列
                 </a>
               
@@ -1072,7 +1087,124 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/25/CFileDialog_multiple_select/" itemprop="url">
+                <a class="post-title-link" href="/2017/10/21/shell/shell_client_run_cmd/" itemprop="url">
+                  通过shell脚本实现交互式客户端的输入
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-10-21T00:00:00+08:00" content="2017-10-21">
+              2017-10-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Shell/" itemprop="url" rel="index">
+                    <span itemprop="name">Shell</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h4><ul>
+<li>在不进入交互式模式下, 执行交互式下的命令</li>
+</ul>
+<h4 id="脚本模板"><a href="#脚本模板" class="headerlink" title="脚本模板"></a>脚本模板</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">命令 &lt;&lt;EOF</span><br><span class="line">交互语句</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h4 id="Mysql使用例子"><a href="#Mysql使用例子" class="headerlink" title="Mysql使用例子"></a>Mysql使用例子</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -hlocalhost -proot &lt;&lt;EOF</span><br><span class="line"></span><br><span class="line">create database if not exists test;</span><br><span class="line">use test;</span><br><span class="line"></span><br><span class="line">create table if not exists test(</span><br><span class="line">  id int(2),</span><br><span class="line">  name varchar(10)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">insert into test(id, name) values(1, &quot;aaa&quot;);</span><br><span class="line">insert into test(id, name) values(2, &quot;bbb&quot;);</span><br><span class="line">insert into test(id, name) values(3, &quot;ccc&quot;);</span><br><span class="line">insert into test(id, name) values(4, &quot;ddd&quot;);</span><br><span class="line">insert into test(id, name) values(5, &quot;fff&quot;);</span><br><span class="line"></span><br><span class="line">select id, name from test;</span><br><span class="line"></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/25/c++/CFileDialog_multiple_select/" itemprop="url">
                   CFileDialog路径缓存的扩充
                 </a>
               
@@ -1100,8 +1232,20 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/MFC/" itemprop="url" rel="index">
+                    <span itemprop="name">MFC</span>
                   </a>
                 </span>
 
@@ -1198,7 +1342,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/04/weak_pointer_used/" itemprop="url">
+                <a class="post-title-link" href="/2017/03/04/c++/weak_pointer_used/" itemprop="url">
                   一种解决指针无效引用的方法
                 </a>
               
@@ -1226,8 +1370,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
                   </a>
                 </span>
 
@@ -1310,161 +1454,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/20/clipboard_use/" itemprop="url">
-                  Windows剪切板项目中遇到的问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-02-20T00:00:00+08:00" content="2017-02-20">
-              2017-02-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="操作描述"><a href="#操作描述" class="headerlink" title="操作描述"></a>操作描述</h4><p>复制word内容，word会把多种类型数据写入剪切板中，我们获取的是剪切板中RTF类型的数据。</p>
-<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>使用系统函数获取剪切板数据。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (OpenClipboard(<span class="literal">NULL</span>)) </span><br><span class="line">&#123;</span><br><span class="line">	UINT cfRTF = RegisterClipboardFormat(CF_RTF);</span><br><span class="line">	<span class="keyword">if</span> (IsClipboardFormatAvailable(cfRTF)) </span><br><span class="line">	&#123;</span><br><span class="line">		HANDLE hRtfData = GetClipboardData(cfRTF);</span><br><span class="line">		<span class="keyword">if</span> (hRtfData != <span class="literal">NULL</span>) </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//pBuf为剪切板中获取的RTF数据</span></span><br><span class="line">			<span class="keyword">char</span>* pBuf = (<span class="keyword">char</span>*)GlobalLock(hRtfData);</span><br><span class="line">			GlobalUnlock(hRtfData);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	CloseClipboard();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以上代码在两台机器上的表现不同:</p>
-<blockquote>
-<p>机器1：调用<code>GetClipboardData()</code>函数，返回<code>NULL</code>,<code>GetLastError()</code>返回<code>1418</code></p>
-<p>机器2：出现两种不同的情况</p>
-<ul>
-<li>调用<code>GetClipboardData()</code>函数，返回<code>NULL</code>,<code>GetLastError()</code>返回<code>1460</code></li>
-<li>调用<code>GetClipboardData()</code>函数，返回正确的数据句柄</li>
-</ul>
-</blockquote>
-<h4 id="1-ERROR-CLIPBOARD-NOT-OPEN-1418"><a href="#1-ERROR-CLIPBOARD-NOT-OPEN-1418" class="headerlink" title="1. ERROR_CLIPBOARD_NOT_OPEN (1418)"></a>1. ERROR_CLIPBOARD_NOT_OPEN (1418)</h4><ul>
-<li><p>错误信息提示没有打开剪切板，但是可以看出代码中，打开了剪切板并判断了其中是否包含RTF数据，但是就是在以上两个函数都执行成功的前提下，调用<code>GetClipboardData()</code>返回<code>NULL</code>。</p>
-</li>
-<li><p>带着以上问题在网上查找相关资料，偶然发现有人说加断点的原因（由于获取剪切板数据错误，我在<code>OpenClipboard(NULL)</code>处加了断点），去掉断点后仍然返回<code>NULL</code>，但是错误码变成了<code>1460</code>，这样两个问题合并成了一个问题。</p>
-</li>
-<li><p>其实在<strong><code>机器2</code></strong>上我也添加了断点，但是没有出现<code>1418</code>的错误，直接返回的是<code>1460</code>的错误，这里我判断可能是和机器相关，没有继续深入的调查。</p>
-</li>
-</ul>
-<h4 id="2-ERROR-TIMEOUT-1460"><a href="#2-ERROR-TIMEOUT-1460" class="headerlink" title="2. ERROR_TIMEOUT (1460)"></a>2. ERROR_TIMEOUT (1460)</h4><p>在分析这个问题前，先说下我在网上找的剪切板的的一种机制：<strong><code>延迟提交</code></strong></p>
-<blockquote>
-<p><strong>延迟提交</strong>，只需剪贴板拥有者进程在调用<code>SetClipboardData()</code>将数据句柄（第二个参数）设置为NULL即可。</p>
-<p>延迟提交的拥有者进程需要做的主要工作是对<code>WM_RENDERFORMAT</code>、<code>WM_DESTORYCLIPBOARD</code>和<code>WM_RENDERALLFORMATS</code>等剪贴板延迟提交消息的处理。  </p>
-<p>当其他进程调用<code>GetClipboardData()</code>函数时，系统将会向延迟提交数据的剪贴板拥有者进程发送<code>WM_RENDERFORMAT</code>消息。</p>
-<p>剪贴板拥有者进程在此消息的响应函数中应使用相应的格式和实际的数据句柄来调用<code>SetClipboardData()</code>函数，但无需再调用<code>OpenClipboard()</code>和<code>EmptyClipboard()</code>去打开和清空剪贴板了，在设置完数据也无须调用<code>CloseClipboard()</code>关闭剪贴板。</p>
-<p>如果其他进程打开了剪贴板并且调用<code>EmptyClipboard()</code>函数去清空剪贴板的内容，接管剪贴板的拥有权时，系统将向延迟提交的剪贴板拥有者进程发送<code>WM_DESTROYCLIPBOARD</code>消息， 以通知该进程对剪贴板拥有权的丧失。而失去剪贴板拥有权的进程在收到该消息后则不会再向剪贴板提交数据。</p>
-<p>另外，在延迟提交进程在提交完所有要提交的数据后也会收到此消息。</p>
-<p>如果延迟提交剪贴板拥有者进程将要终止，系统将会为其发送一条<code>WM_RENDERALLFORMATS</code>消息，在响应函数中可自定义是否调用<code>SetClipboardData()</code>来设置数据。</p>
-</blockquote>
-<p>Word在把数据放到剪切板中时使用了<strong><code>延迟提交</code></strong>技术。在我们编写的程序中调用<code>GetClipboardData()</code>，触发了word的<code>WM_RENDERFORMAT</code>消息，word把数据处理并写到剪切板中，最后返回给调用者。</p>
-<blockquote>
-<p>在word设置数据到剪切板，再到返回给调用者，中间使用的时间过长会出现<code>ERROR_TIMEOUT</code>错误</p>
-</blockquote>
-<h4 id="分析结果："><a href="#分析结果：" class="headerlink" title="分析结果："></a>分析结果：</h4><ul>
-<li>由于机器配置不同，处理速度各异，机器配置好的处理速度快的，在系统设置的响应时间内，能完成数据设置到剪切板的，就能够正确的获取剪切板数据。</li>
-<li>根据推测系统调用<code>GetClipboardData()</code>的响应时间有可能是可以设置的，目前在网络上还没有找到相应的设置方法。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1505,7 +1499,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1513,7 +1507,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1522,7 +1516,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
