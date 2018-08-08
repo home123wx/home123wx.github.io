@@ -243,6 +243,125 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/03/env/CentOS6.5-install-scrapy/" itemprop="url">
+                  CentOS 6.5 安装Scrapy
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-03T00:00:00+08:00" content="2016-07-03">
+              2016-07-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/环境配置/" itemprop="url" rel="index">
+                    <span itemprop="name">环境配置</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="CentOS-6-5-Python升级到Python2-7"><a href="#CentOS-6-5-Python升级到Python2-7" class="headerlink" title="CentOS 6.5 Python升级到Python2.7"></a>CentOS 6.5 Python升级到Python2.7</h3><h4 id="下载源码-https-www-python-org-downloads-release-python-2712"><a href="#下载源码-https-www-python-org-downloads-release-python-2712" class="headerlink" title="下载源码 https://www.python.org/downloads/release/python-2712/"></a>下载源码 <a href="https://www.python.org/downloads/release/python-2712/" target="_blank" rel="external">https://www.python.org/downloads/release/python-2712/</a></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ tar xvf Python-2.7.12.tgz</span><br><span class="line">$ ./configure --prefix=/usr/<span class="built_in">local</span>/python2.7.12</span><br><span class="line">$ make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<h4 id="在-usr-bin-下建立符号链接指向安装好的python"><a href="#在-usr-bin-下建立符号链接指向安装好的python" class="headerlink" title="在/usr/bin/下建立符号链接指向安装好的python"></a>在/usr/bin/下建立符号链接指向安装好的python</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/python2.7.12/bin/python2.7 /usr/bin/python</span><br><span class="line">ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/python2.7.12/bin/python2.7-config /usr/bin/python-config</span><br></pre></td></tr></table></figure>
+<p>升级后yum不可用，修改/usr/bin/yum文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python --&gt; #!/usr/bin/python2.6</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包:"></a>安装依赖包:</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ yum install python-lxml</span><br><span class="line">$ yum install libxml2-devel</span><br><span class="line">$ yum install libxslt-devel</span><br></pre></td></tr></table></figure>
+<h3 id="安装setup-tools"><a href="#安装setup-tools" class="headerlink" title="安装setup-tools:"></a>安装setup-tools:</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://bootstrap.pypa.io/ez_setup.py -O - | python</span><br><span class="line">ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/python2.7.12/bin/easy_install-2.7 /usr/bin/easy_install</span><br></pre></td></tr></table></figure>
+<h3 id="安装pip"><a href="#安装pip" class="headerlink" title="安装pip:"></a>安装pip:</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ easy_install pip</span><br><span class="line">$ pip install service-identity</span><br><span class="line">$ pip install scrapy</span><br></pre></td></tr></table></figure>
+<h3 id="测试scrapy"><a href="#测试scrapy" class="headerlink" title="测试scrapy:"></a>测试scrapy:</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy bench</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/30/env/install-scrapy/" itemprop="url">
                   Install Scrapy
                 </a>
@@ -510,7 +629,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -564,7 +683,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
