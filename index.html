@@ -1,15 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
   
 
 
-<html class="theme-next muse use-motion">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
 
 
 
@@ -27,45 +34,38 @@
 
 
 
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
 
   
   
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
 
 
 
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
 
 
   <meta name="keywords" content="Hexo, NexT" />
@@ -73,11 +73,6 @@
 
 
 
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
 
 
 
@@ -96,25 +91,39 @@
 
 
 
-<script type="text/javascript" id="hexo.configuration">
+<script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Muse',
-    sidebar: {"position":"left","display":"post"},
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
-      userId: 0,
+      userId: '0',
       author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
 
-  <title> Anan'Blog </title>
-</head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
+  <link rel="canonical" href="http://yoursite.com/"/>
+
+
+
+
+
+  <title>Anan'Blog</title>
   
 
 
@@ -124,38 +133,43 @@
 
 
 
+</head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Anan'Blog</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Anan'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
   </div>
-  <p class="site-subtitle"></p>
-</div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
 <nav class="site-nav">
@@ -175,8 +189,18 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
+          <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
@@ -186,21 +210,11 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
           </a>
         </li>
       
@@ -211,6 +225,8 @@
 
   
 </nav>
+
+
 
  </div>
     </header>
@@ -225,13 +241,27 @@
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/11/hive_bak/hive_metadata_info/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Anan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Anan'Blog">
+    </span>
 
     
       <header class="post-header">
@@ -239,38 +269,42 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2018/09/11/hive/hive_metadata_info/" itemprop="url">
-                  Hive元数据表结构详解
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2018/09/11/hive_bak/hive_metadata_info/" itemprop="url">Hive元数据表结构详解</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2018-09-11T00:00:00+08:00" content="2018-09-11">
-              2018-09-11
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-11T00:00:00+08:00">
+                2018-09-11
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Hive/" itemprop="url" rel="index">
                     <span itemprop="name">Hive</span>
                   </a>
@@ -278,7 +312,6 @@
 
                 
                 
-
               
             </span>
           
@@ -288,16 +321,21 @@
           
 
           
-
-          
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -306,642 +344,54 @@
       
         
           
-            <p><a href="https://mp.weixin.qq.com/s?__biz=MzA3ODUxMzQxMA==&amp;mid=2663993556&amp;idx=1&amp;sn=0e5291bd63426d747f32a7fd05128caa&amp;scene=21#wechat_redirect" target="_blank" rel="external">转自</a></p>
-<h4 id="存储Hive版本的元数据表-VERSION"><a href="#存储Hive版本的元数据表-VERSION" class="headerlink" title="存储Hive版本的元数据表(VERSION)"></a>存储Hive版本的元数据表(VERSION)</h4><table>
-<thead>
-<tr>
-<th>VER_ID</th>
-<th>SCHEMA_VERSION</th>
-<th>VERSION_COMMENT</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ID主键</td>
-<td>Hive版本</td>
-<td>版本说明</td>
-</tr>
-<tr>
-<td>1</td>
-<td>1.2.0</td>
-<td>Set  by MetaStore</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>如果该表出现问题，根本进入不了Hive-Cli。比如该表不存在，当启动Hive-Cli时候，就会报错”Table ‘hive.version’ doesn’t exist”。</p>
-</blockquote>
-<h4 id="Hive数据库相关的元数据表-DBS、DATABASE-PARAMS"><a href="#Hive数据库相关的元数据表-DBS、DATABASE-PARAMS" class="headerlink" title="Hive数据库相关的元数据表(DBS、DATABASE_PARAMS)"></a>Hive数据库相关的元数据表(DBS、DATABASE_PARAMS)</h4><h5 id="DBS"><a href="#DBS" class="headerlink" title="DBS"></a>DBS</h5><blockquote>
-<p>该表存储Hive中所有数据库的基本信息，字段如下:</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>DB_ID</td>
-<td>数据库ID</td>
-<td>1</td>
-</tr>
-<tr>
-<td>DESC</td>
-<td>数据库描述</td>
-<td>Default  Hive database</td>
-</tr>
-<tr>
-<td>DB_LOCATION_URI</td>
-<td>数据HDFS路径</td>
-<td>hdfs://hadoop-cluster/user/hive/warehouse</td>
-</tr>
-<tr>
-<td>NAME</td>
-<td>数据库名</td>
-<td>default</td>
-</tr>
-<tr>
-<td>OWNER_NAME</td>
-<td>数据库所有者用户名</td>
-<td>public</td>
-</tr>
-<tr>
-<td>OWNER_TYPE</td>
-<td>所有者角色</td>
-<td>1</td>
-</tr>
-</tbody>
-</table>
-<h5 id="DATABASE-PARAMS"><a href="#DATABASE-PARAMS" class="headerlink" title="DATABASE_PARAMS"></a>DATABASE_PARAMS</h5><blockquote>
-<p>该表存储数据库的相关参数，在CREATE DATABASE时候用WITH DBPROPERTIES(property_name=property_value, …)指定的参数。</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>DB_ID</td>
-<td>数据库ID</td>
-<td>1</td>
-</tr>
-<tr>
-<td>PARAM_KEY</td>
-<td>参数名</td>
-<td>createdby</td>
-</tr>
-<tr>
-<td>PARAM_VALUE</td>
-<td>参数值</td>
-<td>root</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>DBS和DATABASE_PARAMS这两张表通过DB_ID字段关联。</p>
-</blockquote>
-<h4 id="Hive表和视图相关的元数据表"><a href="#Hive表和视图相关的元数据表" class="headerlink" title="Hive表和视图相关的元数据表"></a>Hive表和视图相关的元数据表</h4><blockquote>
-<p>主要有TBLS、TABLE_PARAMS、TBL_PRIVS，这三张表通过TBL_ID关联。</p>
-</blockquote>
-<h5 id="TBLS"><a href="#TBLS" class="headerlink" title="TBLS"></a>TBLS</h5><blockquote>
-<p>该表中存储Hive表，视图，索引表的基本信息</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>TBL_ID</td>
-<td>表ID</td>
-<td>1</td>
-</tr>
-<tr>
-<td>CREATE_TIME</td>
-<td>创建时间</td>
-<td>1447675704</td>
-</tr>
-<tr>
-<td>DB_ID</td>
-<td>数据库ID</td>
-<td>1</td>
-</tr>
-<tr>
-<td>LAST_ACCESS_TIME</td>
-<td>上次访问时间</td>
-<td>1447675704</td>
-</tr>
-<tr>
-<td>OWNER</td>
-<td>所有者</td>
-<td>root</td>
-</tr>
-<tr>
-<td>RETENTION</td>
-<td>保留字段</td>
-<td>0</td>
-</tr>
-<tr>
-<td>SD_ID</td>
-<td>序列化配置信息</td>
-<td>41，对应SDS表中的SD_ID</td>
-</tr>
-<tr>
-<td>TBL_NAME</td>
-<td>表名</td>
-<td>t_test_1</td>
-</tr>
-<tr>
-<td>TBL_TYPE</td>
-<td>表类型</td>
-<td>MANAGED_TABLE</td>
-</tr>
-<tr>
-<td>VIEW_EXPANDED_TEXT</td>
-<td>视图的详细HQL语句</td>
-<td></td>
-</tr>
-<tr>
-<td>VIEW_ORIGINAL_TEXT</td>
-<td>视图的原始HQL语句</td>
-</tr>
-</tbody>
-</table>
-<h5 id="TABLE-PARAMS"><a href="#TABLE-PARAMS" class="headerlink" title="TABLE_PARAMS"></a>TABLE_PARAMS</h5><blockquote>
-<p>该表存储表/视图的属性信息</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>TBL_ID</td>
-<td>表ID</td>
-<td>1</td>
-</tr>
-<tr>
-<td>PARAM_KEY</td>
-<td>属性名</td>
-<td>numRows、totalSize</td>
-</tr>
-<tr>
-<td>PARAM_VALUE</td>
-<td>属性值</td>
-<td>6、24</td>
-</tr>
-</tbody>
-</table>
-<h5 id="TBL-PRIVS"><a href="#TBL-PRIVS" class="headerlink" title="TBL_PRIVS"></a>TBL_PRIVS</h5><blockquote>
-<p>该表存储表/视图的授权信息</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>TBL_GRANT_ID</td>
-<td>授权ID</td>
-<td>1</td>
-</tr>
-<tr>
-<td>CREATE_TIME</td>
-<td>授权时间</td>
-<td>1436320455</td>
-</tr>
-<tr>
-<td>GRANT_OPTION</td>
-<td></td>
-<td>0</td>
-</tr>
-<tr>
-<td>GRANTOR</td>
-<td>授权执行用户</td>
-<td>root</td>
-</tr>
-<tr>
-<td>GRANTOR_TYPE</td>
-<td>授权者类型</td>
-<td>USER</td>
-</tr>
-<tr>
-<td>PRINCIPAL_NAME</td>
-<td>被授权用户</td>
-<td>username</td>
-</tr>
-<tr>
-<td>PRINCIPAL_TYPE</td>
-<td>被授权用户类型</td>
-<td>USER</td>
-</tr>
-<tr>
-<td>TBL_PRIV</td>
-<td>权限</td>
-<td>Select、Alter</td>
-</tr>
-<tr>
-<td>TBL_ID</td>
-<td>表ID</td>
-<td>21，对应TBLS表的TBL_ID</td>
-</tr>
-</tbody>
-</table>
-<h4 id="Hive文件存储信息相关的元数据表"><a href="#Hive文件存储信息相关的元数据表" class="headerlink" title="Hive文件存储信息相关的元数据表"></a>Hive文件存储信息相关的元数据表</h4><blockquote>
-<p>主要涉及SDS、SD_PARAMS、SERDES、SERDE_PARAMS，由于HDFS支持的文件格式很多，而建Hive表时候也可以指定各种文件格式，Hive在将HQL解析成MapReduce时候，需要知道去哪里，使用哪种格式去读写HDFS文件，而这些信息就保存在这几张表中。</p>
-</blockquote>
-<h5 id="SDS"><a href="#SDS" class="headerlink" title="SDS"></a>SDS</h5><blockquote>
-<p>该表保存文件存储的基本信息，如INPUT_FORMAT、OUTPUT_FORMAT、是否压缩等。TBLS表中的SD_ID与该表关联，可以获取Hive表的存储信息。</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SD_ID</td>
-<td>存储信息ID</td>
-<td>10</td>
-</tr>
-<tr>
-<td>CD_ID</td>
-<td>字段信息ID</td>
-<td>161454，对应CDS表</td>
-</tr>
-<tr>
-<td>INPUT_FORMAT</td>
-<td>文件输入格式</td>
-<td>org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat</td>
-</tr>
-<tr>
-<td>IS_COMPRESSED</td>
-<td>是否压缩</td>
-<td>0</td>
-</tr>
-<tr>
-<td>IS_STOREDASSUBDIRECTORIES</td>
-<td>是否以子目录存储</td>
-<td>0</td>
-</tr>
-<tr>
-<td>LOCATION</td>
-<td>HDFS路径</td>
-<td>hdfs://hadoop-cluster/user/hive/warehouse/fact.db/fact_warehouse</td>
-</tr>
-<tr>
-<td>NUM_BUCKETS</td>
-<td>分桶数量</td>
-<td>0</td>
-</tr>
-<tr>
-<td>OUTPUT_FORMAT</td>
-<td>文件输出格式</td>
-<td>org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat</td>
-</tr>
-<tr>
-<td>SERDE_ID</td>
-<td>序列化类ID</td>
-<td>4991,对应SERDES表</td>
-</tr>
-</tbody>
-</table>
-<h5 id="SD-PARAMS"><a href="#SD-PARAMS" class="headerlink" title="SD_PARAMS"></a>SD_PARAMS</h5><blockquote>
-<p>该表存储Hive存储的属性信息，在创建表时候使用STORED BY ‘storage.handler.class.name’ [WITH SERDEPROPERTIES (…)指定。</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SD_ID</td>
-<td>存储配置ID</td>
-<td>1</td>
-</tr>
-<tr>
-<td>PARAM_KEY</td>
-<td>存储属性名</td>
-<td></td>
-</tr>
-<tr>
-<td>PARAM_VALUE</td>
-<td>存储属性值</td>
-</tr>
-</tbody>
-</table>
-<h5 id="SERDES"><a href="#SERDES" class="headerlink" title="SERDES"></a>SERDES</h5><blockquote>
-<p>该表存储序列化使用的类信息</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SERDE_ID</td>
-<td>序列化类配置ID</td>
-<td>4991</td>
-</tr>
-<tr>
-<td>NAME</td>
-<td>序列化类别名</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>SLIB</td>
-<td>序列化类</td>
-<td>org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe</td>
-</tr>
-</tbody>
-</table>
-<h5 id="SERDE-PARAMS"><a href="#SERDE-PARAMS" class="headerlink" title="SERDE_PARAMS"></a>SERDE_PARAMS</h5><blockquote>
-<p>该表存储序列化的一些属性、格式信息，比如:行、列分隔符</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SERDE_ID</td>
-<td>序列化类配置ID</td>
-<td>4991</td>
-</tr>
-<tr>
-<td>PARAM_KEY</td>
-<td>属性名</td>
-<td>serialization.format</td>
-</tr>
-<tr>
-<td>PARAM_VALUE</td>
-<td>属性值</td>
-<td>1</td>
-</tr>
-</tbody>
-</table>
-<h4 id="Hive表字段相关的元数据表"><a href="#Hive表字段相关的元数据表" class="headerlink" title="Hive表字段相关的元数据表"></a>Hive表字段相关的元数据表</h4><h5 id="COLUMNS-V2"><a href="#COLUMNS-V2" class="headerlink" title="COLUMNS_V2"></a>COLUMNS_V2</h5><blockquote>
-<p>该表存储表对应的字段信息</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CD_ID</td>
-<td>字段信息ID</td>
-<td>575</td>
-</tr>
-<tr>
-<td>COMMENT</td>
-<td>字段注释</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>COLUMN_NAME</td>
-<td>字段名</td>
-<td>name</td>
-</tr>
-<tr>
-<td>TYPE_NAME</td>
-<td>字段类型</td>
-<td>string</td>
-</tr>
-<tr>
-<td>INTEGER_IDX</td>
-<td>字段顺序</td>
-<td>1</td>
-</tr>
-</tbody>
-</table>
-<h4 id="Hive表分分区相关的元数据表"><a href="#Hive表分分区相关的元数据表" class="headerlink" title="Hive表分分区相关的元数据表"></a>Hive表分分区相关的元数据表</h4><blockquote>
-<p>主要涉及PARTITIONS、PARTITION_KEYS、PARTITION_KEY_VALS、PARTITION_PARAMS</p>
-</blockquote>
-<h5 id="PARTITIONS"><a href="#PARTITIONS" class="headerlink" title="PARTITIONS"></a>PARTITIONS</h5><blockquote>
-<p>该表存储表分区的基本信息</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PART_ID</td>
-<td>分区ID</td>
-<td>3351</td>
-</tr>
-<tr>
-<td>CREATE_TIME</td>
-<td>分区创建时间</td>
-<td>1479886276</td>
-</tr>
-<tr>
-<td>LAST_ACCESS_TIME</td>
-<td>最后一次访问时间</td>
-<td>0</td>
-</tr>
-<tr>
-<td>PART_NAME</td>
-<td>分区名</td>
-<td>p_day=2016-11-23</td>
-</tr>
-<tr>
-<td>SD_ID</td>
-<td>分区存储ID</td>
-<td>5026</td>
-</tr>
-<tr>
-<td>TBL_ID</td>
-<td>表ID</td>
-<td>1751</td>
-</tr>
-</tbody>
-</table>
-<h5 id="PARTITION-KEYS"><a href="#PARTITION-KEYS" class="headerlink" title="PARTITION_KEYS"></a>PARTITION_KEYS</h5><blockquote>
-<p>该表存储分区的字段信息</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>TBL_ID</td>
-<td>表ID</td>
-<td>1</td>
-</tr>
-<tr>
-<td>PKEY_COMMENT</td>
-<td>分区字段说明</td>
-<td>分区日期</td>
-</tr>
-<tr>
-<td>PKEY_NAME</td>
-<td>分区字段名</td>
-<td>p_day</td>
-</tr>
-<tr>
-<td>PKEY_TYPE</td>
-<td>分区字段类型</td>
-<td>string</td>
-</tr>
-<tr>
-<td>INTEGER_IDX</td>
-<td>分区字段顺序</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<h5 id="PARTITION-KEY-VALS"><a href="#PARTITION-KEY-VALS" class="headerlink" title="PARTITION_KEY_VALS"></a>PARTITION_KEY_VALS</h5><blockquote>
-<p>该表存储分区字段值</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PART_ID</td>
-<td>分区ID</td>
-<td>3351</td>
-</tr>
-<tr>
-<td>PART_KEY_VAL</td>
-<td>分区字段值</td>
-<td>2016-11-23</td>
-</tr>
-<tr>
-<td>INTEGER_IDX</td>
-<td>分区字段值顺序</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<h5 id="PARTITION-PARAMS"><a href="#PARTITION-PARAMS" class="headerlink" title="PARTITION_PARAMS"></a>PARTITION_PARAMS</h5><blockquote>
-<p>该表存储分区的属性信息</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>表字段</th>
-<th>说明</th>
-<th>示例数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PART_ID</td>
-<td>分区ID</td>
-<td>3351</td>
-</tr>
-<tr>
-<td>PARAM_KEY</td>
-<td>分区属性名</td>
-<td>totalSize</td>
-</tr>
-<tr>
-<td>PARAM_VALUE</td>
-<td>分区属性值</td>
-<td>37212837</td>
-</tr>
-</tbody>
-</table>
-<h4 id="其他不常用的元数据表"><a href="#其他不常用的元数据表" class="headerlink" title="其他不常用的元数据表"></a>其他不常用的元数据表</h4><h5 id="DB-PRIVS"><a href="#DB-PRIVS" class="headerlink" title="DB_PRIVS"></a>DB_PRIVS</h5><blockquote>
-<p>数据库权限信息表。通过GRANT语句对数据库授权后，将会在这里存储。</p>
-</blockquote>
-<h5 id="IDXS"><a href="#IDXS" class="headerlink" title="IDXS"></a>IDXS</h5><blockquote>
-<p>索引表，存储Hive索引相关的元数据</p>
-</blockquote>
-<h5 id="INDEX-PARAMS"><a href="#INDEX-PARAMS" class="headerlink" title="INDEX_PARAMS"></a>INDEX_PARAMS</h5><blockquote>
-<p>索引相关的属性信息</p>
-</blockquote>
-<h5 id="TAB-COL-STATS"><a href="#TAB-COL-STATS" class="headerlink" title="TAB_COL_STATS"></a>TAB_COL_STATS</h5><blockquote>
-<p>表字段的统计信息。使用ANALYZE语句对表字段分析后记录在这里</p>
-</blockquote>
-<h5 id="TBL-COL-PRIVS"><a href="#TBL-COL-PRIVS" class="headerlink" title="TBL_COL_PRIVS"></a>TBL_COL_PRIVS</h5><blockquote>
-<p>表字段的授权信息</p>
-</blockquote>
-<h5 id="PART-PRIVS"><a href="#PART-PRIVS" class="headerlink" title="PART_PRIVS"></a>PART_PRIVS</h5><blockquote>
-<p>分区的授权信息</p>
-</blockquote>
-<h5 id="PART-COL-PRIVS"><a href="#PART-COL-PRIVS" class="headerlink" title="PART_COL_PRIVS"></a>PART_COL_PRIVS</h5><blockquote>
-<p>分区字段的权限信息</p>
-</blockquote>
-<h5 id="PART-COL-STATS"><a href="#PART-COL-STATS" class="headerlink" title="PART_COL_STATS"></a>PART_COL_STATS</h5><blockquote>
-<p>分区字段的统计信息</p>
-</blockquote>
-<h5 id="FUNCS"><a href="#FUNCS" class="headerlink" title="FUNCS"></a>FUNCS</h5><blockquote>
-<p>用户注册的函数信息</p>
-</blockquote>
-<h5 id="FUNC-RU"><a href="#FUNC-RU" class="headerlink" title="FUNC_RU"></a>FUNC_RU</h5><blockquote>
-<p>用户注册函数的资源信息</p>
-</blockquote>
+          转自
+存储Hive版本的元数据表(VERSION)
 
-          
+
+VER_ID
+SCHEMA_VERSION
+VERSION_COMMENT
+
+
+
+
+ID主键
+Hive版本
+版本说明
+
+
+1
+1.2.0
+Set  by MetaStore
+
+
+
+
+如果该表出现问题，根本进入不了Hive-Cli。比如该表不存在
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/11/hive_bak/hive_metadata_info/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -951,6 +401,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -958,13 +412,27 @@
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/11/hive/hive_metadata_info/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Anan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Anan'Blog">
+    </span>
 
     
       <header class="post-header">
@@ -972,38 +440,213 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2018/08/08/env/install-pyhs2-for-windows/" itemprop="url">
-                  Install pyhs2 for windows
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2018/09/11/hive/hive_metadata_info/" itemprop="url">Hive元数据表结构详解</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2018-08-08T00:00:00+08:00" content="2018-08-08">
-              2018-08-08
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-11T00:00:00+08:00">
+                2018-09-11
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hive/" itemprop="url" rel="index">
+                    <span itemprop="name">Hive</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          转自
+存储Hive版本的元数据表(VERSION)
+
+
+VER_ID
+SCHEMA_VERSION
+VERSION_COMMENT
+
+
+
+
+ID主键
+Hive版本
+版本说明
+
+
+1
+1.2.0
+Set  by MetaStore
+
+
+
+
+如果该表出现问题，根本进入不了Hive-Cli。比如该表不存在
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/11/hive/hive_metadata_info/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/08/env/install-pyhs2-for-windows/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Anan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Anan'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/08/env/install-pyhs2-for-windows/" itemprop="url">Install pyhs2 for windows</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-08T00:00:00+08:00">
+                2018-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/环境配置/" itemprop="url" rel="index">
                     <span itemprop="name">环境配置</span>
                   </a>
@@ -1011,7 +654,6 @@
 
                 
                 
-
               
             </span>
           
@@ -1021,16 +663,21 @@
           
 
           
-
-          
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1039,35 +686,36 @@
       
         
           
-            <p>在网站 <a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/" target="_blank" rel="external">pythonlibs</a> 下载whl包</p>
-<ul>
-<li>sasl-0.2.1-cp27-cp27m-win_amd64.whl</li>
-<li>pyhs2-0.6.0-py2.py3-none-any.whl </li>
-</ul>
-<p>命令行安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install sasl-0.2.1-cp27-cp27m-win_amd64.whl</span><br><span class="line">pip install pyhs2-0.6.0-py2.py3-none-any.whl</span><br></pre></td></tr></table></figure></p>
-<p>在安装时可能发生pip版本低,需升级pip<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade pip</span><br></pre></td></tr></table></figure></p>
-<p>由于pip 升级后版本中没有main(),使用PyCharm IDE环境安装其他包会发生错误</p>
-<blockquote>
-<p>PyCharm安装目录\helpers\packaging_tool.py</p>
-</blockquote>
-<p>在头部加上<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pip._internal <span class="keyword">as</span> pip_new</span><br></pre></td></tr></table></figure></p>
-<p>然后分别修改文件中的这两行中的pip<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> pip.main([<span class="string">'install'</span>] + pkgs)</span><br><span class="line"><span class="keyword">return</span> pip.main([<span class="string">'uninstall'</span>, <span class="string">'-y'</span>] + pkgs)</span><br></pre></td></tr></table></figure></p>
-<p>为<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> pip_new.main([<span class="string">'install'</span>] + pkgs)</span><br><span class="line"><span class="keyword">return</span> pip_new.main([<span class="string">'uninstall'</span>, <span class="string">'-y'</span>] + pkgs)</span><br></pre></td></tr></table></figure></p>
+          在网站 pythonlibs 下载whl包
 
-          
+sasl-0.2.1-cp27-cp27m-win_amd64.whl
+pyhs2-0.6.0-py2.py3-none-any.whl 
+
+命令行安装12pip install sasl-0.2.1-cp27-cp27m-win_amd64.whlpi
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/08/env/install-pyhs2-for-windows/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -1077,6 +725,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1084,13 +736,27 @@
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/30/python/python_use_selenium_demo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Anan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Anan'Blog">
+    </span>
 
     
       <header class="post-header">
@@ -1098,38 +764,42 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2017/12/30/python/python_use_selenium_demo/" itemprop="url">
-                  使用selenium模拟浏览器获取网页数据
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/12/30/python/python_use_selenium_demo/" itemprop="url">使用selenium模拟浏览器获取网页数据</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-12-30T00:00:00+08:00" content="2017-12-30">
-              2017-12-30
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-30T00:00:00+08:00">
+                2017-12-30
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Python/" itemprop="url" rel="index">
                     <span itemprop="name">Python</span>
                   </a>
@@ -1137,7 +807,6 @@
 
                 
                 
-
               
             </span>
           
@@ -1147,16 +816,21 @@
           
 
           
-
-          
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1165,28 +839,37 @@
       
         
           
-            <h4 id="ChromeDriver资源"><a href="#ChromeDriver资源" class="headerlink" title="ChromeDriver资源"></a>ChromeDriver资源</h4><p><a href="http://blog.csdn.net/huilan_same/article/details/51896672" target="_blank" rel="external">chromedriver与chrome版本映射表</a></p>
-<p><a href="http://chromedriver.storage.googleapis.com/index.html" target="_blank" rel="external">chromedriver下载地址</a></p>
-<h4 id="代码说明"><a href="#代码说明" class="headerlink" title="代码说明"></a>代码说明</h4><ol>
-<li>通过百度搜索关键词，取出搜索结果</li>
-<li>通过百度搜索图片</li>
-</ol>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> win32gui</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> win32con</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ChromeDriver</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, chrome_driver_path)</span>:</span></span><br><span class="line">        self.chrome_driver = <span class="keyword">None</span></span><br><span class="line">        self.chrome_driver_path = chrome_driver_path</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"启动chrome"</span></span><br><span class="line">        <span class="comment"># 启动chrome</span></span><br><span class="line">        self.chrome_driver = webdriver.Chrome(self.chrome_driver_path)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">stop</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"关闭chrome"</span></span><br><span class="line">        <span class="comment"># 关闭chrome</span></span><br><span class="line">        <span class="keyword">if</span> self.chrome_driver <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            self.chrome_driver.quit()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open_web_page</span><span class="params">(self, url)</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"打开网页 [%s]"</span> % url</span><br><span class="line">        <span class="comment"># 模拟打开网页</span></span><br><span class="line">        self.chrome_driver.get(url)</span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">search_pic_for_baidu</span><span class="params">(self, pic_path)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        使用baidu查询图片数据</span><br><span class="line">        :param pic_path:</span><br><span class="line">        :return:</span><br><span class="line">        """</span></span><br><span class="line">        self.open_web_page(<span class="string">"https://www.baidu.com/"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 1.打开上传对话框</span></span><br><span class="line">        self.chrome_driver.find_element_by_class_name(<span class="string">"soutu-btn"</span>).click()</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        self.chrome_driver.find_element_by_class_name(<span class="string">"upload-pic"</span>).click()</span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 2.提交图片</span></span><br><span class="line">        dialog = win32gui.FindWindow(<span class="string">'#32770'</span>, <span class="string">u'打开'</span>)</span><br><span class="line">        comboBoxEx32 = win32gui.FindWindowEx(dialog, <span class="number">0</span>, <span class="string">'ComboBoxEx32'</span>, <span class="keyword">None</span>)</span><br><span class="line">        comboBox = win32gui.FindWindowEx(comboBoxEx32, <span class="number">0</span>, <span class="string">'ComboBox'</span>, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 上面三句依次寻找对象，直到找到输入框Edit对象的句柄</span></span><br><span class="line">        edit = win32gui.FindWindowEx(comboBox, <span class="number">0</span>, <span class="string">'Edit'</span>, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 确定按钮Button</span></span><br><span class="line">        button = win32gui.FindWindowEx(dialog, <span class="number">0</span>, <span class="string">'Button'</span>, <span class="keyword">None</span>)</span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 往输入框输入绝对地址</span></span><br><span class="line">        win32gui.SendMessage(edit, win32con.WM_SETTEXT, <span class="keyword">None</span>, pic_path)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 按button</span></span><br><span class="line">        win32gui.SendMessage(dialog, win32con.WM_COMMAND, <span class="number">1</span>, button)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用百度查找内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">search_key_for_baidu</span><span class="params">(self, content, page_count)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        使用baidu查找内容, 最多获取 page_count页</span><br><span class="line">        :param content:</span><br><span class="line">        :param page_count:</span><br><span class="line">        :return:</span><br><span class="line">        """</span></span><br><span class="line">        self.chrome_driver.find_element_by_id(<span class="string">"kw"</span>).clear()</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        self.chrome_driver.find_element_by_id(<span class="string">"kw"</span>).send_keys(content)</span><br><span class="line">        self.chrome_driver.find_element_by_id(<span class="string">"su"</span>).click()</span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> self._get_key_search_data(page_count)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取搜索出的内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_get_key_search_data</span><span class="params">(self, page_count)</span>:</span></span><br><span class="line">        <span class="comment"># 打开页数</span></span><br><span class="line">        <span class="keyword">if</span> page_count == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        result_list = self.chrome_driver.find_elements_by_class_name(<span class="string">"result"</span>)</span><br><span class="line">        <span class="keyword">for</span> d <span class="keyword">in</span> result_list:</span><br><span class="line">            <span class="keyword">if</span> d <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">                t = d.find_element_by_class_name(<span class="string">"t"</span>)</span><br><span class="line">                <span class="keyword">print</span> t.text</span><br><span class="line"></span><br><span class="line">        page = self.chrome_driver.find_element_by_id(<span class="string">"page"</span>)</span><br><span class="line">        <span class="keyword">if</span> page <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            _as = page.find_elements_by_tag_name(<span class="string">"a"</span>)</span><br><span class="line">            <span class="keyword">if</span> len(_as) &gt; <span class="number">0</span>:</span><br><span class="line">                _next_url = _as[<span class="number">-1</span>].get_attribute(<span class="string">"href"</span>)</span><br><span class="line">                page_count -= <span class="number">1</span></span><br><span class="line">                self.open_web_page(_next_url)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            page_count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 递归调用</span></span><br><span class="line">        self._get_key_search_data(page_count)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    driver_path = <span class="string">"chrome_driver路径"</span></span><br><span class="line">    cd = ChromeDriver(driver_path)</span><br><span class="line">    cd.start()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用baidu搜索关键词</span></span><br><span class="line">    cd.open_web_page(<span class="string">"https://www.baidu.com/"</span>)</span><br><span class="line">    cd.search_key_for_baidu(<span class="string">"python"</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用baidu搜索图片</span></span><br><span class="line">    cd.search_pic_for_baidu(<span class="string">"图片路径"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 休眠</span></span><br><span class="line">    time.sleep(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    cd.stop()</span><br></pre></td></tr></table></figure>
+          ChromeDriver资源chromedriver与chrome版本映射表
+chromedriver下载地址
+代码说明
+通过百度搜索关键词，取出搜索结果
+通过百度搜索图片
 
-          
+代码123456789101112131415161718192021222324252627282930313233343
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/30/python/python_use_selenium_demo/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -1196,6 +879,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1203,13 +890,27 @@
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/23/python/python_write_excel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Anan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Anan'Blog">
+    </span>
 
     
       <header class="post-header">
@@ -1217,38 +918,42 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2017/12/23/python/python_write_excel/" itemprop="url">
-                  使用Python实现Excel文件的读写
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/12/23/python/python_write_excel/" itemprop="url">使用Python实现Excel文件的读写</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-12-23T00:00:00+08:00" content="2017-12-23">
-              2017-12-23
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-23T00:00:00+08:00">
+                2017-12-23
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Python/" itemprop="url" rel="index">
                     <span itemprop="name">Python</span>
                   </a>
@@ -1256,7 +961,6 @@
 
                 
                 
-
               
             </span>
           
@@ -1266,16 +970,21 @@
           
 
           
-
-          
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1284,26 +993,35 @@
       
         
           
-            <h4 id="使用xlwt和xlrd来操作excel"><a href="#使用xlwt和xlrd来操作excel" class="headerlink" title="使用xlwt和xlrd来操作excel"></a>使用xlwt和xlrd来操作excel</h4><ul>
-<li><code>xlwt</code>库用于写excel文件</li>
-<li><code>xlrd</code>库用于读excel文件</li>
-</ul>
-<h4 id="Demo代码"><a href="#Demo代码" class="headerlink" title="Demo代码"></a>Demo代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> xlwt</span><br><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExcelWrite</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 创建workbook和sheet对象</span></span><br><span class="line">        self.workbook = xlwt.Workbook()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 构建一个sheet页  (cell_overwrite_ok: true-&gt;单元格内容被覆盖)</span></span><br><span class="line">        self.sheet = self.workbook.add_sheet(<span class="string">u"Sheet名字"</span>, cell_overwrite_ok=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 写入自定义的标题内容</span></span><br><span class="line">        self._write_title()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 保存文件</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">save</span><span class="params">(self, file_name)</span>:</span></span><br><span class="line">        self.workbook.save(file_name)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">write_text</span><span class="params">(self, row_data_list)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        写入数据</span><br><span class="line">        :param row_data_list: 准备写入excel文件的数据(定义了一个二维数组结构)</span><br><span class="line">        :return:</span><br><span class="line">        """</span></span><br><span class="line">        <span class="comment"># 从第2行开始, 第一行为标题行</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(row_data_list)):</span><br><span class="line">            self._write_row_text(i+<span class="number">1</span>, row_data_list[i])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入行内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_write_row_text</span><span class="params">(self, row_index, col_data_list)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        写数据到指定行中</span><br><span class="line">        :param list_data: 对应行中每一列的数据</span><br><span class="line">        :return:</span><br><span class="line">        """</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(col_data_list)):</span><br><span class="line">            self.sheet.write(row_index, i, col_data_list[i])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入标题</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_write_title</span><span class="params">(self)</span>:</span></span><br><span class="line">        title_list = [<span class="string">u"列1"</span>, <span class="string">u"列2"</span>, <span class="string">u"列3"</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(title_list)):</span><br><span class="line">            self.sheet.write(<span class="number">0</span>, i, title_list[i])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExcelRead</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read_excel</span><span class="params">(self, file_name)</span>:</span></span><br><span class="line">        <span class="comment"># 打开excel文件</span></span><br><span class="line">        data = xlrd.open_workbook(file_name)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取sheet标签</span></span><br><span class="line">        table = data.sheet_by_name(<span class="string">"Sheet名字"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># sheet标签中的行数</span></span><br><span class="line">        rows = table.nrows</span><br><span class="line">        <span class="comment"># sheet标签中的列数</span></span><br><span class="line">        cols = table.ncols</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取每行的数据</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, rows):</span><br><span class="line">            print(table.row_values(i))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取每列的数据</span></span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>, cols):</span><br><span class="line">            print(table.col_values(x))</span><br><span class="line">        <span class="comment">#</span></span><br><span class="line">        <span class="comment"># # 逐个获取单元格数据</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, rows):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(cols):</span><br><span class="line">                print(table.cell(i, j).value)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    eo = ExcelWrite()</span><br><span class="line"></span><br><span class="line">    col_list = [<span class="string">"aaa"</span>, <span class="string">"bbb"</span>, <span class="string">"ccc"</span>]</span><br><span class="line">    col_list1 = [<span class="string">"aaa111"</span>, <span class="string">"bbb111"</span>, <span class="string">"ccc111"</span>]</span><br><span class="line">    col_list2 = [<span class="string">"aaa222"</span>, <span class="string">"bbb222"</span>, <span class="string">"ccc222"</span>]</span><br><span class="line"></span><br><span class="line">    data_list = list()</span><br><span class="line">    data_list.append(col_list)</span><br><span class="line">    data_list.append(col_list1)</span><br><span class="line">    data_list.append(col_list2)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入数据</span></span><br><span class="line">    eo.write_text(data_list)</span><br><span class="line">    <span class="comment"># 保存文件</span></span><br><span class="line">    eo.save(<span class="string">"111.xls"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 读取文件</span></span><br><span class="line">    er = ExcelRead()</span><br><span class="line">    er.read_excel(<span class="string">"111.xls"</span>)</span><br></pre></td></tr></table></figure>
+          使用xlwt和xlrd来操作excel
+xlwt库用于写excel文件
+xlrd库用于读excel文件
 
-          
+Demo代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/23/python/python_write_excel/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -1313,6 +1031,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1320,13 +1042,27 @@
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/16/python/python_send_email/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Anan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Anan'Blog">
+    </span>
 
     
       <header class="post-header">
@@ -1334,38 +1070,42 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2017/12/16/python/python_send_email/" itemprop="url">
-                  使用Python实现发送带附件的邮件
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/12/16/python/python_send_email/" itemprop="url">使用Python实现发送带附件的邮件</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-12-16T00:00:00+08:00" content="2017-12-16">
-              2017-12-16
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-16T00:00:00+08:00">
+                2017-12-16
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Python/" itemprop="url" rel="index">
                     <span itemprop="name">Python</span>
                   </a>
@@ -1373,7 +1113,6 @@
 
                 
                 
-
               
             </span>
           
@@ -1383,16 +1122,21 @@
           
 
           
-
-          
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1401,26 +1145,35 @@
       
         
           
-            <h4 id="使用smtplib和email库发送邮件"><a href="#使用smtplib和email库发送邮件" class="headerlink" title="使用smtplib和email库发送邮件"></a>使用smtplib和email库发送邮件</h4><ul>
-<li>使用<code>smtplib</code>库来发送邮件</li>
-<li>使用<code>Email</code>库来处理邮件消息</li>
-</ul>
-<h4 id="Demo代码"><a href="#Demo代码" class="headerlink" title="Demo代码"></a>Demo代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.mime.multipart <span class="keyword">import</span> MIMEMultipart</span><br><span class="line"><span class="keyword">from</span> email.header <span class="keyword">import</span> Header</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EMailOpr</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.sender = <span class="string">'发送者邮箱'</span></span><br><span class="line">        self.receivers = [<span class="string">'接受者邮箱1'</span>, <span class="string">"接受者邮箱2"</span>]</span><br><span class="line">        self.cc = [<span class="string">'抄送1'</span>, <span class="string">'抄送2'</span>]</span><br><span class="line">        self.hide = [<span class="string">"暗抄1"</span>, <span class="string">"暗抄2"</span>]</span><br><span class="line">        self.smtp = <span class="string">'smtp.****.com'</span></span><br><span class="line">        self.smtp_port = <span class="number">25</span></span><br><span class="line">        self.user = <span class="string">"发送者账号"</span></span><br><span class="line">        self.passwd = <span class="string">"发送者密码"</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 发送邮件</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send</span><span class="params">(self, subject, content=<span class="string">""</span>, att_path=<span class="string">""</span>)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        发送邮件</span><br><span class="line">        :param subject: 邮件主题</span><br><span class="line">        :param content: 邮件内容</span><br><span class="line">        :param att_path: 邮件附件地址</span><br><span class="line">        :return:</span><br><span class="line">        """</span></span><br><span class="line">        <span class="comment"># 创建一个带附件的实例</span></span><br><span class="line">        message = MIMEMultipart()</span><br><span class="line">        message[<span class="string">'From'</span>] = self.sender</span><br><span class="line">        message[<span class="string">'To'</span>] = <span class="string">","</span>.join(self.receivers)</span><br><span class="line">        message[<span class="string">'Cc'</span>] = <span class="string">","</span>.join(self.cc)</span><br><span class="line">        message[<span class="string">'Subject'</span>] = Header(subject, <span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 邮件正文内容</span></span><br><span class="line">        message.attach(MIMEText(content, <span class="string">'plain'</span>, <span class="string">'utf-8'</span>))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 添加附件</span></span><br><span class="line">        <span class="keyword">if</span> att_path != <span class="string">""</span>:</span><br><span class="line">            <span class="comment"># 构造附件1</span></span><br><span class="line">            att1 = MIMEText(open(att_path, <span class="string">'rb'</span>).read(), <span class="string">'base64'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">            att1[<span class="string">"Content-Type"</span>] = <span class="string">'application/octet-stream'</span></span><br><span class="line">            <span class="comment"># 这里的filename可以任意写，写什么名字，邮件中显示什么名字</span></span><br><span class="line">            att1[<span class="string">"Content-Disposition"</span>] = <span class="string">'attachment; filename=%s'</span> % att_path[att_path.rfind(<span class="string">"/"</span>)+<span class="number">1</span>:]</span><br><span class="line">            message.attach(att1)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            smtpObj = smtplib.SMTP()</span><br><span class="line">            smtpObj.connect(self.smtp, self.smtp_port)</span><br><span class="line">            smtpObj.login(self.user, self.passwd)</span><br><span class="line">            smtpObj.sendmail(self.sender, self.receivers+self.cc+self.hide, message.as_string())</span><br><span class="line">            <span class="keyword">print</span> <span class="string">u"邮件发送成功"</span></span><br><span class="line">        <span class="keyword">except</span> smtplib.SMTPException:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">u"Error: 无法发送邮件"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    file_name = <span class="string">"附件文件路径"</span></span><br><span class="line">    email = EMailOpr()</span><br><span class="line">    email.send(<span class="string">"主题"</span>, <span class="string">"内容"</span>, file_name)</span><br></pre></td></tr></table></figure>
+          使用smtplib和email库发送邮件
+使用smtplib库来发送邮件
+使用Email库来处理邮件消息
 
-          
+Demo代码123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/16/python/python_send_email/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -1430,6 +1183,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1437,13 +1194,27 @@
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/06/hive_bak/hive_over_partition_by_demo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Anan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Anan'Blog">
+    </span>
 
     
       <header class="post-header">
@@ -1451,38 +1222,42 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2017/12/06/hive/hive_over_partition_by_demo/" itemprop="url">
-                  使用over()函数结合PARTITION BY以指定字段分区
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/12/06/hive_bak/hive_over_partition_by_demo/" itemprop="url">使用over()函数结合PARTITION BY以指定字段分区</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-12-06T00:00:00+08:00" content="2017-12-06">
-              2017-12-06
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-06T00:00:00+08:00">
+                2017-12-06
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Hive/" itemprop="url" rel="index">
                     <span itemprop="name">Hive</span>
                   </a>
@@ -1490,7 +1265,6 @@
 
                 
                 
-
               
             </span>
           
@@ -1500,16 +1274,21 @@
           
 
           
-
-          
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1518,28 +1297,31 @@
       
         
           
-            <h4 id="over-函数和PARTITION-BY结合使用"><a href="#over-函数和PARTITION-BY结合使用" class="headerlink" title="over()函数和PARTITION BY结合使用"></a>over()函数和PARTITION BY结合使用</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  item_id,</span><br><span class="line">  item_name</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">  (<span class="keyword">SELECT</span> </span><br><span class="line">    item_id,</span><br><span class="line">    item_name,</span><br><span class="line">    sort_item, </span><br><span class="line">    row_number () <span class="keyword">over</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> item_id <span class="keyword">ORDER</span> <span class="keyword">BY</span> sort_item <span class="keyword">DESC</span>) <span class="keyword">AS</span> rm </span><br><span class="line">  <span class="keyword">FROM</span></span><br><span class="line">    table_name) <span class="keyword">AS</span> t</span><br><span class="line"><span class="keyword">WHERE</span> t.rm = <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>以item_id分区，所有item_id相同的被放入一个分区中</li>
-<li>分区内使用row_number()对每一行做标识</li>
-<li>根据sort_item字段进行排序</li>
-<li>获取每个分区中的第一数据</li>
-</ul>
-
-          
+          over()函数和PARTITION BY结合使用123456789101112SELECT   item_id,  item_nameFROM  (SELECT     item_id,    item_name,    sort_item,     row_number () over (PAR
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/06/hive_bak/hive_over_partition_by_demo/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -1549,6 +1331,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1556,13 +1342,27 @@
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/06/hive/hive_over_partition_by_demo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Anan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Anan'Blog">
+    </span>
 
     
       <header class="post-header">
@@ -1570,38 +1370,42 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2017/12/05/hive/hive_col_transfer_line/" itemprop="url">
-                  Hive列转行
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/12/06/hive/hive_over_partition_by_demo/" itemprop="url">使用over()函数结合PARTITION BY以指定字段分区</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-12-05T00:00:00+08:00" content="2017-12-05">
-              2017-12-05
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-06T00:00:00+08:00">
+                2017-12-06
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Hive/" itemprop="url" rel="index">
                     <span itemprop="name">Hive</span>
                   </a>
@@ -1609,7 +1413,6 @@
 
                 
                 
-
               
             </span>
           
@@ -1619,16 +1422,21 @@
           
 
           
-
-          
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1637,28 +1445,31 @@
       
         
           
-            <h4 id="列转行"><a href="#列转行" class="headerlink" title="列转行"></a>列转行</h4><p>hive中由多行数据转换成一行记录</p>
-<p>test表数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">id  name</span><br><span class="line">--  -----</span><br><span class="line">1	aaa</span><br><span class="line">1	bbb</span><br><span class="line">1	ccc</span><br><span class="line">1	ddd</span><br><span class="line">1	eee</span><br><span class="line">1	fff</span><br><span class="line">1	ggg</span><br><span class="line">1	hhh</span><br><span class="line">1	iii</span><br></pre></td></tr></table></figure></p>
-<h5 id="使用collect-set-函数聚合id相同的name"><a href="#使用collect-set-函数聚合id相同的name" class="headerlink" title="使用collect_set()函数聚合id相同的name"></a>使用collect_set()函数聚合id相同的name</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id, collect_set(name) from test group by id;</span><br></pre></td></tr></table></figure>
-<p><em>结果为：</em></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1	[&quot;aaa&quot;,&quot;bbb&quot;,&quot;ccc&quot;,&quot;ddd&quot;,&quot;eee&quot;,&quot;fff&quot;,&quot;ggg&quot;,&quot;hhh&quot;,&quot;iii&quot;]</span><br></pre></td></tr></table></figure>
-<h5 id="结合concat-ws-函数拼接成字符串"><a href="#结合concat-ws-函数拼接成字符串" class="headerlink" title="结合concat_ws()函数拼接成字符串"></a>结合concat_ws()函数拼接成字符串</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id, concat_ws(&quot;,&quot;, collect_set(name)) from test group by id;</span><br></pre></td></tr></table></figure>
-<p><em>结果为：</em></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1	aaa,bbb,ccc,ddd,eee,fff,ggg,hhh,iii</span><br></pre></td></tr></table></figure>
-          
+          over()函数和PARTITION BY结合使用123456789101112SELECT   item_id,  item_nameFROM  (SELECT     item_id,    item_name,    sort_item,     row_number () over (PAR
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/06/hive/hive_over_partition_by_demo/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -1668,6 +1479,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1675,13 +1490,27 @@
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/05/hive/hive_col_transfer_line/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Anan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Anan'Blog">
+    </span>
 
     
       <header class="post-header">
@@ -1689,162 +1518,42 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2017/12/03/spark/spark_subtract_demo/" itemprop="url">
-                  spark subtract 算子的应用
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/12/05/hive/hive_col_transfer_line/" itemprop="url">Hive列转行</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-12-03T00:00:00+08:00" content="2017-12-03">
-              2017-12-03
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-05T00:00:00+08:00">
+                2017-12-05
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Spark/" itemprop="url" rel="index">
-                    <span itemprop="name">Spark</span>
-                  </a>
-                </span>
-
-                
-                
-
+                <span class="post-meta-item-text">分类于</span>
               
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入"></a>问题引入</h4><p>有两个集合A和B</p>
-<ul>
-<li>A集合存放历史数据</li>
-<li>B集合存放当前计算出的数据</li>
-</ul>
-<p>现在需要把存在于历史数据集合中，但不存在当前计算集合中的数据标出，并且同集合B，组成新的集合C</p>
-<h4 id="相对补集-差集"><a href="#相对补集-差集" class="headerlink" title="相对补集(差集)"></a>相对补集(差集)</h4><p>若A和B是集合，则A在B中的相对补集是这样一个集合：其元素属于B但不属于A，B - A = { x| x∈B且x∉A}。</p>
-<h4 id="subtract-算子"><a href="#subtract-算子" class="headerlink" title="subtract() 算子"></a>subtract() 算子</h4><p>spark 算子 subtract() 正好实现了我们以上需求。</p>
-<blockquote>
-<p>A.subtract(B) 返回在A中出现, 并且不在B中出现的元素</p>
-</blockquote>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">val</span> <span class="type">A_rdd</span> = sc.makeRDD(<span class="type">Seq</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>))</span><br><span class="line"><span class="keyword">val</span> <span class="type">B_rdd</span> = sc.makeRDD(<span class="type">Sel</span>(<span class="number">3</span>, <span class="number">4</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> <span class="type">AB_diff_rdd</span> = <span class="type">A_rdd</span>.subtract(<span class="type">B_rdd</span>)</span><br><span class="line"><span class="keyword">val</span> <span class="type">C_rdd</span> = <span class="type">B_rdd</span>.union(<span class="type">AB_diff_rdd</span>)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
               
-                
-                <a class="post-title-link" href="/2017/12/01/sqoop/sqoop_hive_to_mysql/" itemprop="url">
-                  使用Sqoop同步 mysql <--> hive 数据
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-12-01T00:00:00+08:00" content="2017-12-01">
-              2017-12-01
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Hive/" itemprop="url" rel="index">
                     <span itemprop="name">Hive</span>
                   </a>
@@ -1852,19 +1561,6 @@
 
                 
                 
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Hive/Sqoop/" itemprop="url" rel="index">
-                    <span itemprop="name">Sqoop</span>
-                  </a>
-                </span>
-
-                
-                
-
               
             </span>
           
@@ -1874,16 +1570,21 @@
           
 
           
-
-          
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1892,23 +1593,33 @@
       
         
           
-            <h4 id="hive-到-mysql-同步"><a href="#hive-到-mysql-同步" class="headerlink" title="hive 到 mysql 同步"></a>hive 到 mysql 同步</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sqoop export </span><br><span class="line">    --connect jdbc:mysql://[ip]:[port]/db_name?characterEncoding=utf-8</span><br><span class="line">    --username name</span><br><span class="line">    --password passwd</span><br><span class="line">    --table table_name</span><br><span class="line">    --input-fields-terminated-by &quot;\t&quot; (hive表中字段之间使用的分割符)</span><br><span class="line">    --input-lines-terminated-by &quot;\n&quot; (hive表中行与行之间使用的分隔符)</span><br><span class="line">    --export-dir [hdfs存储位置] (通过 show create table table_name可以查看)</span><br><span class="line">    --update-key key_id (mysql表中对应的主键)</span><br><span class="line">    --update-mode allowinsert (更新模式[allowinsert, updateonly])</span><br></pre></td></tr></table></figure>
-<h4 id="mysql-到-hive-同步"><a href="#mysql-到-hive-同步" class="headerlink" title="mysql 到 hive 同步"></a>mysql 到 hive 同步</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sqoop import </span><br><span class="line">    --connect jdbc:mysql://[ip]:[port]/db_name</span><br><span class="line">    --username username</span><br><span class="line">    --password passwd</span><br><span class="line">    --table srcMysqltableName</span><br><span class="line">    --fields-terminated-by &quot;\t&quot; (构建后hive表中的字段分隔符)</span><br><span class="line">    --hive-drop-import-delims (去掉hive默认的行分隔符&quot;\n&quot;)</span><br><span class="line">    --hive-import (导入数据到hive)</span><br><span class="line">    --hive-overwrite</span><br><span class="line">    --create-hive-table </span><br><span class="line">    --hive-table destHivetableName</span><br><span class="line">    --delete-target-dir</span><br></pre></td></tr></table></figure>
-
-          
+          列转行hive中由多行数据转换成一行记录
+test表数据：1234567891011id  name--  -----1	aaa1	bbb1	ccc1	ddd1	eee1	fff1	ggg1	hhh1	iii
+使用collect_set()函数聚合id相同的name1select id, colle
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/05/hive/hive_col_transfer_line/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -1918,6 +1629,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1925,13 +1640,27 @@
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/05/hive_bak/hive_col_transfer_line/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Anan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Anan'Blog">
+    </span>
 
     
       <header class="post-header">
@@ -1939,38 +1668,42 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2017/11/29/hive/hive_line_transfer_col/" itemprop="url">
-                  Hive行转列
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/12/05/hive_bak/hive_col_transfer_line/" itemprop="url">Hive列转行</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-11-29T00:00:00+08:00" content="2017-11-29">
-              2017-11-29
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-05T00:00:00+08:00">
+                2017-12-05
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Hive/" itemprop="url" rel="index">
                     <span itemprop="name">Hive</span>
                   </a>
@@ -1978,7 +1711,6 @@
 
                 
                 
-
               
             </span>
           
@@ -1988,16 +1720,21 @@
           
 
           
-
-          
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -2006,31 +1743,33 @@
       
         
           
-            <h4 id="行转列"><a href="#行转列" class="headerlink" title="行转列"></a>行转列</h4><p>把Hive中，一行的数据转换成多条数据</p>
-<p>test表数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a	aaa</span><br><span class="line">b	bbb</span><br><span class="line">c	ccc</span><br><span class="line">d	ddd</span><br><span class="line">e	eee</span><br><span class="line">f	fff</span><br><span class="line">g	ggg</span><br><span class="line">h	hhh</span><br><span class="line">i	iii</span><br></pre></td></tr></table></figure></p>
-<h5 id="构建使用分隔符分割-“-”-的数据"><a href="#构建使用分隔符分割-“-”-的数据" class="headerlink" title="构建使用分隔符分割 (“,”) 的数据"></a>构建使用分隔符分割 (“,”) 的数据</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">CONCAT_WS</span>(<span class="string">','</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>, <span class="string">'9'</span>) <span class="keyword">FROM</span> <span class="keyword">test</span>;</span><br></pre></td></tr></table></figure>
-<p>数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1,2,3,4,5,6,7,8,9</span><br></pre></td></tr></table></figure></p>
-<h5 id="使用分割函数-split"><a href="#使用分割函数-split" class="headerlink" title="使用分割函数 split"></a>使用分割函数 split</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">split</span>(<span class="keyword">CONCAT_WS</span>(<span class="string">','</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>, <span class="string">'9'</span>), <span class="string">","</span>) <span class="keyword">FROM</span> <span class="keyword">test</span>;</span><br></pre></td></tr></table></figure>
-<p>数据为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;]</span><br></pre></td></tr></table></figure></p>
-<h5 id="使用行专列函数-explode"><a href="#使用行专列函数-explode" class="headerlink" title="使用行专列函数 explode"></a>使用行专列函数 explode</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> explode(<span class="keyword">split</span>(<span class="keyword">concat_ws</span>(<span class="string">','</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>, <span class="string">'9'</span>), <span class="string">','</span>)) <span class="keyword">from</span> <span class="keyword">test</span>;</span><br></pre></td></tr></table></figure>
-<p>数据为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td></tr></table></figure></p>
-<h5 id="使用lateral-view-把其他字段显示出来"><a href="#使用lateral-view-把其他字段显示出来" class="headerlink" title="使用lateral view 把其他字段显示出来"></a>使用lateral view 把其他字段显示出来</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.*, b <span class="keyword">from</span> <span class="keyword">test</span> a lateral <span class="keyword">view</span> explode(<span class="keyword">split</span>(<span class="keyword">concat_ws</span>(<span class="string">','</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>, <span class="string">'9'</span>), <span class="string">','</span>)) t <span class="keyword">as</span> b;</span><br></pre></td></tr></table></figure>
-<p>数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">a	aaa	1</span><br><span class="line">a	aaa	2</span><br><span class="line">a	aaa	3</span><br><span class="line">a	aaa	4</span><br><span class="line">a	aaa	5</span><br><span class="line">a	aaa	6</span><br><span class="line">a	aaa	7</span><br><span class="line">a	aaa	8</span><br><span class="line">a	aaa	9</span><br><span class="line">b	bbb	1</span><br><span class="line">b	bbb	2</span><br><span class="line">b	bbb	3</span><br><span class="line">b	bbb	4</span><br><span class="line">b	bbb	5</span><br><span class="line">b	bbb	6</span><br><span class="line">b	bbb	7</span><br><span class="line">b	bbb	8</span><br><span class="line">b	bbb	9</span><br><span class="line">…………</span><br></pre></td></tr></table></figure></p>
-
-          
+          列转行hive中由多行数据转换成一行记录
+test表数据：1234567891011id  name--  -----1	aaa1	bbb1	ccc1	ddd1	eee1	fff1	ggg1	hhh1	iii
+使用collect_set()函数聚合id相同的name1select id, colle
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/05/hive_bak/hive_col_transfer_line/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -2040,6 +1779,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -2072,61 +1815,74 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="https://github.com/home123wx/picture/blob/master/avatar/elephant.png?raw=true"
-               alt="Anan" />
-          <p class="site-author-name" itemprop="name">Anan</p>
-          <p class="site-description motion-element" itemprop="description"></p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">24</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Anan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
-          
-            <div class="site-state-item site-state-categories">
-              <a href="/categories">
-                <span class="site-state-item-count">10</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
           
 
           
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">26</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
+
+          
           
 
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
           
+          
+
+          
+
         </div>
-
-        
-        
-
-        
-        
-
       </section>
+
+      
 
       
 
@@ -2140,36 +1896,70 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Anan</span>
+
+  
 </div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
-  </a>
-</div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
 
         
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
 
         
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
   </div>
 
   
@@ -2192,56 +1982,115 @@
 
 
 
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
 
 
 
   
   
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
 
   
 
   
 
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
   
-
-
-
-  
-
-
 
   
   
+
   
 
   
