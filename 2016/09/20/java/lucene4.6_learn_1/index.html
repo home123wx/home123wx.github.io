@@ -327,6 +327,16 @@ DocumentDocument是用来描述文档的，这里的文档可以指一封电子�
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/09/20/java/lucene4.6_learn_1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/09/20/java/lucene4.6_learn_1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -439,6 +449,9 @@ DocumentDocument是用来描述文档的，这里的文档可以指一封电子�
 
           
 
+  
+    <div class="comments" id="comments">
+    </div>
   
 
 
@@ -750,6 +763,28 @@ DocumentDocument是用来描述文档的，这里的文档可以指一封电子�
 
 
 
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mlOQFRRIt5R7Xr2U3CXTUIIr-gzGzoHsz',
+        appKey: 'XFVooje4Oh4Df1z9pEeUcP6w',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
 
 
 

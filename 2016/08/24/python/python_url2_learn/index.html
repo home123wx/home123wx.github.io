@@ -331,6 +331,16 @@ Timeout 设置
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/08/24/python/python_url2_learn/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/08/24/python/python_url2_learn/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -438,8 +448,8 @@ Timeout 设置
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/03/env/CentOS6.5-install-scrapy/" rel="next" title="CentOS 6.5 安装Scrapy">
-                <i class="fa fa-chevron-left"></i> CentOS 6.5 安装Scrapy
+              <a href="/2016/08/24/python/python_xiang_dui_dao_ru_learn/" rel="next" title="Python相对导入机制详解">
+                <i class="fa fa-chevron-left"></i> Python相对导入机制详解
               </a>
             
           </div>
@@ -448,8 +458,8 @@ Timeout 设置
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/08/24/python/python_xiang_dui_dao_ru_learn/" rel="prev" title="Python相对导入机制详解">
-                Python相对导入机制详解 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/09/19/java/IK_learn/" rel="prev" title="IK中文分词的使用">
+                IK中文分词的使用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -479,6 +489,9 @@ Timeout 设置
 
           
 
+  
+    <div class="comments" id="comments">
+    </div>
   
 
 
@@ -790,6 +803,28 @@ Timeout 设置
 
 
 
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'mlOQFRRIt5R7Xr2U3CXTUIIr-gzGzoHsz',
+        appKey: 'XFVooje4Oh4Df1z9pEeUcP6w',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
 
 
 
