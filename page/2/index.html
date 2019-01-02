@@ -285,6 +285,167 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/29/hive/hive_line_transfer_col/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Anan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Anan'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/29/hive/hive_line_transfer_col/" itemprop="url">Hive行转列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-29T00:00:00+08:00">
+                2017-11-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hive/" itemprop="url" rel="index">
+                    <span itemprop="name">Hive</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/29/hive/hive_line_transfer_col/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/11/29/hive/hive_line_transfer_col/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="行转列"><a href="#行转列" class="headerlink" title="行转列"></a>行转列</h4><p>把Hive中，一行的数据转换成多条数据</p>
+<p>test表数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a	aaa</span><br><span class="line">b	bbb</span><br><span class="line">c	ccc</span><br><span class="line">d	ddd</span><br><span class="line">e	eee</span><br><span class="line">f	fff</span><br><span class="line">g	ggg</span><br><span class="line">h	hhh</span><br><span class="line">i	iii</span><br></pre></td></tr></table></figure></p>
+<h5 id="构建使用分隔符分割-“-”-的数据"><a href="#构建使用分隔符分割-“-”-的数据" class="headerlink" title="构建使用分隔符分割 (“,”) 的数据"></a>构建使用分隔符分割 (“,”) 的数据</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">CONCAT_WS</span>(<span class="string">','</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>, <span class="string">'9'</span>) <span class="keyword">FROM</span> <span class="keyword">test</span>;</span><br></pre></td></tr></table></figure>
+<p>数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1,2,3,4,5,6,7,8,9</span><br></pre></td></tr></table></figure></p>
+<h5 id="使用分割函数-split"><a href="#使用分割函数-split" class="headerlink" title="使用分割函数 split"></a>使用分割函数 split</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">split</span>(<span class="keyword">CONCAT_WS</span>(<span class="string">','</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>, <span class="string">'9'</span>), <span class="string">","</span>) <span class="keyword">FROM</span> <span class="keyword">test</span>;</span><br></pre></td></tr></table></figure>
+<p>数据为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;]</span><br></pre></td></tr></table></figure></p>
+<h5 id="使用行专列函数-explode"><a href="#使用行专列函数-explode" class="headerlink" title="使用行专列函数 explode"></a>使用行专列函数 explode</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> explode(<span class="keyword">split</span>(<span class="keyword">concat_ws</span>(<span class="string">','</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>, <span class="string">'9'</span>), <span class="string">','</span>)) <span class="keyword">from</span> <span class="keyword">test</span>;</span><br></pre></td></tr></table></figure>
+<p>数据为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td></tr></table></figure></p>
+<h5 id="使用lateral-view-把其他字段显示出来"><a href="#使用lateral-view-把其他字段显示出来" class="headerlink" title="使用lateral view 把其他字段显示出来"></a>使用lateral view 把其他字段显示出来</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.*, b <span class="keyword">from</span> <span class="keyword">test</span> a lateral <span class="keyword">view</span> explode(<span class="keyword">split</span>(<span class="keyword">concat_ws</span>(<span class="string">','</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>, <span class="string">'9'</span>), <span class="string">','</span>)) t <span class="keyword">as</span> b;</span><br></pre></td></tr></table></figure>
+<p>数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">a	aaa	1</span><br><span class="line">a	aaa	2</span><br><span class="line">a	aaa	3</span><br><span class="line">a	aaa	4</span><br><span class="line">a	aaa	5</span><br><span class="line">a	aaa	6</span><br><span class="line">a	aaa	7</span><br><span class="line">a	aaa	8</span><br><span class="line">a	aaa	9</span><br><span class="line">b	bbb	1</span><br><span class="line">b	bbb	2</span><br><span class="line">b	bbb	3</span><br><span class="line">b	bbb	4</span><br><span class="line">b	bbb	5</span><br><span class="line">b	bbb	6</span><br><span class="line">b	bbb	7</span><br><span class="line">b	bbb	8</span><br><span class="line">b	bbb	9</span><br><span class="line">…………</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/21/shell/shell_client_run_cmd/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1803,203 +1964,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/24/python/python_url2_learn/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Anan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Anan'Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/08/24/python/python_url2_learn/" itemprop="url">Python 标准库 urllib2 的使用细节</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-24T00:00:00+08:00">
-                2016-08-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/08/24/python/python_url2_learn/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/08/24/python/python_url2_learn/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>转自：<a href="http://zhuoqiang.me/python-urllib2-usage.html" target="_blank" rel="external">http://zhuoqiang.me/python-urllib2-usage.html</a></p>
-<h3 id="Python-标准库-urllib2-的使用细节"><a href="#Python-标准库-urllib2-的使用细节" class="headerlink" title="Python 标准库 urllib2 的使用细节"></a>Python 标准库 urllib2 的使用细节</h3><p>Python 标准库中有很多实用的工具类，但是在具体使用时，标准库文档上对使用细节描述的并不清楚，比如 urllib2 这个 HTTP 客户端库。这里总结了一些 urllib2 的使用细节。</p>
-<ul>
-<li>Proxy 的设置</li>
-<li>Timeout 设置</li>
-<li>在 HTTP Request 中加入特定的 Header</li>
-<li>Redirect</li>
-<li>Cookie</li>
-<li>使用 HTTP 的 PUT 和 DELETE 方法</li>
-<li>得到 HTTP 的返回码</li>
-<li>Debug Log</li>
-</ul>
-<h4 id="Proxy-的设置"><a href="#Proxy-的设置" class="headerlink" title="Proxy 的设置"></a>Proxy 的设置</h4><p>urllib2 默认会使用环境变量 http_proxy 来设置 HTTP Proxy。如果想在程序中明确控制 Proxy 而不受环境变量的影响，可以使用下面的方式</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">enable_proxy = <span class="keyword">True</span></span><br><span class="line">proxy_handler = urllib2.ProxyHandler(&#123;<span class="string">"http"</span> : <span class="string">'http://some-proxy.com:8080'</span>&#125;)</span><br><span class="line">null_proxy_handler = urllib2.ProxyHandler(&#123;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> enable_proxy:</span><br><span class="line">    opener = urllib2.build_opener(proxy_handler)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    opener = urllib2.build_opener(null_proxy_handler)</span><br><span class="line">    </span><br><span class="line">urllib2.install_opener(opener)</span><br></pre></td></tr></table></figure>
-<p>这里要注意的一个细节，使用 urllib2.install_opener() 会设置 urllib2 的全局 opener 。这样后面的使用会很方便，但不能做更细粒度的控制，比如想在程序中使用两个不同的 Proxy 设置等。比较好的做法是不使用 install_opener 去更改全局的设置，而只是直接调用 opener 的 open 方法代替全局的 urlopen 方法。</p>
-<h4 id="Timeout-设置"><a href="#Timeout-设置" class="headerlink" title="Timeout 设置"></a>Timeout 设置</h4><p>在老版 Python 中，urllib2 的 API 并没有暴露 Timeout 的设置，要设置 Timeout 值，只能更改 Socket 的全局 Timeout 值。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">socket.setdefaulttimeout(<span class="number">10</span>) <span class="comment"># 10 秒钟后超时</span></span><br><span class="line">urllib2.socket.setdefaulttimeout(<span class="number">10</span>) <span class="comment"># 另一种方式</span></span><br></pre></td></tr></table></figure>
-<p>在 Python 2.6 以后，超时可以通过 urllib2.urlopen() 的 timeout 参数直接设置。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line">response = urllib2.urlopen(<span class="string">'http://www.google.com'</span>, timeout=<span class="number">10</span>)</span><br></pre></td></tr></table></figure></p>
-<h4 id="在-HTTP-Request-中加入特定的-Header"><a href="#在-HTTP-Request-中加入特定的-Header" class="headerlink" title="在 HTTP Request 中加入特定的 Header"></a>在 HTTP Request 中加入特定的 Header</h4><p>要加入 header，需要使用 Request 对象：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">request = urllib2.Request(uri)</span><br><span class="line">request.add_header(<span class="string">'User-Agent'</span>, <span class="string">'fake-client'</span>)</span><br><span class="line">response = urllib2.urlopen(request)</span><br></pre></td></tr></table></figure>
-<p>对有些 header 要特别留意，服务器会针对这些 header 做检查</p>
-<ul>
-<li>User-Agent : 有些服务器或 Proxy 会通过该值来判断是否是浏览器发出的请求</li>
-<li><p>Content-Type : 在使用 REST 接口时，服务器会检查该值，用来确定 HTTP Body 中的内容该怎样解析。常见的取值有：</p>
-<ul>
-<li>application/xml ： 在 XML RPC，如 RESTful/SOAP 调用时使用</li>
-<li>application/json ： 在 JSON RPC 调用时使用</li>
-<li><p>application/x-www-form-urlencoded ： 浏览器提交 Web 表单时使用</p>
-<p>  在使用服务器提供的 RESTful 或 SOAP 服务时， Content-Type 设置错误会导致服务器拒绝服务</p>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="Redirect"><a href="#Redirect" class="headerlink" title="Redirect"></a>Redirect</h4><p>urllib2 默认情况下会针对 HTTP 3XX 返回码自动进行 redirect 动作，无需人工配置。要检测是否发生了 redirect 动作，只要检查一下 Response 的 URL 和 Request 的 URL 是否一致就可以了。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line">response = urllib2.urlopen(<span class="string">'http://www.google.cn'</span>)</span><br><span class="line">redirected = response.geturl() == <span class="string">'http://www.google.cn'</span></span><br></pre></td></tr></table></figure>
-<p>如果不想自动 redirect，除了使用更低层次的 httplib 库之外，还可以自定义 HTTPRedirectHandler 类。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedirectHandler</span><span class="params">(urllib2.HTTPRedirectHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">http_error_301</span><span class="params">(self, req, fp, code, msg, headers)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">http_error_302</span><span class="params">(self, req, fp, code, msg, headers)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">opener = urllib2.build_opener(RedirectHandler)</span><br><span class="line">opener.open(<span class="string">'http://www.google.cn'</span>)</span><br></pre></td></tr></table></figure>
-<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><p>urllib2 对 Cookie 的处理也是自动的。如果需要得到某个 Cookie 项的值，可以这么做：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> cookielib</span><br><span class="line"></span><br><span class="line">cookie = cookielib.CookieJar()</span><br><span class="line">opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))</span><br><span class="line">response = opener.open(<span class="string">'http://www.google.com'</span>)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> cookie:</span><br><span class="line">    <span class="keyword">if</span> item.name == <span class="string">'some_cookie_item_name'</span>:</span><br><span class="line">        <span class="keyword">print</span> item.value</span><br></pre></td></tr></table></figure>
-<h4 id="使用-HTTP-的-PUT-和-DELETE-方法"><a href="#使用-HTTP-的-PUT-和-DELETE-方法" class="headerlink" title="使用 HTTP 的 PUT 和 DELETE 方法"></a>使用 HTTP 的 PUT 和 DELETE 方法</h4><p>urllib2 只支持 HTTP 的 GET 和 POST 方法，如果要使用 HTTP PUT 和 DELETE ，只能使用比较低层的 httplib 库。虽然如此，我们还是能通过下面的方式，使 urllib2 能够发出 PUT 或 DELETE 的请求：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">request = urllib2.Request(uri, data=data)</span><br><span class="line">request.get_method = <span class="keyword">lambda</span>: <span class="string">'PUT'</span> <span class="comment"># or 'DELETE'</span></span><br><span class="line">response = urllib2.urlopen(request)</span><br></pre></td></tr></table></figure>
-<p>这种做法虽然属于 Hack 的方式，但实际使用起来也没什么问题。</p>
-<h4 id="得到-HTTP-的返回码"><a href="#得到-HTTP-的返回码" class="headerlink" title="得到 HTTP 的返回码"></a>得到 HTTP 的返回码</h4><p>对于 200 OK 来说，只要使用 urlopen 返回的 response 对象的 getcode() 方法就可以得到 HTTP 的返回码。但对其它返回码来说，urlopen 会抛出异常。这时候，就要检查异常对象的 code 属性了：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = urllib2.urlopen(<span class="string">'http://restrict.web.com'</span>)</span><br><span class="line"><span class="keyword">except</span> urllib2.HTTPError, e:</span><br><span class="line">    <span class="keyword">print</span> e.code</span><br></pre></td></tr></table></figure>
-<h4 id="Debug-Log"><a href="#Debug-Log" class="headerlink" title="Debug Log"></a>Debug Log</h4><p>使用 urllib2 时，可以通过下面的方法把 debug Log 打开，这样收发包的内容就会在屏幕上打印出来，方便调试，有时可以省去抓包的工作</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">httpHandler = urllib2.HTTPHandler(debuglevel=<span class="number">1</span>)</span><br><span class="line">httpsHandler = urllib2.HTTPSHandler(debuglevel=<span class="number">1</span>)</span><br><span class="line">opener = urllib2.build_opener(httpHandler, httpsHandler)</span><br><span class="line"></span><br><span class="line">urllib2.install_opener(opener)</span><br><span class="line">response = urllib2.urlopen(<span class="string">'http://www.google.com'</span>)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2050,7 +2014,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2072,7 +2036,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2109,7 +2073,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
