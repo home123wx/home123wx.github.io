@@ -1,5 +1,13 @@
-#### Impala 源码阅读 （一）
+---
+title: Impala 源码阅读 （一）
+tags: [impala]
+date: 2019-01-14
+categories: impala
+---
+
+
 > 整理网路查询资料，总结Impala架构，以及各个组件的作用。
+
 
 ### Impala架构
 
