@@ -79,15 +79,39 @@
 
 
 
-<meta name="description">
-<meta property="og:type" content="website">
+<meta name="description" content="Impala 源码阅读 （一）
+整理网路查询资料，总结Impala架构，以及各个组件的作用。
+
+Impala架构
+Impala使用去中心化的架构设计。
+
+
+主要组件Impalad DaemonImpala的核心组件是运行在每个节点上的Impalad这个守护进程(Impalad Daemon)，该程序负责读写数据，接受从Impala-shell，Hue，JDBC等客户端发送的查询请求。解析SQL生成">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Anan'Blog">
-<meta property="og:url" content="http://yoursite.com/tags/template/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/01/14/impala/impala_learn_1/index.html">
 <meta property="og:site_name" content="Anan'Blog">
-<meta property="og:description">
+<meta property="og:description" content="Impala 源码阅读 （一）
+整理网路查询资料，总结Impala架构，以及各个组件的作用。
+
+Impala架构
+Impala使用去中心化的架构设计。
+
+
+主要组件Impalad DaemonImpala的核心组件是运行在每个节点上的Impalad这个守护进程(Impalad Daemon)，该程序负责读写数据，接受从Impala-shell，Hue，JDBC等客户端发送的查询请求。解析SQL生成">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/183233/201603/183233-20160321223503417-887997697.png">
+<meta property="og:updated_time" content="2019-01-13T17:04:43.243Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Anan'Blog">
-<meta name="twitter:description">
+<meta name="twitter:description" content="Impala 源码阅读 （一）
+整理网路查询资料，总结Impala架构，以及各个组件的作用。
+
+Impala架构
+Impala使用去中心化的架构设计。
+
+
+主要组件Impalad DaemonImpala的核心组件是运行在每个节点上的Impalad这个守护进程(Impalad Daemon)，该程序负责读写数据，接受从Impala-shell，Hue，JDBC等客户端发送的查询请求。解析SQL生成">
+<meta name="twitter:image" content="https://images2015.cnblogs.com/blog/183233/201603/183233-20160321223503417-887997697.png">
 
 
 
@@ -117,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/template/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/01/14/impala/impala_learn_1/"/>
 
 
 
 
 
-  <title>标签: template | Anan'Blog</title>
+  <title> | Anan'Blog</title>
   
 
 
@@ -142,7 +166,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -270,54 +294,200 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>template<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/14/impala/impala_learn_1/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Anan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Anan'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2017/03/04/c++/weak_pointer_used/" itemprop="url">
-              
-                <span itemprop="name">一种解决指针无效引用的方法</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-04T00:00:00+08:00"
-              content="2017-03-04" >
-          03-04
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-14T01:04:43+08:00">
+                2019-01-14
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/14/impala/impala_learn_1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/14/impala/impala_learn_1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="Impala-源码阅读-（一）"><a href="#Impala-源码阅读-（一）" class="headerlink" title="Impala 源码阅读 （一）"></a>Impala 源码阅读 （一）</h4><blockquote>
+<p>整理网路查询资料，总结Impala架构，以及各个组件的作用。</p>
+</blockquote>
+<h3 id="Impala架构"><a href="#Impala架构" class="headerlink" title="Impala架构"></a>Impala架构</h3><blockquote>
+<p>Impala使用去中心化的架构设计。</p>
+</blockquote>
+<p><img src="https://images2015.cnblogs.com/blog/183233/201603/183233-20160321223503417-887997697.png" alt="架构"></p>
+<h4 id="主要组件"><a href="#主要组件" class="headerlink" title="主要组件"></a>主要组件</h4><h5 id="Impalad-Daemon"><a href="#Impalad-Daemon" class="headerlink" title="Impalad Daemon"></a>Impalad Daemon</h5><p><code>Impala</code>的核心组件是运行在每个节点上的<code>Impalad</code>这个守护进程<code>(Impalad Daemon)</code>，该程序负责读写数据，接受从<code>Impala-shell，Hue，JDBC</code>等客户端发送的查询请求。解析SQL生成执行计划，将执行计划分发的各个节点上并行计算，并负责将当前节点计算好的查询结果发送到协调器节点<code>(coordinator node)</code></p>
+<p><code>Impala</code>使用<code>round-robin</code>算法实现负责均衡，将任务提交到不同的节点上。任务提交到哪个节点，该节点会被作为这次查询的协调器，其他节点会传输结果集到这个协调器节点。</p>
+<p><code>Impala Daemon</code>定期的跟<code>statestore</code>进行通信，确定哪些节点是健康的能够接收新的任务，并且获取最新的元数据信息，更新本地存放的元数据缓存信息。</p>
+<blockquote>
+<p>当集群中的任意节点create、alter、drop任意对象、或者执行insert、load data的时候触发广播消息。</p>
+</blockquote>
+<h5 id="Impala-Statestore"><a href="#Impala-Statestore" class="headerlink" title="Impala Statestore"></a>Impala Statestore</h5><p><code>Impala Statestore</code>检查集群中各个节点上<code>Impala Daemon</code>的健康状态，同时定期的向<code>Impalad</code>节点更新最新的节点状态数据，<code>Impalad</code>节点会缓存该数据。在整个集群中仅需要一个<code>statestore</code>节点。</p>
+<p><code>StateStore</code>进程是单点的，并且不会持久化任何数据到磁盘，如果服务挂掉，<code>Impalad</code>则依赖于上一次获得元数据状态进行任务分配。</p>
+<p>如果某个<code>Impalad</code>节点由于硬件错误、软件错误或者其他原因导致离线，<code>statestore</code>就会通知其他的节点，避免其他节点再向这个离线的节点发送请求。</p>
+<blockquote>
+<p>各个组件会在StateStored里订阅某个Topic，目前已知的Topic有：</p>
+<ul>
+<li>impala-membership ：负责全局广播每个Impalad节点的进程健康状态，各Impalad都订阅了这个Topic，所以StateStored会定期发送这个Topic的心跳，广播所有节点的健康信息，也从心跳的Response得到所有节点的健康状态。</li>
+<li>catalog-update：负责广播元数据的更新，Catalogd和各Impalad都订阅了这个Topic。所以StateStored会定期发送这个Topic的心跳，Catalogd收到这个心跳后会在Response里放入更新的表元数据，StateStored收到更新后会放入下一次广播的心跳里，Impalad收到心跳后会用更新的元数据更新本地的元数据信息。</li>
+<li>impala-request-queue：负责广播每个Pool占用和Queue的情况，各Impalad都订阅了这个Topic。</li>
+</ul>
+</blockquote>
+<h5 id="Impala-Catalog"><a href="#Impala-Catalog" class="headerlink" title="Impala Catalog"></a>Impala Catalog</h5><p><code>Impala Catalog</code>提供了元数据的服务。</p>
+<p>它以单点的形式存在，它既可以从外部系统（如<code>Hive Metastore</code>）拉取元数据，也负责在<code>Impala</code>中执行的DDL语句提交到<code>Metatstore</code>，由于<code>Impala</code>没有<code>update/delete</code>操作，所以它不需要对<code>HDFS</code>做任何修改。</p>
+<p>元数据是通过<code>StateStore</code>服务广播分发到每个<code>Impala</code>节点的，并且每个<code>Impala</code>节点在本地会缓存所有元数据。</p>
+<p>整个集群中仅需要一个这样的进程。由于它的请求会跟<code>statestore daemon</code>交互，所以最好让<code>statestored</code>和<code>catalogd</code>这两个进程在同一节点上。</p>
+<blockquote>
+<p>catalog服务减少了refresh和invalidate metadata语句的使用。在之前的版本中，当在某个节点上执行了create database、drop database、create table、alter table、drop table语句之后，需要在其它的各个节点上执行命令invalidate metadata来确保元数据信息的更新。同样的，当你在某个节点上执行了insert语句，在其它节点上执行查询时就得先执行refresh table_name这个操作，这样才能识别到新增的数据文件。</p>
+</blockquote>
+<h3 id="源码结构"><a href="#源码结构" class="headerlink" title="源码结构"></a>源码结构</h3><p>源码分成了两部分：</p>
+<ul>
+<li>前端代码(FE)：前端代码由JAVA实现完成。</li>
+<li>后端代码(BE)：后端代码由C++实现完成。</li>
+</ul>
+<p>从架构图中，我们可以看出，<code>Impalad</code>组件是由<code>Planner, Coordinator, Exec Engine</code>三部分构成：</p>
+<ul>
+<li>Planner：负责解析查询请求，并生成执行计划树，属于前端代码。</li>
+<li>Coordinator：拆解请求（Fragment），负责定位数据位置，并发送请求到Exec Engine，汇聚请求结果上报，属于后端代码。</li>
+<li>Exec Engine：执行Fragment子查询，属于后端代码。</li>
+</ul>
+<blockquote>
+<p>前后端代码关系，后端C++代码通过<code>JNI</code>调用前端JAVA代码。<br>前端解析SQL查询语句，生成查询计划树，再通过调度器把执行计划分发给具有相应数据的其它Impalad进行执行。<br>Impalad节点读写数据，并行执行查询，并把结果通过网络流式的传送回给Coordinator，由Coordinator返回给客户端。</p>
+</blockquote>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/03/thrift/use_thrift_for_c++/" rel="next" title="Thrift使用 -- C++ 例子">
+                <i class="fa fa-chevron-left"></i> Thrift使用 -- C++ 例子
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -325,6 +495,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -345,8 +522,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -406,6 +592,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Impala-源码阅读-（一）"><span class="nav-number">1.</span> <span class="nav-text">Impala 源码阅读 （一）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Impala架构"><span class="nav-number"></span> <span class="nav-text">Impala架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主要组件"><span class="nav-number">1.</span> <span class="nav-text">主要组件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Impalad-Daemon"><span class="nav-number">1.1.</span> <span class="nav-text">Impalad Daemon</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Impala-Statestore"><span class="nav-number">1.2.</span> <span class="nav-text">Impala Statestore</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Impala-Catalog"><span class="nav-number">1.3.</span> <span class="nav-text">Impala Catalog</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码结构"><span class="nav-number"></span> <span class="nav-text">源码结构</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -566,6 +768,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
